@@ -1,0 +1,38 @@
+// bower:scss
+// endbower
+@import 'buttons';
+@import 'search';
+@import 'board';
+
+body {
+  padding: 0;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+  position: fixed;
+  bottom: 0;
+}
+
+.form-group .error-block {
+  display: none;
+}
+
+.form-group.has-error {
+  color:red;
+}
+
+.form-group.has-error .error-block {
+  display: block;
+}
+
+.form-group.has-error .error-block i {
+  margin-right: 5px;
+}
+
+.center {
+    text-align: center;
+}

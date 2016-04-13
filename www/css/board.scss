@@ -1,0 +1,33 @@
+$board-background-color: #0079BF;
+$board-color: white;
+$board-heigth: 120px;
+$board-title-size: 16px;
+$board-description-size: 14px;
+
+.board-container{
+    padding:4px;    
+}
+
+.board{
+    border-radius: 3px;
+    background-color: $board-background-color;
+    color: $board-color;
+    height: $board-heigth;
+    padding: 10px;
+    transition:background-color 0.25s ease;
+}
+
+.board:hover{
+    background-color: #004771;
+    cursor: pointer;
+}
+
+.board div.title{
+    font-weight: bold;
+    font-size: $board-title-size;
+    margin-bottom: 4px;
+}
+
+.board p.description{
+    font-size: $board-description-size;
+}

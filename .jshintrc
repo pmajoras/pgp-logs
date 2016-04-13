@@ -1,0 +1,18 @@
+{
+  "undef": true,
+  "unused": true,
+  "globalstrict": true,
+  "esversion": 6,
+  "predef": [
+    "require",
+    "console",
+    "exports",
+    "module",
+    "process",
+    "before",
+    "it",
+    "after",
+    "describe",
+    "__dirname"
+  ]
+}

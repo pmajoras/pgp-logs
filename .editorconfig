@@ -1,0 +1,25 @@
+# top-most EditorConfig file
+root = true
+
+# Indentation override for all JS under Scripts/app directory
+[*.js]
+indent_style = space
+indent_size = 2
+
+# Indentation override for all JS under Scripts/app directory
+[*.jsx]
+indent_style = space
+indent_size = 2
+
+# Indentation override for all HTML under Scripts/app directory
+[*.html]
+indent_style = space
+indent_size = 4
+
+[Gruntfile.js, .bowerrc, .jshintrc]
+indent_style = space
+indent_size = 2
+
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true

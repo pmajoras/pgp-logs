@@ -1,0 +1,21 @@
+{
+  "name": "logs-management-system",
+  "version": "0.0.0",
+  "dependencies": {
+    "bootstrap": "3.3.6",
+    "localforage": "1.4.0",
+    "Buttons": "2.0.0",
+    "font-awesome": "4.5.0"
+  },
+  "appPath": "www",
+  "moduleName": "logs-management-system-app",
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  }
+}
