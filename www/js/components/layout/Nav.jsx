@@ -1,10 +1,12 @@
 "use strict";
 import React from "react";
-import { IndexLink, Link } from "react-router";
+import { IndexLink } from "react-router";
+import AppLink from "../common/buttons/AppLink.jsx";
 import { MenuItem, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
 import AuthenticationStore from "../../stores/authentication/AuthenticationStore";
 import AuthenticationService from "../../services/authentication/AuthenticationService";
 import LoginNavButton from "./LoginNavButton.jsx";
+import { browserHistory } from 'react-router';
 
 export default class AppNav extends React.Component {
   constructor() {
@@ -27,7 +29,7 @@ export default class AppNav extends React.Component {
   }
 
   handleAuthenticationChange(err, isAuthenticated) {
-    console.log("isAuth", isAuthenticated);
+
     if (!err) {
       this.setState({ isAuthenticated: isAuthenticated });
     }
@@ -41,28 +43,24 @@ export default class AppNav extends React.Component {
   render() {
     const { location } = this.props;
     const { collapsed } = this.state;
-    const featuredClass = location.pathname === "/" ? "active" : "";
-    const welcomeClass = location.pathname.match(/^\/welcome/) ? "active" : "";
-    const todoClass = location.pathname.match(/^\/todo/) ? "active" : "";
-    const settingsClass = location.pathname.match(/^\/settings/) ? "active" : "";
     const navClass = collapsed ? "collapse" : "";
     const isAuthenticated = this.state.isAuthenticated;
 
     let mustBeAuthenticatedLinks = [
-      <li key={1} class={welcomeClass}>
-        <Link to="/welcome">Início</Link>
+      <li key={1}>
+        <AppLink to="/welcome">Início</AppLink>
       </li>,
-      <li key={2} class={todoClass}>
-        <Link to="/todo/boards">Todos</Link>
+      <li key={2}>
+        <AppLink to="/todo/boards">Todos</AppLink>
       </li>,
-      <li key={3} class={settingsClass}>
-        <Link to="/settings">Settings</Link>
+      <li key={3}>
+        <AppLink to="/settings">Settings</AppLink>
       </li>
     ];
 
     let mustNotBeAuthenticatedLinks = [
-      <li key={4} class={featuredClass}>
-        <IndexLink to="/">Todos</IndexLink>
+      <li key={4}>
+        <AppLink to="/">Todos</AppLink>
       </li>
     ];
 

@@ -3,7 +3,6 @@ import React from "react";
 import AppText from '../../components/common/AppText.jsx';
 import AuthenticationActions from "../../actions/authentication/AuthenticationActions";
 import AuthenticationStore from "../../stores/authentication/AuthenticationStore";
-import { browserHistory } from 'react-router';
 import AppForm from '../../components/common/AppForm.jsx';
 
 const store = AuthenticationStore;
@@ -68,9 +67,6 @@ export default class RegisterForm extends React.Component {
     if (!err) {
       if (this.props.onAuthenticationSuccess && typeof this.props.onAuthenticationSuccess == 'function') {
         this.props.onAuthenticationSuccess(data);
-      }
-      else {
-        browserHistory.push("/welcome");
       }
     }
   }
