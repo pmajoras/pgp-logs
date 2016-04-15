@@ -7,12 +7,18 @@ import AuthenticationStore from "../../stores/authentication/AuthenticationStore
 import AuthenticationService from "../../services/authentication/AuthenticationService";
 import LoginNavButton from "./LoginNavButton.jsx";
 import { browserHistory } from 'react-router';
+import AuthenticationActions from "../../actions/authentication/AuthenticationActions";
+
+const store = AuthenticationStore;
+const storeEvents = AuthenticationStore.events;
 
 export default class AppNav extends React.Component {
   constructor() {
     super();
     let authenticationService = new AuthenticationService();
     this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this);
+    this.handleLogoff = this.handleLogoff.bind(this);
+    this.handleLogoffSubmitted = this.handleLogoffSubmitted.bind(this);
 
     this.state = {
       collapsed: true,
@@ -21,18 +27,28 @@ export default class AppNav extends React.Component {
   }
 
   componentWillMount() {
-    AuthenticationStore.on(AuthenticationStore.events.authenticationChanged, this.handleAuthenticationChange);
+    store.on(storeEvents.change, this.handleAuthenticationChange);
+    store.on(storeEvents.logoffSubmitted, this.handleLogoffSubmitted);
   }
 
   componentWillUnmount() {
-    AuthenticationStore.removeListener(AuthenticationStore.events.authenticationChanged, this.handleAuthenticationChange);
+    store.removeListener(storeEvents.change, this.handleAuthenticationChange);
+    store.removeListener(storeEvents.logoffSubmitted, this.handleLogoffSubmitted);
   }
 
-  handleAuthenticationChange(err, isAuthenticated) {
+  handleAuthenticationChange(err, credentials) {
 
     if (!err) {
-      this.setState({ isAuthenticated: isAuthenticated });
+      this.setState({ isAuthenticated: credentials.isAuthenticated });
     }
+  }
+
+  handleLogoffSubmitted() {
+    browserHistory.push("/");
+  }
+
+  handleLogoff() {
+    AuthenticationActions.logoff();
   }
 
   toggleCollapse() {
@@ -85,7 +101,7 @@ export default class AppNav extends React.Component {
             {linksThatAllCanUse}
           </Nav>
           <Nav pullRight>
-            <LoginNavButton isAuthenticated={isAuthenticated}/>
+            <LoginNavButton onLogoff={this.handleLogoff} isAuthenticated={isAuthenticated}/>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

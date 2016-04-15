@@ -36,3 +36,11 @@ body {
 .center {
     text-align: center;
 }
+
+li a.active {
+  color:white;
+}
+
+ul.dropdown-menu li a.active {
+  color:#9d9d9d !important;
+}

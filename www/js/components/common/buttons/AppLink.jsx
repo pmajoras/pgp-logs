@@ -9,14 +9,16 @@ export default class AppLink extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
-
+  handleClick(e) {
+    if (typeof this.props.onLinkClick === 'function') {
+      this.props.onLinkClick(e);
+    }
   }
 
   render() {
     return (
       <Link {...this.props} activeClassName="active" onClick={this.handleClick}>
-        {this.children}
+        {this.props.children}
       </Link>
     );
   }

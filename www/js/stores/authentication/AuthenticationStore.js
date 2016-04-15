@@ -4,13 +4,12 @@ const dispatcher = require("../../dispatcher").default;
 const authenticationActions = require("../../actions/authentication/AuthenticationActions");
 const events = {
   authenticationSubmitted: "EV_AUTHENTICATION_SUBMITTED",
-  authenticationChanged: "EV_AUTHENTICATION_CHANGED",
-  registerSubmitted: "EV_REGISTRATION_SUBMITTED"
+  registerSubmitted: "EV_REGISTRATION_SUBMITTED",
+  logoffSubmitted: "EV_LOGOFF_SUBMITTED"
 };
 
 class AuthenticationStore extends BaseStore {
   constructor() {
-
     super({
       isAuthenticated: false,
       username: '',
@@ -19,18 +18,17 @@ class AuthenticationStore extends BaseStore {
     }, events);
   }
 
-  setState(newState) {
-    newState = newState || {};
 
-    super.setState({
-      isAuthenticated: newState.isAuthenticated || false,
-      username: newState.username || '',
-      token: newState.token || '',
-      id: newState.id || ''
-    });
+  setState(newState) {
+    if (!newState) {
+      super.reset();
+    }
+    else {
+      super.setState(newState);
+    }
   }
 
-  registerSubmitted(err, payload) {
+  _handleAuthenticationChanged(err, payload) {
     payload = payload || {};
     if (!err) {
       payload.isAuthenticated = true;
@@ -41,30 +39,24 @@ class AuthenticationStore extends BaseStore {
 
     if (this.state.isAuthenticated !== payload.isAuthenticated) {
       this.setState(payload);
-      this.emit(this.events.authenticationChanged, null, this.state.isAuthenticated);
     }
+  }
+
+  handleRegister(err, payload) {
+
+    this._handleAuthenticationChanged(err, payload);
     this.emit(this.events.registerSubmitted, err, payload);
   }
 
   handleAuthenticate(err, payload) {
-    payload = payload || {};
-    if (!err) {
-      payload.isAuthenticated = true;
-    }
-    else {
-      payload.isAuthenticated = false;
-    }
 
-    if (this.state.isAuthenticated !== payload.isAuthenticated) {
-      this.setState(payload);
-      this.emit(this.events.authenticationChanged, null, this.state.isAuthenticated);
-    }
+    this._handleAuthenticationChanged(err, payload);
     this.emit(this.events.authenticationSubmitted, err, payload);
   }
 
   handleLogoff(err, payload) {
-    this.setState(null);
-    this.emit(this.events.authenticationChanged, null, false);
+    this.reset();
+    this.emit(this.events.logoffSubmitted, err, payload);
   }
 
   handleActions(action) {
@@ -74,7 +66,7 @@ class AuthenticationStore extends BaseStore {
         break;
       }
       case authenticationActions.actions.register: {
-        this.registerSubmitted(action.err, action.payload);
+        this.handleRegister(action.err, action.payload);
         break;
       }
       case authenticationActions.actions.logoff: {

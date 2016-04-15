@@ -1,10 +1,8 @@
 "use strict";
 import React from "react";
-import { IndexLink, Link } from "react-router";
 import { MenuItem, Navbar, Nav, NavItem, NavDropdown } from 'react-bootstrap';
 import AuthenticationStore from "../../stores/authentication/AuthenticationStore";
-import AuthenticationActions from "../../actions/authentication/AuthenticationActions";
-import { browserHistory } from 'react-router';
+import AppLink from "../common/buttons/AppLink.jsx";
 
 const store = AuthenticationStore;
 const storeEvents = AuthenticationStore.events;
@@ -14,23 +12,12 @@ export default class LoginNavButton extends React.Component {
   constructor() {
     super();
     this.handleLogoff = this.handleLogoff.bind(this);
-    this.handleSubmitLogoff = this.handleSubmitLogoff.bind(this);
   }
 
-  componentWillMount() {
-    store.on(storeEvents.authenticationChanged, this.handleLogoff);
-  }
-
-  componentWillUnmount() {
-    store.removeListener(storeEvents.authenticationChanged, this.handleLogoff);
-  }
-
-  handleLogoff() {
-    browserHistory.push("/");
-  }
-
-  handleSubmitLogoff() {
-    AuthenticationActions.logoff();
+  handleLogoff(e) {
+    if (typeof this.props.onLogoff === 'function') {
+      this.props.onLogoff(e);
+    }
   }
 
   render() {
@@ -39,15 +26,15 @@ export default class LoginNavButton extends React.Component {
     if (!this.props.isAuthenticated) {
       menuItems.push(
         <li key={1}>
-          <Link to="authentication">Login</Link>
+          <AppLink to="authentication">Login</AppLink>
         </li>);
       menuItems.push(
         <li key={2}>
-          <Link to="register">Registrar</Link>
+          <AppLink to="register">Registrar</AppLink>
         </li>);
     }
     else {
-      menuItems.push(<MenuItem onClick={this.handleSubmitLogoff } key={1}>Logoff</MenuItem>);
+      menuItems.push(<MenuItem onClick={this.handleLogoff } key={1}>Logoff</MenuItem>);
     }
 
     return (
