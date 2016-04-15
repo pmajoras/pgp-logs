@@ -5,6 +5,9 @@ var client = require('../JqueryRestClientService').authentication;
 var appErrors = require('../../errors/app-errors');
 var storageService = require('../storage/StorageService');
 var moment = require('moment');
+const authToken = "AUTH_TOKEN";
+const authExpires = "AUTH_EXPIRES";
+const authUserId = "AUTH_USER_ID";
 
 class AuthenticationService extends BaseService {
   constructor() {
@@ -21,9 +24,9 @@ class AuthenticationService extends BaseService {
     this.handleApiPromise(client.authenticate.post(userViewModel))
       .then((data) => {
 
-        storageService.setItem("AUTH_TOKEN", data.token);
-        storageService.setItem("AUTH_EXPIRES", data.expiresAt);
-        storageService.setItem("AUTH_USER_ID", data.id);
+        storageService.setItem(authToken, data.token);
+        storageService.setItem(authExpires, data.expiresAt);
+        storageService.setItem(authUserId, data.id);
         deferred.resolve(data);
       }, (err) => {
         deferred.reject(err);
@@ -42,9 +45,9 @@ class AuthenticationService extends BaseService {
     this.handleApiPromise(client.register.post(userViewModel))
       .then((data) => {
 
-        storageService.setItem("AUTH_TOKEN", data.token);
-        storageService.setItem("AUTH_EXPIRES", data.expiresAt);
-        storageService.setItem("AUTH_USER_ID", data.id);
+        storageService.setItem(authToken, data.token);
+        storageService.setItem(authExpires, data.expiresAt);
+        storageService.setItem(authUserId, data.id);
         deferred.resolve(data);
       }, (err) => {
         deferred.reject(err);
@@ -54,21 +57,24 @@ class AuthenticationService extends BaseService {
   }
 
   logoff() {
-    storageService.removeItem("AUTH_TOKEN");
-    storageService.removeItem("AUTH_EXPIRES");
-    storageService.removeItem("AUTH_USER_ID");
+    storageService.removeItem(authToken);
+    storageService.removeItem(authExpires);
+    storageService.removeItem(authUserId);
   }
 
-  getAuthToken() {
-    return this.isAuthenticated() ? storageService.getItem("AUTH_TOKEN") : null;
-  }
-
-  getUserId() {
-    return this.isAuthenticated() ? storageService.getItem("AUTH_USER_ID") : null;
+  getCredentials() {
+    let isAuthenticated = this.isAuthenticated();
+    
+    return {
+      isAuthenticated: isAuthenticated,
+      token: isAuthenticated ? storageService.getItem(authToken) : null,
+      expiresAt: isAuthenticated ? storageService.getItem(authExpires) : null,
+      id: isAuthenticated ? storageService.getItem(authUserId) : null,
+    };
   }
 
   isAuthenticated() {
-    let expiresAtString = storageService.getItem("AUTH_EXPIRES");
+    let expiresAtString = storageService.getItem(authExpires);
     if (expiresAtString) {
       let expiresAt = moment(expiresAtString);
       if (expiresAt.diff(moment()) >= 0) {

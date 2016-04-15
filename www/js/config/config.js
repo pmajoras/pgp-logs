@@ -8,8 +8,8 @@ module.exports.start = () => {
 
   configFormsy();
   $.ajaxSetup({
-    beforeSend: function(xhr) {
-      let token = authenticationService.getAuthToken();
+    beforeSend: function (xhr) {
+      let token = authenticationService.getCredentials().token;
       if (token) {
         xhr.setRequestHeader('Authentication', token);
       }
