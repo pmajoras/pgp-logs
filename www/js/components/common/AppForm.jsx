@@ -3,6 +3,9 @@ import React from "react";
 import FMUI from 'formsy-material-ui';
 import AppText from './AppText.jsx';
 import ServerError from './ServerError.jsx';
+import Messages from '../../messages/messages-pt-br';
+
+const genericMessages = Messages.generic;
 
 export default class AuthenticationForm extends React.Component {
   constructor(props) {
@@ -26,7 +29,7 @@ export default class AuthenticationForm extends React.Component {
       this.setServerErrors(err);
     }
     else {
-      
+
       this.resetForm();
       this.setState({
         isSubmitting: false,
@@ -92,8 +95,8 @@ export default class AuthenticationForm extends React.Component {
       });
     }
 
-    submitButtonMessage = submitButtonMessage || "Salvar";
-    isSubmittingMessage = isSubmittingMessage || "Carregando...";
+    submitButtonMessage = submitButtonMessage || genericMessages.save;
+    isSubmittingMessage = isSubmittingMessage || genericMessages.loading + "...";
 
     let submitButtonText = this.state.isSubmitting ? isSubmittingMessage : submitButtonMessage;
 

@@ -4,6 +4,11 @@ import AppText from '../../components/common/AppText.jsx';
 import AuthenticationActions from "../../actions/authentication/AuthenticationActions";
 import AuthenticationStore from "../../stores/authentication/AuthenticationStore";
 import AppForm from '../../components/common/AppForm.jsx';
+import Messages from '../../messages/messages-pt-br';
+
+const errorMessages = Messages.errors.generic;
+const authenticationErrorsMessages = Messages.errors.authentication;
+const authenticationMessages = Messages.authentication;
 
 const store = AuthenticationStore;
 const storeEvents = AuthenticationStore.events;
@@ -16,8 +21,8 @@ export default class AuthenticationForm extends React.Component {
     this.validation = {
       username: {
         errors: {
-          isEmail: "O nome do usuário deve ser um e-mail",
-          isRequired: "O campo é obrigatório",
+          isEmail: authenticationErrorsMessages.usernameMustBeEmail,
+          isRequired: errorMessages.IsRequiredError(),
         },
         rules: {
           isEmail: true,
@@ -26,9 +31,9 @@ export default class AuthenticationForm extends React.Component {
       },
       password: {
         errors: {
-          minLength: "A senha deve ter no mínimo 6 caractéres.",
-          maxLength: "A senha deve ter no máximo 20 caractéres.",
-          isRequired: "O campo é obrigatório",
+          minLength: errorMessages.MinLengthError(6),
+          maxLength: errorMessages.MaxLengthError(6),
+          isRequired: errorMessages.IsRequiredError(),
         },
         rules: {
           maxLength: 20,
@@ -68,21 +73,21 @@ export default class AuthenticationForm extends React.Component {
       <AppForm ref="authForm" onFormSubmit={this.authenticate.bind(this) }>
         <div class="form-group">
           <AppText
-            hintText="Email"
+            hintText={authenticationMessages.usernameLabel}
             id="username"
             type="email"
             name="username"
-            floatingLabelText="Email(*)"
+            floatingLabelText={authenticationMessages.usernameLabel + '(*)'}
             validationErrors={username.errors}
             validations={username.rules}/>
         </div>
         <div class="form-group">
           <AppText
-            hintText="Senha"
+            hintText={authenticationMessages.passwordLabel}
             id="password"
             type="password"
             name="password"
-            floatingLabelText="Senha(*)"
+            floatingLabelText={authenticationMessages.passwordLabel + '(*)'}
             validationErrors={password.errors}
             validations={password.rules}/>
         </div>

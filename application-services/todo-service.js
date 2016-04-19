@@ -39,8 +39,7 @@ class TodoService {
     let foundUser = null;
 
     let saveBoard = (user) => {
-      foundUser = user.toObject();
-      return this._boardService.save({ name: boardName, description: boardDescription, owner: foundUser._id });
+      return this._boardService.save({ name: boardName, description: boardDescription, owner: user._id });
     };
 
     entityWithIdMustExistSpec.isSatisfiedBy(userId)
