@@ -42,7 +42,7 @@ class AuthenticationService {
   }
 
   /** 
-   * 
+  * 
   */
   authenticate(authenticateViewModel) {
     let deferred = Q.defer();

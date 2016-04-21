@@ -10,8 +10,8 @@ class AuthenticationController extends BaseController {
   }
 
   /**
-   * Get the tasks.
-   */
+  * Register an user - POST - /api/authentication/register.
+  */
   registerUser(req, res, next) {
 
     this.authenticationService.registerAndAuthenticate({ username: req.body.username, password: req.body.password })
@@ -23,6 +23,9 @@ class AuthenticationController extends BaseController {
       });
   }
 
+  /**
+  * Authenticate the User - POST - /api/authentication/authenticate.
+  */
   authenticate(req, res, next) {
     this.authenticationService.authenticate({ username: req.body.username, password: req.body.password })
       .then((data) => {
