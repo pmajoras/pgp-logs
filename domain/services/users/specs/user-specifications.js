@@ -10,14 +10,18 @@ module.exports = {
       return new PasswordMustHaveSixOrMoreCharsSpec();
     },
     function (userService) {
-      return new PropertyMustBeAnEmailSpec("username", messages["1001"], 1001);
+      return new PropertyMustBeAnEmailSpec("username",
+        messages.usernameMustBeAnEmail.message,
+        messages.usernameMustBeAnEmail.code);
     },
     function (userService) {
       let mongoPromise = (filter) => {
         return userService.findAll(filter);
       };
 
-      return new PropertyValueMustBeUniqueInMongoQuery("username", mongoPromise, messages["1002"], 1002);
+      return new PropertyValueMustBeUniqueInMongoQuery("username", mongoPromise,
+        messages.usernameWithEmailAlreadyExists.message,
+        messages.usernameWithEmailAlreadyExists.code);
     }
   ],
   updateSpecs: [
@@ -25,7 +29,9 @@ module.exports = {
       return new PasswordMustHaveSixOrMoreCharsSpec();
     },
     function (userService) {
-      return new PropertyMustBeAnEmailSpec("username", messages["1001"], 1001);
+      return new PropertyMustBeAnEmailSpec("username",
+        messages.invalidPassword.message,
+        messages.invalidPassword.code);
     }
   ],
   deleteSpecs: []
