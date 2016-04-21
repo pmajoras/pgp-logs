@@ -1,6 +1,5 @@
 "use strict";
-// Must load board because the 'ref Board' has a dependency to Board entity.
-require('./board');
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 

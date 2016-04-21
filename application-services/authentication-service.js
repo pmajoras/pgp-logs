@@ -1,15 +1,20 @@
 "use strict";
+
 var UserService = require('../domain/services/users/user-service');
 var jwt = require('jsonwebtoken');
 var config = require('../config/config');
 var appConstants = require('../config/app-constants');
-var UserMustExistSpec = require('./specifications/authentication-service-specs/user-must-exist-spec');
+var EntityWithFilterMustExistSpec = require('./specifications/entity-with-filter-must-exist-spec');
 var Q = require('q');
 var moment = require('moment');
+var messages = require('../errors-messages/messages-application').authentication;
 
 class AuthenticationService {
   constructor(userService) {
     this._userService = userService || new UserService();
+    this.userMustExistWithNameAndPasswordSpec = new EntityWithFilterMustExistSpec(this._userService,
+      messages.invalidUsernameOrPassword.message,
+      messages.invalidUsernameOrPassword.code);
   }
 
   _createToken(username, id) {
@@ -42,11 +47,8 @@ class AuthenticationService {
   authenticate(authenticateViewModel) {
     let deferred = Q.defer();
 
-    let userMustExistSpec = new UserMustExistSpec(this._userService);
-
-    userMustExistSpec.isSatisfiedBy(authenticateViewModel)
+    this.userMustExistWithNameAndPasswordSpec.isSatisfiedBy(authenticateViewModel)
       .then((user) => {
-
         deferred.resolve(this._createAuthenticationResponse(user.username, user._id));
       }, (err) => {
         deferred.reject(err);

@@ -39,8 +39,8 @@ const messages = {
     generic: {
       _field: "campo",
       _isRequired: "O {0} é obrigatório.",
-      _minLength: "O {0} deve ter no mínimo {1} caractéres.",
-      _maxLength: "O {0} deve ter no máximo {1} caractéres.",
+      _minLength: "O {0} deve ter no mínimo {1} caractér(es).",
+      _maxLength: "O {0} deve ter no máximo {1} caractér(es).",
       IsRequiredError: function (field) {
         return this._isRequired.format(field || _field);
       },

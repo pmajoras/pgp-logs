@@ -1,6 +1,7 @@
 "use strict";
 
 var SpecificationBase = require('../../../../specification/specification-base');
+var messages = require('../../../../errors-messages/messages-domain').users;
 
 class PasswordMustHaveSixOrMoreCharsSpec extends SpecificationBase {
   constructor() {
@@ -10,8 +11,8 @@ class PasswordMustHaveSixOrMoreCharsSpec extends SpecificationBase {
         return true;
       }
 
-      this.notSatisfiedReason = "A senha é obrigatória e deve ter no minímo 6 caractéres.";
-      this.errorCode = 100;
+      this.notSatisfiedReason = messages["1003"];
+      this.errorCode = messages["1003"];
       return false;
     });
   }

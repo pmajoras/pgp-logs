@@ -2,15 +2,31 @@
 var PropertyMustBeAnEmailSpec = require('../../../../specification/generic-specifications/property-must-be-an-email-spec');
 var PropertyValueMustBeUniqueInMongoQuery = require('../../../../specification/generic-specifications/property-value-must-be-unique-in-mongo-query');
 var PasswordMustHaveSixOrMoreCharsSpec = require('./password-must-have-six-or-more-chars-spec');
+var messages = require('../../../../errors-messages/messages-domain').users;
 
 module.exports = {
-  getPasswordMustHaveSixOrMoreCharsSpec: function() {
-    return new PasswordMustHaveSixOrMoreCharsSpec();
-  },
-  getUsernameMustBeAnEmailSpec: function() {
-    return new PropertyMustBeAnEmailSpec("username", "O nome de usuário deve ser um e-mail válido.", 100);
-  },
-  getUsernameMustBeUniqueSpec: function(mongoPromise) {
-    return new PropertyValueMustBeUniqueInMongoQuery("username", mongoPromise, "Já existe um usuário com o e-mail informado.", 100);
-  }
+  saveSpecs: [
+    function (userService) {
+      return new PasswordMustHaveSixOrMoreCharsSpec();
+    },
+    function (userService) {
+      return new PropertyMustBeAnEmailSpec("username", messages["1001"], 1001);
+    },
+    function (userService) {
+      let mongoPromise = (filter) => {
+        return userService.findAll(filter);
+      };
+
+      return new PropertyValueMustBeUniqueInMongoQuery("username", mongoPromise, messages["1002"], 1002);
+    }
+  ],
+  updateSpecs: [
+    function (userService) {
+      return new PasswordMustHaveSixOrMoreCharsSpec();
+    },
+    function (userService) {
+      return new PropertyMustBeAnEmailSpec("username", messages["1001"], 1001);
+    }
+  ],
+  deleteSpecs: []
 };

@@ -12,21 +12,17 @@ class UserService extends BaseDomainService {
   */
   getSaveSpecifications() {
     let saveSpecifications = super.getSaveSpecifications();
-    let mongoPromise = (filter) => {
-      return this.findAll(filter);
-    };
 
-    saveSpecifications.push(userSpecifications.getUsernameMustBeAnEmailSpec());
-    saveSpecifications.push(userSpecifications.getUsernameMustBeUniqueSpec(mongoPromise));
-    saveSpecifications.push(userSpecifications.getPasswordMustHaveSixOrMoreCharsSpec());
+    saveSpecifications = saveSpecifications
+      .concat(super.getSpecsFromArrayOfFunctions(userSpecifications.saveSpecs));
     return saveSpecifications;
   }
 
   getUpdateSpecifications() {
     let updateSpecifications = super.getUpdateSpecifications();
 
-    updateSpecifications.push(userSpecifications.getUsernameMustBeAnEmailSpec());
-    updateSpecifications.push(userSpecifications.getPasswordMustHaveSixOrMoreCharsSpec());
+    updateSpecifications = updateSpecifications
+      .concat(super.getSpecsFromArrayOfFunctions(userSpecifications.updateSpecs));
     return updateSpecifications;
   }
 }

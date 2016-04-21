@@ -103,6 +103,21 @@ class BaseDomainService {
   getUpdateSpecifications() {
     return [];
   }
+
+  /**
+   * @returns {Array} - An array of specifications
+   */
+  getSpecsFromArrayOfFunctions(specificationCreators) {
+    let specifications = [];
+    specificationCreators = Array.isArray(specificationCreators) ? specificationCreators : [];
+
+    specificationCreators.forEach((specCreator) => {
+      if (typeof specCreator === 'function') {
+        specifications.push(specCreator(this));
+      }
+    });
+    return specifications;
+  }
 }
 
 module.exports = BaseDomainService;
