@@ -18,7 +18,8 @@ class AuthenticationController extends BaseController {
       .then((data) => {
         res.setJsonResponse(data);
         next();
-      }, (err) => {
+      })
+      .catch((err) => {
         next(err);
       });
   }
@@ -31,7 +32,8 @@ class AuthenticationController extends BaseController {
       .then((data) => {
         res.setJsonResponse(data);
         next();
-      }, (err) => {
+      })
+      .catch((err) => {
         next(err);
       });
   }

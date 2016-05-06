@@ -30,31 +30,28 @@ class AuthenticationService {
   }
 
   registerAndAuthenticate(userViewModel) {
-    let deferred = Q.defer();
-    this._userService.save(userViewModel)
-      .then((newEntity) => {
-        deferred.resolve(this._createAuthenticationResponse(newEntity.username, newEntity._id));
-      }, (err) => {
-        deferred.reject(err);
-      });
 
-    return deferred.promise;
+    return this._userService.save(userViewModel)
+      .then((newEntity) => {
+        return this._createAuthenticationResponse(newEntity.username, newEntity._id);
+      })
+      .catch((err) => {
+        return err;
+      });;
   }
 
   /** 
   * 
   */
   authenticate(authenticateViewModel) {
-    let deferred = Q.defer();
 
-    this._userMustExistWithNameAndPasswordSpec.isSatisfiedBy(authenticateViewModel)
+    return this._userMustExistWithNameAndPasswordSpec.isSatisfiedBy(authenticateViewModel)
       .then((user) => {
-        deferred.resolve(this._createAuthenticationResponse(user.username, user._id));
-      }, (err) => {
-        deferred.reject(err);
+        return this._createAuthenticationResponse(user.username, user._id);
+      })
+      .catch((err) => {
+        return err;
       });
-
-    return deferred.promise;
   }
 }
 

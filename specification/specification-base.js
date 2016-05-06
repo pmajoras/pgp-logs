@@ -14,19 +14,17 @@ class SpecificationBase {
    * @returns {Promise} Returns a promise with the result.
    */
   isSatisfiedBy(target, onSuccess) {
-    let deferred = Q.defer();
 
-    Q(this.isSatisfiedFunction(target))
+    return Q(this.isSatisfiedFunction(target))
       .then((data) => {
         if (typeof onSuccess === 'function') {
           onSuccess(data);
         }
-        deferred.resolve(data);
-      }, (err) => {
-        deferred.reject(err);
+        return data;
+      })
+      .catch((err) => {
+        return err;
       });
-
-    return deferred.promise;
   }
 
   getError() {

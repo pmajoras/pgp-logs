@@ -18,7 +18,8 @@ class EntityWithIdMustExistSpec extends ApplicationServiceSpec {
             else {
               deferred.reject(this.getSpecificationError());
             }
-          }, (err) => {
+          })
+          .catch((err) => {
             deferred.reject(err);
           });
 

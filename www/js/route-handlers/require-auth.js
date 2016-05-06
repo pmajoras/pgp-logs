@@ -8,4 +8,4 @@ module.exports = function (nextState, replace) {
       state: { nextPathname: nextState.location.pathname }
     });
   }
-}
+};
