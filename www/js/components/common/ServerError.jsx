@@ -5,7 +5,9 @@ export default class ServerError extends React.Component {
 
   render() {
     return (
-      <p>{this.props.message}</p>
+      <div>
+        <span>{this.props.message}</span>
+      </div>
     );
   }
 }

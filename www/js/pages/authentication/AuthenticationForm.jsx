@@ -11,7 +11,6 @@ const authenticationErrorsMessages = Messages.errors.authentication;
 const authenticationMessages = Messages.authentication;
 
 const store = AuthenticationStore;
-const storeEvents = AuthenticationStore.events;
 
 export default class AuthenticationForm extends React.Component {
   constructor(props) {
@@ -22,41 +21,41 @@ export default class AuthenticationForm extends React.Component {
       username: {
         errors: {
           isEmail: authenticationErrorsMessages.usernameMustBeEmail,
-          isRequired: errorMessages.IsRequiredError(),
+          //isRequired: errorMessages.IsRequiredError(),
         },
         rules: {
           isEmail: true,
-          isRequired: true
+          //isRequired: true
         }
       },
       password: {
         errors: {
           minLength: errorMessages.MinLengthError(6),
           maxLength: errorMessages.MaxLengthError(6),
-          isRequired: errorMessages.IsRequiredError(),
+          //isRequired: errorMessages.IsRequiredError(),
         },
         rules: {
           maxLength: 20,
           minLength: 6,
-          isRequired: true
+          //isRequired: true
         }
       }
     };
   }
 
   componentWillMount() {
-    store.on(storeEvents.authenticationSubmitted, this.handleAuthenticationSubmit);
+    store.addAuthenticationSubmitListener(this.handleAuthenticationSubmit);
   }
 
   componentWillUnmount() {
-    store.removeListener(storeEvents.authenticationSubmitted, this.handleAuthenticationSubmit);
+    store.removeAuthenticationSubmitListener(this.handleAuthenticationSubmit);
   }
 
   handleAuthenticationSubmit(err, data) {
     this.refs.authForm.handleFormSubmission(err);
 
     if (!err) {
-      if (this.props.onAuthenticationSuccess && typeof this.props.onAuthenticationSuccess == 'function') {
+      if (typeof this.props.onAuthenticationSuccess === 'function') {
         this.props.onAuthenticationSuccess(data);
       }
     }

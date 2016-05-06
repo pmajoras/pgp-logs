@@ -28,10 +28,6 @@ export default class LoginNavButton extends React.Component {
         <li key={1}>
           <AppLink to="authentication">Login</AppLink>
         </li>);
-      menuItems.push(
-        <li key={2}>
-          <AppLink to="register">Registrar</AppLink>
-        </li>);
     }
     else {
       menuItems.push(<MenuItem onClick={this.handleLogoff } key={1}>Logoff</MenuItem>);

@@ -12,7 +12,7 @@ var messages = require('../errors-messages/messages-application').authentication
 class AuthenticationService {
   constructor(userService) {
     this._userService = userService || new UserService();
-    this.userMustExistWithNameAndPasswordSpec = new EntityWithFilterMustExistSpec(this._userService,
+    this._userMustExistWithNameAndPasswordSpec = new EntityWithFilterMustExistSpec(this._userService,
       messages.invalidUsernameOrPassword.message,
       messages.invalidUsernameOrPassword.code);
   }
@@ -47,7 +47,7 @@ class AuthenticationService {
   authenticate(authenticateViewModel) {
     let deferred = Q.defer();
 
-    this.userMustExistWithNameAndPasswordSpec.isSatisfiedBy(authenticateViewModel)
+    this._userMustExistWithNameAndPasswordSpec.isSatisfiedBy(authenticateViewModel)
       .then((user) => {
         deferred.resolve(this._createAuthenticationResponse(user.username, user._id));
       }, (err) => {

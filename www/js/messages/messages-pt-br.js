@@ -22,19 +22,14 @@ const messages = {
     message: "Settings"
   },
   authentication: {
+    headerLabel: "Autenticação",
     usernameLabel: "Email",
     passwordLabel: "Senha"
-  },
-  registerUser: {
-    usernameLabel: "Email",
-    passwordLabel: "Senha",
-    repeatPasswordLabel: "Repetir a senha"
   },
   errors: {
     authentication: {
       usernameAndPasswordRequired: "O nome de usuário e a senha são obrigatórios.",
       usernameMustBeEmail: "O nome do usuário deve ser um e-mail",
-      passwordMustRepeat: "A senha deve ser a mesma digitada anteriormente."
     },
     generic: {
       _field: "campo",
@@ -42,13 +37,13 @@ const messages = {
       _minLength: "O {0} deve ter no mínimo {1} caractér(es).",
       _maxLength: "O {0} deve ter no máximo {1} caractér(es).",
       IsRequiredError: function (field) {
-        return this._isRequired.format(field || _field);
+        return this._isRequired.format(field || this._field);
       },
       MinLengthError: function (minLength, field) {
-        return this._minLength.format(field || _field, minLength || 0);
+        return this._minLength.format(field || this._field, minLength || 0);
       },
       MaxLengthError: function (maxLength, field) {
-        return this._maxLength.format(field || _field, maxLength || 0);
+        return this._maxLength.format(field || this._field, maxLength || 0);
       }
     }
   }

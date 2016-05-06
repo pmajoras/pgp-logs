@@ -1,33 +1,65 @@
 "use strict";
 const EventEmitter = require('events').EventEmitter;
-const JsonHelperService = require('../services/util-services/JsonHelperService');
+const Immutable = require('immutable');
 
 class BaseStore extends EventEmitter {
-  constructor(initialState, events) {
+  constructor(defaultState, events) {
     super();
-    this.initialState = JsonHelperService.simpleClone(initialState || {});
+    this._defaultState = defaultState || {};
 
-    this.state = initialState || {};
+    this.state = Immutable.fromJS(this._defaultState || {});
     this.events = events || {};
-    this.events.change = "EV_CHANGE";
+    this.events.change = "STORE_CHANGE";
   }
 
+  /**
+   * Reset the state of the store to the default state.
+   */
+  resetState() {
+    this.setState(this._defaultState);
+  }
+
+  /**
+   * Set the current store state.
+   */
   setState(newState) {
-
-    this.state = newState;
-    this.emitStateChanges("change");
+    this.state = Immutable.fromJS(newState || {});
   }
 
+  /**
+   * Merge the current store state with the new state.
+   */
+  mergeState(newState) {
+    var immutableNewState = Immutable.fromJS(newState || {});
+    this.state = this.getState().mergeDeep(immutableNewState);
+  }
+
+  /**
+   * Get the current store state.
+   */
   getState() {
     return this.state;
   }
 
-  reset() {
-    this.setState(JsonHelperService.simpleClone(initialState));
+  /**
+   * Add a listener to the change event.
+   */
+  addChangeListener(callback) {
+    this.on(this.events.change, callback);
   }
 
-  emitStateChanges(eventName) {
-    this.emit(eventName, this.getState());
+  /**
+   * Removes the change listener of the given callback
+   */
+  removeChangeListener(callback) {
+    this.removeListener(this.events.change, callback);
+  }
+
+  /**
+   * Emits store changes.
+   */
+  emitChange() {
+    this.emit(this.events.change);
   }
 }
 

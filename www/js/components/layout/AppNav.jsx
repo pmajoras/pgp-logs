@@ -8,9 +8,9 @@ import AuthenticationService from "../../services/authentication/AuthenticationS
 import LoginNavButton from "./LoginNavButton.jsx";
 import { browserHistory } from 'react-router';
 import AuthenticationActions from "../../actions/authentication/AuthenticationActions";
+import ReactRouterHelper from '../../helpers/react-router-helper';
 
 const store = AuthenticationStore;
-const storeEvents = AuthenticationStore.events;
 
 export default class AppNav extends React.Component {
   constructor() {
@@ -18,7 +18,6 @@ export default class AppNav extends React.Component {
     let authenticationService = new AuthenticationService();
     this.handleAuthenticationChange = this.handleAuthenticationChange.bind(this);
     this.handleLogoff = this.handleLogoff.bind(this);
-    this.handleLogoffSubmitted = this.handleLogoffSubmitted.bind(this);
 
     this.state = {
       collapsed: true,
@@ -27,24 +26,23 @@ export default class AppNav extends React.Component {
   }
 
   componentWillMount() {
-    store.on(storeEvents.change, this.handleAuthenticationChange);
-    store.on(storeEvents.logoffSubmitted, this.handleLogoffSubmitted);
+    store.addChangeListener(this.handleAuthenticationChange);
   }
 
   componentWillUnmount() {
-    store.removeListener(storeEvents.change, this.handleAuthenticationChange);
-    store.removeListener(storeEvents.logoffSubmitted, this.handleLogoffSubmitted);
+    store.removeChangeListener(this.handleAuthenticationChange);
   }
 
-  handleAuthenticationChange(err, credentials) {
+  handleAuthenticationChange() {
+    let oldIsAuthenticated = this.state.isAuthenticated;
+    let newIsAuthenticated = store.isAuthenticated();
 
-    if (!err) {
-      this.setState({ isAuthenticated: credentials.isAuthenticated });
+    this.setState({ isAuthenticated: newIsAuthenticated });
+
+    if (oldIsAuthenticated === true &&
+      newIsAuthenticated === false) {
+      ReactRouterHelper.redirectToGuestHome();
     }
-  }
-
-  handleLogoffSubmitted() {
-    browserHistory.push("/");
   }
 
   handleLogoff() {
@@ -65,18 +63,12 @@ export default class AppNav extends React.Component {
     let mustBeAuthenticatedLinks = [
       <li key={1}>
         <AppLink to="/welcome">Início</AppLink>
-      </li>,
-      <li key={2}>
-        <AppLink to="/todo/boards">Todos</AppLink>
-      </li>,
-      <li key={3}>
-        <AppLink to="/settings">Settings</AppLink>
       </li>
     ];
 
     let mustNotBeAuthenticatedLinks = [
-      <li key={4}>
-        <AppLink to="/">Todos</AppLink>
+      <li key={1}>
+        <AppLink to="/">Info</AppLink>
       </li>
     ];
 

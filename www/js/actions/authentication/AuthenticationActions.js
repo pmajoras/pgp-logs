@@ -5,13 +5,12 @@ import AuthenticationService from "../../services/authentication/AuthenticationS
 
 var actions = {
   authenticate: "AUTHENTICATE_USER",
-  register: "REGISTER_USER",
   logoff: "LOGOFF_USER"
 };
 
 module.exports = {
   actions: actions,
-  authenticate: function(authenticateModel) {
+  authenticate: function (authenticateModel) {
     let service = new AuthenticationService();
 
     service.authenticate(authenticateModel)
@@ -21,17 +20,7 @@ module.exports = {
         dispatcher.dispatch(new ActionResponse(err, actions.authenticate));
       });
   },
-  register: function(userViewModel) {
-    let service = new AuthenticationService();
-
-    service.register(userViewModel)
-      .then((data) => {
-        dispatcher.dispatch(new ActionResponse(null, actions.register, data));
-      }, (err) => {
-        dispatcher.dispatch(new ActionResponse(err, actions.register));
-      });
-  },
-  logoff: function() {
+  logoff: function () {
     let service = new AuthenticationService();
 
     service.logoff();

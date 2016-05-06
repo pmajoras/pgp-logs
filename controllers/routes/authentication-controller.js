@@ -38,7 +38,6 @@ class AuthenticationController extends BaseController {
 }
 
 var routeFactory = new RouteFactory("/authentication")
-  .post("/register", "registerUser")
   .post("/authenticate", "authenticate");
 
 module.exports = { "Controller": AuthenticationController, "routeFactory": routeFactory };

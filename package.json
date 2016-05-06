@@ -4,16 +4,7 @@
   "description": "Pgp Todo App",
   "main": "index.js",
   "dependencies": {
-    "babel-loader": "^6.2.0",
-    "babel-plugin-add-module-exports": "^0.1.2",
-    "babel-plugin-react-html-attrs": "^2.0.0",
-    "babel-plugin-transform-class-properties": "^6.3.13",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
-    "babel-preset-stage-0": "^6.3.13",
     "body-parser": "~1.0.1",
-    "bower": "^1.7.7",
     "chai": "^3.5.0",
     "cors": "^2.7.1",
     "express": "~4.0.0",
@@ -21,11 +12,7 @@
     "flux": "^2.1.1",
     "formsy-material-ui": "^0.3.8",
     "formsy-react": "^0.17.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-eslint": "^2.0.0",
-    "gulp-jshint": "^2.0.0",
-    "gulp-sass": "^2.2.0",
+    "immutable": "^3.8.1",
     "imports-loader": "^0.6.5",
     "iz": "^0.7.1",
     "jquery": "^2.2.2",
@@ -47,8 +34,6 @@
     "react-router": "^2.0.1",
     "react-tap-event-plugin": "^0.2.2",
     "validator": "^5.2.0",
-    "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1",
     "winston": "^2.2.0"
   },
   "scripts": {
@@ -68,7 +53,22 @@
   "author": "Paulo Gabriel Souza Poffal",
   "license": "MIT",
   "devDependencies": {
-    
+    "babel-loader": "^6.2.0",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-react-html-attrs": "^2.0.0",
+    "babel-plugin-transform-class-properties": "^6.3.13",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-sass": "^2.2.0",
+    "bower": "^1.7.7"
   },
   "engines": {
     "node": "5.4.x"

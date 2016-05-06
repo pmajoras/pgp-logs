@@ -3,9 +3,7 @@ const BaseStore = require('../BaseStore');
 const dispatcher = require("../../dispatcher").default;
 const authenticationActions = require("../../actions/authentication/AuthenticationActions");
 const events = {
-  authenticationSubmitted: "EV_AUTHENTICATION_SUBMITTED",
-  registerSubmitted: "EV_REGISTRATION_SUBMITTED",
-  logoffSubmitted: "EV_LOGOFF_SUBMITTED"
+  authenticationSubmit: "EV_AUTHENTICATION_SUBMITTED"
 };
 
 class AuthenticationStore extends BaseStore {
@@ -18,62 +16,68 @@ class AuthenticationStore extends BaseStore {
     }, events);
   }
 
-
-  setState(newState) {
-    if (!newState) {
-      super.reset();
-    }
-    else {
-      super.setState(newState);
-    }
+  /**
+  * Return if the current store state is authenticated. 
+  */
+  isAuthenticated() {
+    return this.getState().get("isAuthenticated");
   }
 
-  _handleAuthenticationChanged(err, payload) {
-    payload = payload || {};
-    if (!err) {
-      payload.isAuthenticated = true;
-    }
-    else {
-      payload.isAuthenticated = false;
-    }
-
-    if (this.state.isAuthenticated !== payload.isAuthenticated) {
-      this.setState(payload);
-    }
-  }
-
-  handleRegister(err, payload) {
-
-    this._handleAuthenticationChanged(err, payload);
-    this.emit(this.events.registerSubmitted, err, payload);
-  }
-
+  /**
+   * Handles the authentication action.
+   */
   handleAuthenticate(err, payload) {
+    if (!err) {
+      this.mergeState(payload);
+    }
+    else {
+      this.resetState();
+    }
 
-    this._handleAuthenticationChanged(err, payload);
-    this.emit(this.events.authenticationSubmitted, err, payload);
+    this.emit(this.events.authenticationSubmit, err, this.getState());
   }
 
-  handleLogoff(err, payload) {
-    this.reset();
-    this.emit(this.events.logoffSubmitted, err, payload);
+  /**
+   * Handles the logoff action
+   */
+  handleLogoff() {
+    this.resetState();
   }
 
+  /**
+  * Add a listener to the authentication submit event.
+  */
+  addAuthenticationSubmitListener(callback) {
+    this.on(this.events.authenticationSubmit, callback);
+  }
+
+  /**
+   * Removes the authentication submit listener for the given callbakc.
+   */
+  removeAuthenticationSubmitListener(callback) {
+    this.removeListener(this.events.authenticationSubmit, callback);
+  }
+
+  /**
+   * Handles the store actions.
+   */
   handleActions(action) {
     switch (action.type) {
       case authenticationActions.actions.authenticate: {
         this.handleAuthenticate(action.err, action.payload);
         break;
       }
-      case authenticationActions.actions.register: {
-        this.handleRegister(action.err, action.payload);
-        break;
-      }
       case authenticationActions.actions.logoff: {
         this.handleLogoff(action.err, action.payload);
         break;
       }
+      default:
+        return true;
     }
+
+    // If action was responded to, emit change event    
+    this.emitChange();
+    return true;
   }
 
 }

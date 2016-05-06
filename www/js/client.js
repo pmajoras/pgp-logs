@@ -7,11 +7,11 @@ import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import Info from "./pages/Info.jsx";
 import Welcome from "./pages/Welcome.jsx";
 import Layout from "./pages/Layout.jsx";
-import Settings from "./pages/Settings.jsx";
 import Authentication from "./pages/authentication/Authentication.jsx";
-import Register from "./pages/authentication/Register.jsx";
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import config from './config/config';
+import requireAuth from './route-handlers/require-auth';
+
 require('./jquery-rest.js');
 
 //Needed for onTouchTap
@@ -20,18 +20,6 @@ require('./jquery-rest.js');
 //https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin();
 
-// First, checks if it isn't implemented yet.
-if (!String.prototype.format) {
-  String.prototype.format = function () {
-    var args = arguments;
-    return this.replace(/{(\d+)}/g, function (match, number) {
-      return typeof args[number] != 'undefined'
-        ? args[number]
-        : match
-        ;
-    });
-  };
-}
 config.start();
 const app = document.getElementById('app');
 
@@ -39,10 +27,8 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={Layout}>
       <IndexRoute component={Info}></IndexRoute>
-      <Route path="welcome" component={Welcome}></Route>
-      <Route path="settings" component={Settings}></Route>
+      <Route path="welcome" component={Welcome} onEnter={requireAuth}></Route>
       <Route path="authentication" component={Authentication}></Route>
-      <Route path="register" component={Register}></Route>
     </Route>
   </Router>,
   app);
