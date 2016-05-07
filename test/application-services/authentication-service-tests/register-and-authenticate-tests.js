@@ -27,28 +27,24 @@ describe("register-and-authenticate-tests", function () {
       .then((data) => {
         assert.isOk(data);
         done();
-      }, (err) => {
-        done(err);
-      })
-      .catch((err) => {
+      }).catch((err) => {
         done(err);
       });
   });
 
   it("should not register and authenticate the same user", function (done) {
     target.registerAndAuthenticate({ username: "teste@teste22.com", password: "123456" })
-      .then(() => {
+      .then((data) => {
+        console.log("data", data);
         done({ message: "The user was registered and authenticated, when it should not." });
-      }, (err) => {
+      })
+      .catch((err) => {
         if (err && err.type === 'Specification') {
           done();
         }
         else {
           done(err);
         }
-      })
-      .catch((err) => {
-        done(err);
       });
   });
 

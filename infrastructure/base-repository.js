@@ -18,7 +18,7 @@ class BaseRepository {
     }
     query = this._populate(query, populate);
 
-    return Q.denodeify(query.exec.bind(query));
+    return Q.nbind(query.exec, query)();
   }
 
   findAll(params, populate, lean) {
@@ -28,19 +28,20 @@ class BaseRepository {
     }
     query = this._populate(query, populate);
 
-    return Q.denodeify(query.exec.bind(query));
+    return Q.nbind(query.exec, query)();
   }
 
   save(entity) {
-    return Q.denodeify(this.Model.create.bind(this.Model, entity));
+
+    return Q.nbind(this.Model.create, this.Model)(entity);
   }
 
   update(entity) {
-    return Q.denodeify(this.Model.findOneAndUpdate.bind(this.Model, { _id: entity._id }, entity));
+    return Q.nbind(this.Model.findOneAndUpdate, this.Model)({ _id: entity._id }, entity);
   }
 
   delete(entity) {
-    return Q.denodeify(this.Model.remove.bind(this.Model, { _id: entity._id }, entity));
+    return Q.nbind(this.Model.remove, this.Model)({ _id: entity._id }, entity);
   }
 
   _populate(query, populate) {

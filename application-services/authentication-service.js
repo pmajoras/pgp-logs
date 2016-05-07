@@ -36,8 +36,8 @@ class AuthenticationService {
         return this._createAuthenticationResponse(newEntity.username, newEntity._id);
       })
       .catch((err) => {
-        return err;
-      });;
+        throw err;
+      });
   }
 
   /** 
@@ -50,7 +50,7 @@ class AuthenticationService {
         return this._createAuthenticationResponse(user.username, user._id);
       })
       .catch((err) => {
-        return err;
+        throw err;
       });
   }
 }

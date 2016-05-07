@@ -56,8 +56,10 @@ class BaseDomainService {
         if (!notSatisfiedSpecsErrors) {
 
           if (!entity._id) {
+
             this.repository.save(entity)
               .then((newEntity) => {
+
                 deferred.resolve(newEntity);
               }, (err) => {
                 deferred.reject(err);

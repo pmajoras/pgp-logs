@@ -19,11 +19,8 @@ describe("register-and-authenticate-tests", function () {
 
         target.registerAndAuthenticate(validUser)
           .then((data) => {
-
             assert.isOk(data);
             done();
-          }, (err) => {
-            done(err);
           })
           .catch((err) => {
             done(err);
