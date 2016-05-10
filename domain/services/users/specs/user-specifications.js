@@ -24,15 +24,5 @@ module.exports = {
         messages.usernameWithEmailAlreadyExists.code);
     }
   ],
-  updateSpecs: [
-    function (userService) {
-      return new PasswordMustHaveSixOrMoreCharsSpec();
-    },
-    function (userService) {
-      return new PropertyMustBeAnEmailSpec("username",
-        messages.invalidPassword.message,
-        messages.invalidPassword.code);
-    }
-  ],
   deleteSpecs: []
 };

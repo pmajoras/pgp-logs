@@ -17,14 +17,6 @@ class UserService extends BaseDomainService {
       .concat(super.getSpecsFromArrayOfFunctions(userSpecifications.saveSpecs));
     return saveSpecifications;
   }
-
-  getUpdateSpecifications() {
-    let updateSpecifications = super.getUpdateSpecifications();
-
-    updateSpecifications = updateSpecifications
-      .concat(super.getSpecsFromArrayOfFunctions(userSpecifications.updateSpecs));
-    return updateSpecifications;
-  }
 }
 
 module.exports = UserService;

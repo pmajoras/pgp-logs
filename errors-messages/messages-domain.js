@@ -15,5 +15,5 @@ module.exports = {
       code: 1003,
       message: "A senha é obrigatória e deve ter no minímo 6 caractéres."
     }
-  }
+  },
 };
