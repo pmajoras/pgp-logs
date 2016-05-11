@@ -13,7 +13,7 @@ var paths = {
     '!typings/*.ts'],
 };
 
-gulp.task('eslint', function() {
+gulp.task('eslint', function () {
   return gulp.src(paths.scripts)
     .pipe(eslint())
     .pipe(eslint.format())
@@ -23,23 +23,28 @@ gulp.task('eslint', function() {
 ///////////
 // Tasks //
 ///////////
-gulp.task('sass', function() {
+gulp.task('sass', function () {
   return gulp.src('./www/css/main.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
-			cascade: false}
-      ))
+      cascade: false
+    }))
     .pipe(gulp.dest('./www/dist/'));
 });
 
-gulp.task('sass:vendors', function() {
+gulp.task('sass:vendors', function () {
   return gulp.src('./www/css/vendors.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('./www/dist/'));
 });
 
-gulp.task('styles',['sass:vendors', 'sass']);
+gulp.task('styles', ['sass:vendors', 'sass']);
+
+// configure which files to watch and what tasks to use on file changes
+gulp.task('watch:scss', function () {
+  gulp.watch('./www/css/**/*.scss', ['styles']);
+});
 
 // Builds the application
 gulp.task('build', ['eslint', 'styles']);

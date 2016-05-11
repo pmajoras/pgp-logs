@@ -20,24 +20,20 @@ export default class AuthenticationForm extends React.Component {
     this.validation = {
       username: {
         errors: {
-          isEmail: authenticationErrorsMessages.usernameMustBeEmail,
-          //isRequired: errorMessages.IsRequiredError(),
+          isEmail: authenticationErrorsMessages.usernameMustBeEmail
         },
         rules: {
-          isEmail: true,
-          //isRequired: true
+          isEmail: true
         }
       },
       password: {
         errors: {
           minLength: errorMessages.MinLengthError(6),
-          maxLength: errorMessages.MaxLengthError(6),
-          //isRequired: errorMessages.IsRequiredError(),
+          maxLength: errorMessages.MaxLengthError(20)
         },
         rules: {
           maxLength: 20,
-          minLength: 6,
-          //isRequired: true
+          minLength: 6
         }
       }
     };
@@ -72,21 +68,24 @@ export default class AuthenticationForm extends React.Component {
       <AppForm ref="authForm" onFormSubmit={this.authenticate.bind(this) }>
         <div class="form-group">
           <AppText
+            required
+            mustFocus
             hintText={authenticationMessages.usernameLabel}
             id="username"
             type="email"
             name="username"
-            floatingLabelText={authenticationMessages.usernameLabel + '(*)'}
+            floatingLabelText={authenticationMessages.usernameLabel}
             validationErrors={username.errors}
             validations={username.rules}/>
         </div>
         <div class="form-group">
           <AppText
+            required
             hintText={authenticationMessages.passwordLabel}
             id="password"
             type="password"
             name="password"
-            floatingLabelText={authenticationMessages.passwordLabel + '(*)'}
+            floatingLabelText={authenticationMessages.passwordLabel}
             validationErrors={password.errors}
             validations={password.rules}/>
         </div>

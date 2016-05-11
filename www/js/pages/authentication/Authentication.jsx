@@ -16,7 +16,7 @@ export default class Authentication extends React.Component {
   render() {
     return (
       <div class="container">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary shadow">
           <div class="panel-heading">{authentication.headerLabel}</div>
           <div class="panel-body">
             <AuthenticationForm onAuthenticationSuccess={this.handleAuthenticationSuccess.bind(this) }/>

@@ -54,7 +54,6 @@ export default class AuthenticationForm extends React.Component {
   }
 
   handleValid() {
-    console.log("valid");
     if (!this.state.canSubmit) {
       this.setState({
         canSubmit: true
@@ -63,7 +62,6 @@ export default class AuthenticationForm extends React.Component {
   }
 
   handleInvalid() {
-    console.log("invalid");
     if (this.state.canSubmit) {
       this.setState({
         canSubmit: false
