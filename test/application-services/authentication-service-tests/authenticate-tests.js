@@ -36,9 +36,8 @@ describe("register-and-authenticate-tests", function () {
     target.authenticate(validUser)
       .then((data) => {
         assert.isOk(data);
+        assert.isOk(data.id);
         done();
-      }, (err) => {
-        done(err);
       })
       .catch((err) => {
         done(err);
@@ -47,19 +46,16 @@ describe("register-and-authenticate-tests", function () {
 
   it("should not authenticate invalid user", function (done) {
     target.authenticate(invalidUser)
-      .then((data) => {
-        assert.isOk(data);
-        done();
-      }, (err) => {
-        if (!err.message) {
-          done(err);
-        }
-        else {
-          done();
-        }
+      .then(() => {
+        done(new Error("The user could not have been authenticated"));
       })
       .catch((err) => {
-        done(err);
+        if (err && err.type === 'Specification') {
+          done();
+        }
+        else {
+          done(err);
+        }
       });
   });
 
