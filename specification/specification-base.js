@@ -20,10 +20,10 @@ class SpecificationBase {
         if (typeof onSuccess === 'function') {
           onSuccess(data);
         }
-        return data;
+        return Q(data);
       })
       .catch((err) => {
-        return err;
+        return Q.reject(err);
       });
   }
 

@@ -2,6 +2,7 @@
 const BaseStore = require('../BaseStore');
 const dispatcher = require("../../dispatcher").default;
 const authenticationActions = require("../../actions/authentication/AuthenticationActions");
+const AuthenticationService = require("../../services/authentication/AuthenticationService");
 const events = {
   authenticationSubmit: "EV_AUTHENTICATION_SUBMITTED"
 };
@@ -14,6 +15,8 @@ class AuthenticationStore extends BaseStore {
       token: '',
       id: ''
     }, events);
+    var authenticationService = new AuthenticationService();
+    this.mergeState(authenticationService.getCredentials());
   }
 
   /**

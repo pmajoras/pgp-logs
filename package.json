@@ -7,6 +7,7 @@
     "body-parser": "~1.0.1",
     "chai": "^3.5.0",
     "cors": "^2.7.1",
+    "elasticsearch": "^11.0.1",
     "express": "~4.0.0",
     "file-stream-rotator": "0.0.6",
     "flux": "^2.1.1",

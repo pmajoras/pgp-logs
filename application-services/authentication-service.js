@@ -33,10 +33,10 @@ class AuthenticationService {
 
     return this._userService.save(userViewModel)
       .then((newEntity) => {
-        return this._createAuthenticationResponse(newEntity.username, newEntity._id);
+        return Q(this._createAuthenticationResponse(newEntity.username, newEntity._id));
       })
       .catch((err) => {
-        throw err;
+        return Q.reject(err);
       });
   }
 
@@ -47,10 +47,10 @@ class AuthenticationService {
 
     return this._userMustExistWithNameAndPasswordSpec.isSatisfiedBy(authenticateViewModel)
       .then((user) => {
-        return this._createAuthenticationResponse(user.username, user._id);
+        return Q(this._createAuthenticationResponse(user.username, user._id));
       })
       .catch((err) => {
-        throw err;
+        return Q.reject(err);
       });
   }
 }

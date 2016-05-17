@@ -1,5 +1,6 @@
 "use strict";
 import React from "react";
+import SearchContainer from "../components/common/SearchContainer.jsx";
 
 export default class Welcome extends React.Component {
   constructor(props, context) {
@@ -9,7 +10,7 @@ export default class Welcome extends React.Component {
   render() {
     return (
       <div>
-        <h1>BEM VINDO!</h1>
+        <SearchContainer/>
       </div>
     );
   }
