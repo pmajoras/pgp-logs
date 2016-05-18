@@ -1,3 +1,5 @@
+"use strict";
+
 const ElasticService = require('./elastic-service');
 
 /**

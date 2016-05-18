@@ -14,6 +14,7 @@ module.exports = {
 
     service.getLogMessages()
       .then((data) => {
+        console.log("data", data);
         dispatcher.dispatch(new ActionResponse(null, actions.getLogMessages, data));
       })
       .catch((err) => {

@@ -7,9 +7,7 @@ class LogMessagesStore extends BaseStore {
   constructor() {
     super({
       messages: []
-    }, events);
-
-    logMessagesActions.getLogMessages();
+    });
   }
 
   handleLoadedMessages(err, payload) {
@@ -20,6 +18,10 @@ class LogMessagesStore extends BaseStore {
     else {
       this.resetState();
     }
+  }
+
+  getMessages() {
+    return this.getState().get("messages");
   }
 
   /**

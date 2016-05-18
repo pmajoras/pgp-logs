@@ -7,7 +7,7 @@ var server = require('./server/server');
 // We will log all uncaught exceptions into exceptions.log
 
 server.start();
-var teste = require('./application-services/elastic-service');
+/*var teste = require('./application-services/elastic-service');
 var created = new teste();
 created.search()
   .then((data) => {
@@ -15,6 +15,6 @@ created.search()
   })
   .catch((err) => {
     console.log("err", err);
-  });
+  });*/
 
 console.log("Successfully started web server. Waiting for incoming connections...");
