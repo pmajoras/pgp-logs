@@ -23,7 +23,7 @@ class LogMessageField extends React.Component {
 }
 
 LogMessageField.propTypes = {
-  name: React.PropTypes.string,
+  name: React.PropTypes.string.isRequired,
 };
 
 export default LogMessageField;

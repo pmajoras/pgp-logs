@@ -1,6 +1,7 @@
 "use strict";
 import React from "react";
 import LogMessages from "./LogMessages.jsx";
+import AppPanel from "../common/AppPanel.jsx";
 import Messages from "../../messages/messages-pt-br";
 
 class LogMessagesContainer extends React.Component {
@@ -13,12 +14,9 @@ class LogMessagesContainer extends React.Component {
     const headerMessage = Messages.generic.showing + " " + messages.length + " mensagens.";
 
     return (
-      <div class="panel panel-primary">
-        <div class="panel-heading">{headerMessage}</div>
-        <div class="panel-body">
-          <LogMessages messages={messages}/>
-        </div>
-      </div>
+      <AppPanel headerMessage={headerMessage}>
+        <LogMessages messages={messages}/>
+      </AppPanel>
     );
   }
 }

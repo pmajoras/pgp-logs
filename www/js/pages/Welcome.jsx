@@ -15,7 +15,7 @@ export default class Welcome extends React.Component {
 
     this.state = {
       messages: store.getMessages() || [],
-      isLoaded: false
+      fields: store.getFields() || []
     };
   }
 
@@ -28,11 +28,11 @@ export default class Welcome extends React.Component {
   }
 
   componentDidMount() {
-    LogMessagesActions.getLogMessages();
+    LogMessagesActions.getLogMessagesAndFields();
   }
 
   handleMessagesRefresh() {
-    this.setState({ messages: store.getMessages(), isLoaded: true });
+    this.setState({ messages: store.getMessages(), fields: store.getFields() });
   }
 
   render() {
@@ -41,9 +41,7 @@ export default class Welcome extends React.Component {
     return (
       <div>
         <SearchContainer/>
-        <Loader loaded={this.state.isLoaded}>
-          <LogMessagesContainer messages={messages} />
-        </Loader>
+        <LogMessagesContainer messages={messages} />
       </div>
     );
   }

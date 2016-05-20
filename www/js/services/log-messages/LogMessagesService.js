@@ -9,7 +9,6 @@ class LogMessagesService extends BaseService {
   }
 
   getLogMessages() {
-    let deferred = Q.defer();
 
     return this.handleApiPromise(client.read())
       .then((data) => {
@@ -18,6 +17,12 @@ class LogMessagesService extends BaseService {
       .catch((err) => {
         return Q.reject(err);
       });
+  }
+
+  getLogFields() {
+    return Q({
+      fields: ["_teste", "_teste1", "_teste2"]
+    });
   }
 }
 

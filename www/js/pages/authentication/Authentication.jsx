@@ -1,5 +1,6 @@
 "use strict";
 import React from "react";
+import AppPanel from "../../components/common/AppPanel.jsx";
 import AuthenticationForm from "./AuthenticationForm.jsx";
 import ReactRouterHelper from '../../helpers/react-router-helper';
 import {authentication} from "../../messages/messages-pt-br";
@@ -16,12 +17,9 @@ export default class Authentication extends React.Component {
   render() {
     return (
       <div class="container">
-        <div class="panel panel-primary shadow">
-          <div class="panel-heading">{authentication.headerLabel}</div>
-          <div class="panel-body">
-            <AuthenticationForm onAuthenticationSuccess={this.handleAuthenticationSuccess.bind(this) }/>
-          </div>
-        </div>
+        <AppPanel classes="shadow" headerMessage={authentication.headerLabel}>
+          <AuthenticationForm onAuthenticationSuccess={this.handleAuthenticationSuccess.bind(this) }/>
+        </AppPanel>
       </div>
     );
   }
