@@ -1,6 +1,8 @@
 "use strict";
 import React from "react";
+import Loader from "react-loader";
 import SearchContainer from "../components/common/SearchContainer.jsx";
+import LogMessagesContainer from "../components/log-messages/LogMessagesContainer.jsx";
 import LogMessagesStore from "../stores/log-messages/LogMEssagesStore";
 import LogMessagesActions from "../actions/log-messages/LogMessagesActions";
 
@@ -12,10 +14,9 @@ export default class Welcome extends React.Component {
     this.handleMessagesRefresh = this.handleMessagesRefresh.bind(this);
 
     this.state = {
-      messages: store.getMessages()
+      messages: store.getMessages() || [],
+      isLoaded: false
     };
-    
-    LogMessagesActions.getLogMessages();
   }
 
   componentWillMount() {
@@ -26,17 +27,23 @@ export default class Welcome extends React.Component {
     store.removeChangeListener(this.handleMessagesRefresh);
   }
 
+  componentDidMount() {
+    LogMessagesActions.getLogMessages();
+  }
+
   handleMessagesRefresh() {
-    this.setState({ messages: store.getMessages() });
+    this.setState({ messages: store.getMessages(), isLoaded: true });
   }
 
   render() {
-    const messagesTest = JSON.stringify(this.state.messages);
+    const messages = this.state.messages;
 
     return (
       <div>
         <SearchContainer/>
-        {messagesTest}
+        <Loader loaded={this.state.isLoaded}>
+          <LogMessagesContainer messages={messages} />
+        </Loader>
       </div>
     );
   }

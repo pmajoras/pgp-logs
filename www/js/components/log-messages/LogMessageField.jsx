@@ -7,19 +7,23 @@ class LogMessageField extends React.Component {
   }
 
   render() {
-    const message = this.props.name + ':' + this.props.value;
 
     return (
-      <span>
-        {message}
-      </span>
+      <div class="log-field">
+        <span class="log-field-title">
+          {this.props.name}
+        </span>
+        :
+        <span class="break-word">
+          {this.props.value}
+        </span>
+      </div>
     );
   }
 }
 
-LogMessage.propTypes = {
+LogMessageField.propTypes = {
   name: React.PropTypes.string,
-  value: React.PropTypes.string
 };
 
-export default LogMessage;
+export default LogMessageField;

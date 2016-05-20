@@ -12,16 +12,16 @@ class LogMessage extends React.Component {
   render() {
     const messageFields = [];
 
-    for (var key in this.props.message) {
-      let name = key;
-      let value = this.props.message[key];
-      messageFields.push(<LogMessageField name={key} value={value}/>);
-    }
+    Object.getOwnPropertyNames(this.props.message).forEach((val, idx) => {
+      let name = val;
+      let value = this.props.message[val];
+      messageFields.push(<LogMessageField key={idx} name={name} value={value}/>);
+    });
 
     return (
-      <div>
-        {messageFields}
-      </div>
+      <li class="log-message list-group-item">
+        {messageFields}        
+      </li>
     );
   }
 }

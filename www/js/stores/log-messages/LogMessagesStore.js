@@ -11,7 +11,7 @@ class LogMessagesStore extends BaseStore {
   }
 
   handleLoadedMessages(err, payload) {
-
+    
     if (!err) {
       this.mergeState({ messages: payload });
     }
@@ -21,7 +21,7 @@ class LogMessagesStore extends BaseStore {
   }
 
   getMessages() {
-    return this.getState().get("messages");
+    return this.getState().get("messages").toJS().map((message) => message._source);
   }
 
   /**

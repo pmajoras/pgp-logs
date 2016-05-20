@@ -7,7 +7,8 @@ const messages = {
     guest: "Visitante",
     welcome: "Bem Vindo!",
     save: "Salvar",
-    loading: "Carregando"
+    loading: "Carregando",
+    showing: "Exibindo"
   },
   navBar: {
     brand: "TodoApp"

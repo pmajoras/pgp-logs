@@ -21,6 +21,36 @@
 .shadow:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
 
+.inline {
+  display: inline; }
+
+.margin-right {
+  margin-right: 10px; }
+
+.margin-left {
+  margin-left: 10px; }
+
+.margin-top {
+  margin-top: 10px; }
+
+.margin-bottom {
+  margin-bottom: 10px; }
+
+.break-word {
+  word-break: break-all; }
+
+.log-message {
+  margin-bottom: 5px; }
+
+.log-field {
+  font-size: 16px;
+  display: inline;
+  margin-right: 10px; }
+
+.log-field-title {
+  font-weight: bold;
+  color: red; }
+
 body {
   padding: 0; }
 

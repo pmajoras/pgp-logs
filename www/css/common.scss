@@ -1,0 +1,25 @@
+$default-margin: 10px;
+
+.inline {
+    display: inline;
+}
+
+.margin-right {
+    margin-right: $default-margin
+}
+
+.margin-left {
+    margin-left: $default-margin
+}
+
+.margin-top {
+    margin-top: $default-margin
+}
+
+.margin-bottom {
+    margin-bottom: $default-margin
+}
+
+.break-word {
+    word-break: break-all;
+}
