@@ -41,7 +41,13 @@ export default class Welcome extends React.Component {
     return (
       <div>
         <SearchContainer/>
-        <LogMessagesContainer messages={messages} />
+        <div class="row">
+          <div class="col-md-3 col-sm-12">
+          </div>
+          <div class="col-md-9 col-sm-12">
+            <LogMessagesContainer messages={messages} />
+          </div>
+        </div>
       </div>
     );
   }
