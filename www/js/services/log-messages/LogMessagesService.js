@@ -20,9 +20,13 @@ class LogMessagesService extends BaseService {
   }
 
   getLogFields() {
-    return Q({
-      fields: ["_teste", "_teste1", "_teste2"]
-    });
+    return this.handleApiPromise(client.fields.read())
+      .then((data) => {
+        return Q(data);
+      })
+      .catch((err) => {
+        return Q.reject(err);
+      });
   }
 }
 

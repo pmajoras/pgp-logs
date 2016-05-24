@@ -19,7 +19,7 @@ class ElasticService {
    */
   search() {
     let queryParams = {
-      index: this.index
+      index: this.index,
     };
     if (this.type) {
       queryParams.type = this.type;
@@ -28,10 +28,21 @@ class ElasticService {
       query: {
         match_all: {}
       },
-      //sort: { date: { "order": "desc" } }
+      sort: { timestamp: { "order": "desc" } }
     };
 
     return this.fullSearch(queryParams);
+  }
+
+  /**
+   * 
+   */
+  searchFields() {
+    this.client.indices.getMapping().then((resp) => {
+      return Q(resp);
+    }).catch((err) => {
+      return Q(err);
+    });
   }
 
   /**

@@ -1,6 +1,6 @@
 "use strict";
 import React from "react";
-//import LogMessage from "./LogMessage.jsx";
+import LogField from "./LogField.jsx";
 
 class LogFields extends React.Component {
   constructor(props) {
@@ -9,8 +9,9 @@ class LogFields extends React.Component {
 
   render() {
     const fields = this.props.fields || [];
+    console.log("fields", fields);
     const logFields = fields.map((field, index) => {
-      return <div key={index} field={field}/>;
+      return <li class="list-group-item" key={index}><LogField field={field}/></li>;
     });
 
     return (

@@ -36,7 +36,7 @@ class LogMessagesStore extends BaseStore {
   }
 
   getFields() {
-    return this.getState().get("fields").toJS();
+    return this.getState().get("fields").toArray();
   }
 
   /**

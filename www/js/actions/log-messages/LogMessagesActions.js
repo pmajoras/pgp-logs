@@ -33,10 +33,10 @@ module.exports = {
       });
   },
   getLogMessagesAndFields: function () {
+    let service = new LogMessagesService();
 
     service.getLogMessages()
       .then((messagesData) => {
-        console.log("data", messagesData);
         dispatcher.dispatch(new ActionResponse(null, actions.getLogMessages, messagesData));
 
         service.getLogFields()
