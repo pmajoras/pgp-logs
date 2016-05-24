@@ -47,7 +47,7 @@ class LogMessagesStore extends BaseStore {
       case logMessagesActions.actions.getLogMessages: {
         this.handleLoadedMessages(action.err, action.payload);
         break;
-      },
+      }
       case logMessagesActions.actions.getLogFields: {
         this.handleLoadedFields(action.err, action.payload);
         break;

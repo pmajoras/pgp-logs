@@ -8,7 +8,7 @@ class AppPanel extends React.Component {
 
   render() {
     const message = this.props.headerMessage || "";
-    const containerClasses = "panel panel-primary";
+    let containerClasses = "panel panel-primary";
     if (this.props.classes) {
       containerClasses = containerClasses + " " + this.props.classes;
     }

@@ -36,7 +36,7 @@ export default class AppNav extends React.Component {
   handleAuthenticationChange() {
     let oldIsAuthenticated = this.state.isAuthenticated;
     let newIsAuthenticated = store.isAuthenticated();
-
+    console.log("new", newIsAuthenticated);
     this.setState({ isAuthenticated: newIsAuthenticated });
 
     if (oldIsAuthenticated === true &&

@@ -27,7 +27,8 @@ class ElasticService {
     queryParams.body = {
       query: {
         match_all: {}
-      }
+      },
+      //sort: { date: { "order": "desc" } }
     };
 
     return this.fullSearch(queryParams);

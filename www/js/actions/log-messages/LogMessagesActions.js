@@ -36,6 +36,7 @@ module.exports = {
 
     service.getLogMessages()
       .then((messagesData) => {
+        console.log("data", messagesData);
         dispatcher.dispatch(new ActionResponse(null, actions.getLogMessages, messagesData));
 
         service.getLogFields()

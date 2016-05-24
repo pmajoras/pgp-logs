@@ -15,6 +15,7 @@ module.exports = {
 
     service.authenticate(authenticateModel)
       .then((data) => {
+        console.log("data", data);
         dispatcher.dispatch(new ActionResponse(null, actions.authenticate, data));
       }, (err) => {
         dispatcher.dispatch(new ActionResponse(err, actions.authenticate));
