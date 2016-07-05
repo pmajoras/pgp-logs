@@ -41,7 +41,7 @@
   "scripts": {
     "dev-web": "webpack-dev-server --content-base www --inline --hot",
     "start": "node index.js",
-    "test": "mocha --recursive",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive api/test",
     "postinstall": "bower install && gulp build && webpack"
   },
   "repository": {
@@ -63,14 +63,15 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
-    "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1",
+    "bower": "^1.7.7",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-eslint": "^2.0.0",
     "gulp-jshint": "^2.0.0",
     "gulp-sass": "^2.2.0",
-    "bower": "^1.7.7"
+    "istanbul": "^0.4.4",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
   },
   "engines": {
     "node": "5.4.x"
