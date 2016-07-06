@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var common = require("../common");
+var common = require('../common');
 var config = common.config;
 var assert = common.assert;
 common.mockgoose(common.mongoose);
@@ -11,16 +11,16 @@ var userService = new UserService();
 var mongoPromise = (filter) => {
   return userService.findAll(filter);
 };
-var target = new PropertyValueMustBeUniqueInMongoQuery("username", mongoPromise, "Teste PropertyValueMustBeUniqueInMongoQuery", 100);
-var emailInDatabase = "test@test.com";
+var target = new PropertyValueMustBeUniqueInMongoQuery('username', mongoPromise, 'Teste PropertyValueMustBeUniqueInMongoQuery', 100);
+var emailInDatabase = 'test@test.com';
 
-describe("property-value-must-be-unique-in-mongo-query-tests", function () {
+describe('property-value-must-be-unique-in-mongo-query-tests', function () {
 
   before(function (done) {
     common.mongoose.connect(config.db.connectionString, function (mongoError) {
 
       if (!mongoError) {
-        userService.save({ username: emailInDatabase, password: "123456" })
+        userService.save({ username: emailInDatabase, password: '123456' })
           .then(() => {
             done();
           }, (err) => {
@@ -33,15 +33,15 @@ describe("property-value-must-be-unique-in-mongo-query-tests", function () {
     });
   });
 
-  it("should satisfy an username not in database", function (done) {
-    target.isSatisfiedBy({ username: "another@test.com" })
+  it('should satisfy an username not in database', function (done) {
+    target.isSatisfiedBy({ username: 'another@test.com' })
       .then((result) => {
         assert.equal(result, true);
         done();
       });
   });
 
-  it("should satisfy a null username not in database", function (done) {
+  it('should satisfy a null username not in database', function (done) {
     target.isSatisfiedBy({ username: null })
       .then((result) => {
         assert.equal(result, true);
@@ -49,7 +49,7 @@ describe("property-value-must-be-unique-in-mongo-query-tests", function () {
       });
   });
 
-  it("should satisfy an undefined username not in database", function (done) {
+  it('should satisfy an undefined username not in database', function (done) {
     target.isSatisfiedBy({ username: undefined })
       .then((result) => {
         assert.equal(result, true);
@@ -57,15 +57,15 @@ describe("property-value-must-be-unique-in-mongo-query-tests", function () {
       });
   });
 
-  it("should satisfy an empty username not in database", function (done) {
-    target.isSatisfiedBy({ username: "" })
+  it('should satisfy an empty username not in database', function (done) {
+    target.isSatisfiedBy({ username: '' })
       .then((result) => {
         assert.equal(result, true);
         done();
       });
   });
 
-  it("should not satisfy an already username in database", function (done) {
+  it('should not satisfy an already username in database', function (done) {
     target.isSatisfiedBy({ username: emailInDatabase })
       .then((result) => {
         assert.equal(result, false);

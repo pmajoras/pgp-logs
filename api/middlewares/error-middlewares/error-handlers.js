@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /* jshint ignore:start */
 
 var logger = require('../../server/logger');
@@ -6,7 +6,7 @@ module.exports = {
 
   errorHandler: function errorHandler(err, req, res, next) {
 
-    if (err.type === "Application") {
+    if (err.type === 'Application') {
       res.status(err.statusCode);
 
       switch (err.statusCode) {
@@ -21,20 +21,25 @@ module.exports = {
           break;
       }
     }
-    else if (err.type === "Specification") {
+    else if (err.type === 'Specification') {
       res.status(err.statusCode);
       res.json(err.content);
     }
     else {
+
       res.status(500);
-      res.json({ error: 'Something failed!' });
+      if (!process.env.PGPENV) {
+        console.log('fatal error', err);
+      }
+
+      res.json({ error: 'something failed.' });
     }
     res.end();
   },
 
   errorLogHandler: function logErrors(err, req, res, next) {
-    logger.error("err", err);
+    logger.error('err', err);
     next(err);
   }
-}; 
+};
 /* jshint ignore:end */

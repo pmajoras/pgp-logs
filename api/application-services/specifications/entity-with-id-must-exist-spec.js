@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var ApplicationServiceSpec = require('./application-service-spec');
 var Q = require('q');
@@ -30,7 +30,7 @@ class EntityWithIdMustExistSpec extends ApplicationServiceSpec {
       }
     });
 
-    this.notSatisfiedReason = message || "A entidade com o id informado não foi encontrada.";
+    this.notSatisfiedReason = message || 'A entidade com o id informado não foi encontrada.';
     this.errorCode = errorCode || 200;
   }
 }

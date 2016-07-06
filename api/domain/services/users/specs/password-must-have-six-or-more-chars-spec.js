@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var SpecificationBase = require('../../../../specification/specification-base');
 var messages = require('../../../../errors-messages/messages-domain').users;
@@ -11,8 +11,8 @@ class PasswordMustHaveSixOrMoreCharsSpec extends SpecificationBase {
         return true;
       }
 
-      this.notSatisfiedReason = messages["1003"];
-      this.errorCode = messages["1003"];
+      this.notSatisfiedReason = messages['1003'];
+      this.errorCode = messages['1003'];
       return false;
     });
   }

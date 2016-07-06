@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 var appErrors = require('../../app-errors/app-error').createAppError;
 
 /**
- * 
+ *
  */
 function setup(req, res, next) {
   if (!req.currentUser) {

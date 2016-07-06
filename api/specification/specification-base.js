@@ -1,9 +1,9 @@
-"use strict";
-var Q = require('q');
+'use strict';
+var q = require('q');
 
 class SpecificationBase {
   constructor(isSatisfiedPromiseOrFunction) {
-    this.notSatisfiedReason = "";
+    this.notSatisfiedReason = '';
     this.errorCode = null;
     this.isSatisfiedFunction = isSatisfiedPromiseOrFunction;
   }
@@ -15,20 +15,20 @@ class SpecificationBase {
    */
   isSatisfiedBy(target, onSuccess) {
 
-    return Q(this.isSatisfiedFunction(target))
+    return q(this.isSatisfiedFunction(target))
       .then((data) => {
         if (typeof onSuccess === 'function') {
           onSuccess(data);
         }
-        return Q(data);
+        return q(data);
       })
       .catch((err) => {
-        return Q.reject(err);
+        return q.reject(err);
       });
   }
 
   getError() {
-    return { "code": this.errorCode, "message": this.notSatisfiedReason };
+    return { 'code': this.errorCode, 'message': this.notSatisfiedReason };
   }
 }
 

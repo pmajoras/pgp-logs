@@ -1,21 +1,21 @@
-"use strict";
+'use strict';
 
 var jwtMiddleware = require(__dirname + '/general-middlewares/jwt-middleware');
 var errorHandlers = require(__dirname + '/error-middlewares/error-handlers');
 
 
 /**
- * 
+ *
  */
 function setup(app) {
 
-  app.use(function(req, res, next) {
-    res.setJsonResponse = function(json, statusCode) {
+  app.use(function (req, res, next) {
+    res.setJsonResponse = function (json, statusCode) {
       res.jsonContent = json;
       res.jsonResponseStatusCode = statusCode || 200;
     };
 
-    res.getCurrentResponse = function() {
+    res.getCurrentResponse = function () {
       return {
         content: res.jsonContent,
         status: res.jsonResponseStatusCode

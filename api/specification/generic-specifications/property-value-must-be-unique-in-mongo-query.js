@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 var SpecificationBase = require('../specification-base');
-var Q = require('q');
+var q = require('q');
 
 class PropertyValueMustBeUniqueInMongoQuery extends SpecificationBase {
   /**
@@ -12,11 +12,11 @@ class PropertyValueMustBeUniqueInMongoQuery extends SpecificationBase {
   constructor(propertyName, mongoPromise, notSatisfiedReason, errorCode) {
 
     super((target) => {
-      let deferred = Q.defer();
+      let deferred = q.defer();
       let filter = {};
       filter[propertyName] = target[propertyName];
 
-      Q(mongoPromise(filter)).then((entities) => {
+      q(mongoPromise(filter)).then((entities) => {
         let isSatisfied = !entities || entities.length === 0 || entities.every(entity => entity._id.equals(target._id));
         if (!isSatisfied) {
           this.notSatisfiedReason = notSatisfiedReason;

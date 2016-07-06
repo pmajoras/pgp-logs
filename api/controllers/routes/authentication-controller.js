@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var RouteFactory = require('../route-factory');
 var AuthenticationService = require('../../application-services/authentication-service');
 var BaseController = require('../base-controller');
@@ -39,7 +39,7 @@ class AuthenticationController extends BaseController {
   }
 }
 
-var routeFactory = new RouteFactory("/authentication")
-  .post("/authenticate", "authenticate");
+var routeFactory = new RouteFactory('/authentication')
+  .post('/authenticate', 'authenticate');
 
-module.exports = { "Controller": AuthenticationController, "routeFactory": routeFactory };
+module.exports = { 'Controller': AuthenticationController, 'routeFactory': routeFactory };

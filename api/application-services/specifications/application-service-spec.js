@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var SpecificationBase = require('../../specification/specification-base');
 var appError = require('../../app-errors/app-error').createSpecificationError;

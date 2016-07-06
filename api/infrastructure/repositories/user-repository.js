@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 var BaseRepository = require('../base-repository');
 
 class UserRepository extends BaseRepository {
   constructor() {
-    super("user");
+    super('user');
   }
 }
 

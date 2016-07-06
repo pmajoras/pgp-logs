@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
@@ -6,15 +6,24 @@ var autoprefixer = require('gulp-autoprefixer');
 var sass = require('gulp-sass');
 
 var paths = {
-  scripts: ['**/*.js',
+  apiScripts: ['api/**/*.js',
     '!bower_components/**/*.js',
+    '!coverage/**/*.js',
     '!www/client.min.js',
     '!node_modules/**/*.js',
-    '!typings/*.ts'],
+    '!typings/*.ts'
+  ],
+  webScripts: ['api/**/*.js',
+    '!bower_components/**/*.js',
+    '!coverage/**/*.js',
+    '!www/client.min.js',
+    '!node_modules/**/*.js',
+    '!typings/*.ts'
+  ]
 };
 
-gulp.task('eslint', function () {
-  return gulp.src(paths.scripts)
+gulp.task('eslint:api', function () {
+  return gulp.src(paths.apiScripts)
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -47,6 +56,6 @@ gulp.task('watch:scss', function () {
 });
 
 // Builds the application
-gulp.task('build', ['eslint', 'styles']);
+gulp.task('build', ['eslint:api', 'styles']);
 
 gulp.task('default', ['build']);

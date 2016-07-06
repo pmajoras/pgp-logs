@@ -1,7 +1,8 @@
-"use strict";
+'use strict';
 var RouteFactory = require('../route-factory');
 var BaseController = require('../base-controller');
 var ApplicationService = require('../../domain/services/applications/application-service');
+var mustAuthorize = require('../../middlewares/general-middlewares/must-authorize');
 
 class ApplicationsController extends BaseController {
   constructor() {
@@ -30,7 +31,7 @@ class ApplicationsController extends BaseController {
   getApplicationById(req, res, next) {
     let applicationService = new ApplicationService();
 
-    applicationService.findById(req.query.applicationId)
+    applicationService.findById(req.params.applicationId)
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -46,7 +47,7 @@ class ApplicationsController extends BaseController {
   createApplication(req, res, next) {
     let applicationService = new ApplicationService();
 
-    applicationService.save({ name: req.body.name, password: req.body.description })
+    applicationService.save(req.body)
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -62,7 +63,8 @@ class ApplicationsController extends BaseController {
   updateApplication(req, res, next) {
     let applicationService = new ApplicationService();
 
-    applicationService.save({ _id: req.applicationId, name: req.body.name, password: req.body.description })
+    req.body._id = req.params.applicationId;
+    applicationService.save(req.body)
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -78,7 +80,7 @@ class ApplicationsController extends BaseController {
   deleteApplication(req, res, next) {
     let applicationService = new ApplicationService();
 
-    applicationService.delete({ _id: applicationId })
+    applicationService.delete({ _id: req.params.applicationId })
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -89,11 +91,11 @@ class ApplicationsController extends BaseController {
   }
 }
 
-var routeFactory = new RouteFactory("/applications")
-  .get("/", "getApplications")
-  .get("/:applicationId", "getApplicationById")
-  .post("/", "createApplication")
-  .put("/:applicationId", "updateApplication")
-  .delete("/:applicationId", "deleteApplication");
+var routeFactory = new RouteFactory('/applications')
+  .get('/', 'getApplications', mustAuthorize)
+  .get('/:applicationId', 'getApplicationById', mustAuthorize)
+  .post('/', 'createApplication', mustAuthorize)
+  .put('/:applicationId', 'updateApplication', mustAuthorize)
+  .delete('/:applicationId', 'deleteApplication', mustAuthorize);
 
-module.exports = { "Controller": ApplicationsController, "routeFactory": routeFactory };
+module.exports = { 'Controller': ApplicationsController, 'routeFactory': routeFactory };

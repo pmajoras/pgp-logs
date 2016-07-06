@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var RouteObject = require('./route-object');
 var appConstants = require('../config/app-constants');

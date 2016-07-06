@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 
 
-var common = require("../../common");
+var common = require('../../common');
 var config = common.config;
 var assert = common.assert;
 common.mockgoose(common.mongoose);
 
 var AuthenticationService = require('../../../application-services/authentication-service');
 var target = new AuthenticationService();
-var validUser = { username: "teste@teste22.com", password: "123456" };
-var invalidUser = { username: "teste@te.com", password: "123456" };
+var validUser = { username: 'teste@teste22.com', password: '123456' };
+var invalidUser = { username: 'teste@te.com', password: '123456' };
 
-describe("register-and-authenticate-tests", function () {
+describe('register-and-authenticate-tests', function () {
 
   before(function (done) {
     common.mongoose.connect(config.db.connectionString, function (mongoError) {
@@ -32,7 +32,7 @@ describe("register-and-authenticate-tests", function () {
     });
   });
 
-  it("should authenticate the user", function (done) {
+  it('should authenticate the user', function (done) {
     target.authenticate(validUser)
       .then((data) => {
         assert.isOk(data);
@@ -44,10 +44,10 @@ describe("register-and-authenticate-tests", function () {
       });
   });
 
-  it("should not authenticate invalid user", function (done) {
+  it('should not authenticate invalid user', function (done) {
     target.authenticate(invalidUser)
       .then(() => {
-        done(new Error("The user could not have been authenticated"));
+        done(new Error('The user could not have been authenticated'));
       })
       .catch((err) => {
         if (err && err.type === 'Specification') {

@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 var jwt = require('jsonwebtoken');
 var config = require('../../config/config');
 
 /**
- * 
+ *
  */
 function setup(req, res, next) {
   // check header or url parameters or post parameters for token

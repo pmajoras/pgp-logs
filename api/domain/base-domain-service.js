@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var Q = require('q');
 var specService = require('../specification/spec-service');
@@ -10,7 +10,7 @@ class BaseDomainService {
   */
   constructor(repositoryName, requirePath) {
     var repositoryPath = requirePath || '../infrastructure/repositories/';
-    let RepositoryClass = require(repositoryPath + repositoryName + "-repository");
+    let RepositoryClass = require(repositoryPath + repositoryName + '-repository');
     this.repository = new RepositoryClass();
   }
 

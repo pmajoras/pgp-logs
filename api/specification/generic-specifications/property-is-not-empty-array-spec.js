@@ -1,8 +1,7 @@
 'use strict';
 var SpecificationBase = require('../specification-base');
-var iz = require('iz');
 
-class PropertyIsRequiredSpec extends SpecificationBase {
+class PropertyIsNotEmptyArraySpec extends SpecificationBase {
   /**
   * @param {string} propertyName - The property that must be validated.
   * @param {string} notSatisfiedReason - The error reason.
@@ -10,7 +9,7 @@ class PropertyIsRequiredSpec extends SpecificationBase {
   */
   constructor(propertyName, notSatisfiedReason, errorCode) {
     super((target) => {
-      if (iz.required(target) && iz.required(target[propertyName])) {
+      if (target && Array.isArray(target[propertyName]) && target[propertyName].length > 0) {
         return true;
       }
 
@@ -21,4 +20,4 @@ class PropertyIsRequiredSpec extends SpecificationBase {
   }
 }
 
-module.exports = PropertyIsRequiredSpec;
+module.exports = PropertyIsNotEmptyArraySpec;

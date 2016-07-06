@@ -1,5 +1,5 @@
-"use strict";
-var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+'use strict';
+var checkForHexRegExp = new RegExp('^[0-9a-fA-F]{24}$');
 
 module.exports = {
   isMongoId: function(mongoId) {

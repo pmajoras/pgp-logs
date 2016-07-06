@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 
 // Require our core node modules.
-var util = require("util");
+var util = require('util');
 
 // I create the new instance of the AppError object, ensureing that it properly
 // extends from the Error class.
 function createAppError(settings) {
 
-  // NOTE: We are overriding the "implementationContext" so that the createAppError()
+  // NOTE: We are overriding the 'implementationContext' so that the createAppError()
   // function is not part of the resulting stacktrace.
   return (new AppError(settings, createAppError));
 }
@@ -15,11 +15,11 @@ function createAppError(settings) {
 function createSpecificationError(content, settings) {
 
   settings = settings || {};
-  settings.type = "Specification";
+  settings.type = 'Specification';
   settings.statusCode = settings.statusCode || 400;
   settings.content = content;
-  
-  // NOTE: We are overriding the "implementationContext" so that the createAppError()
+
+  // NOTE: We are overriding the 'implementationContext' so that the createAppError()
   // function is not part of the resulting stacktrace.
   return (new AppError(settings, createSpecificationError));
 }
@@ -42,18 +42,18 @@ function AppError(settings, implementationContext) {
   settings = (settings || {});
 
   // Override the default name property (Error). This is basically zero value-add.
-  this.name = "AppError";
+  this.name = 'AppError';
 
   // Since I am used to ColdFusion, I am modeling the custom error structure on the
   // CFThrow functionality. Each of the following properties can be optionally passed-in
   // as part of the Settings argument.
   // --
   // See CFThrow documentation: https://wikidocs.adobe.com/wiki/display/coldfusionen/cfthrow
-  this.type = settings.type || "Application";
-  this.message = settings.message || "An error occurred.";
-  this.detail = settings.detail || "";
-  this.extendedInfo = settings.extendedInfo || "";
-  this.errorCode = settings.errorCode || "";
+  this.type = settings.type || 'Application';
+  this.message = settings.message || 'An error occurred.';
+  this.detail = settings.detail || '';
+  this.extendedInfo = settings.extendedInfo || '';
+  this.errorCode = settings.errorCode || '';
   this.statusCode = settings.statusCode || 500;
   this.content = settings.content || null;
 
@@ -61,7 +61,7 @@ function AppError(settings, implementationContext) {
   // is not an AppError, this property will be undefined, which is a Falsey.
   this.isAppError = true;
 
-  // Capture the current stacktrace and store it in the property "this.stack". By
+  // Capture the current stacktrace and store it in the property 'this.stack'. By
   // providing the implementationContext argument, we will remove the current
   // constructor (or the optional factory function) line-item from the stacktrace; this
   // is good because it will reduce the implementation noise in the stack property.

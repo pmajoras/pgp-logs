@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 var BaseDomainService = require('../../base-domain-service');
 var specifications = require('./specs/specifications');
 
 class ApplicationService extends BaseDomainService {
   constructor() {
-    super("application");
+    super('application');
   }
 
   /**

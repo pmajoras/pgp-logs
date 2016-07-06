@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 var config = {};
 
-if (process.env.PGPENV == 'PROD') {
+if (process.env.PGPENV === 'PROD') {
   config = {
-    secret: "testSecret",
+    secret: 'testSecret',
     web: {
       port: process.env.PGPPORT || 8085
     },
@@ -16,9 +16,9 @@ if (process.env.PGPENV == 'PROD') {
     }
   };
 }
-else if (process.env.PGPENV == 'PRE-TEST') {
+else if (process.env.PGPENV === 'PRE-TEST') {
   config = {
-    secret: "testSecret",
+    secret: 'testSecret',
     web: {
       port: process.env.PGPPORT || 8085
     },
@@ -32,7 +32,7 @@ else if (process.env.PGPENV == 'PRE-TEST') {
 }
 else {
   config = {
-    secret: "testSecret",
+    secret: 'testSecret',
     web: {
       port: process.env.PGPPORT || 8085
     },

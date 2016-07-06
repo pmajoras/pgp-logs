@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
 const elasticsearch = require('elasticsearch');
-const Q = require('q');
+const q = require('q');
 
 class ElasticService {
   constructor(type, index) {
@@ -11,11 +11,11 @@ class ElasticService {
       log: 'debug'
     });
     this.type = type || null;
-    this.index = index || "_all";
+    this.index = index || '_all';
   }
 
   /**
-   * 
+   *
    */
   search() {
     let queryParams = {
@@ -28,20 +28,20 @@ class ElasticService {
       query: {
         match_all: {}
       },
-      sort: { timestamp: { "order": "desc" } }
+      sort: { timestamp: { 'order': 'desc' } }
     };
 
     return this.fullSearch(queryParams);
   }
 
   /**
-   * 
+   *
    */
   searchFields() {
     this.client.indices.getMapping().then((resp) => {
-      return Q(resp);
+      return q(resp);
     }).catch((err) => {
-      return Q(err);
+      return q(err);
     });
   }
 
@@ -50,9 +50,9 @@ class ElasticService {
    */
   fullSearch(query) {
     return this.client.search(query || {}).then((resp) => {
-      return Q(resp.hits.hits);
+      return q(resp.hits.hits);
     }).catch((err) => {
-      return Q.reject(err);
+      return q.reject(err);
     });
   }
 }

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 const RouteFactory = require('../route-factory');
 const BaseController = require('../base-controller');
 const ElasticMessageService = require('../../elastic-services/elastic-message-service');
@@ -31,7 +31,7 @@ class LogMessagesController extends BaseController {
 
     this.elasticMessageService.searchFields()
       .then((data) => {
-        console.log("fieldsSearc", data);
+        console.log('fieldsSearc', data);
         res.setJsonResponse(data);
         next();
       })
@@ -41,8 +41,8 @@ class LogMessagesController extends BaseController {
   }
 }
 
-const routeFactory = new RouteFactory("/logmessages")
-  .get("/", "getLogMessages")
-  .get("/fields", "getLogFields");
+const routeFactory = new RouteFactory('/logmessages')
+  .get('/', 'getLogMessages')
+  .get('/fields', 'getLogFields');
 
-module.exports = { "Controller": LogMessagesController, "routeFactory": routeFactory };
+module.exports = { 'Controller': LogMessagesController, 'routeFactory': routeFactory };

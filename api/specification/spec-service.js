@@ -1,25 +1,25 @@
-"use strict";
+'use strict';
 var specificationError = require('../app-errors/app-error').createSpecificationError;
-var Q = require('q');
+var q = require('q');
 
 module.exports = {
-  "filterByNotSatisfiedSpecifications": function(specifications, target) {
+  'filterByNotSatisfiedSpecifications': function(specifications, target) {
     if (!Array.isArray(specifications) || specifications.length === 0) {
-      return Q([]);
+      return q([]);
     }
 
-    var deferred = Q.defer();
+    var deferred = q.defer();
 
     var specificationsToSatisfy = [];
     var specificationsToSatisfyMethods = [];
     specifications.forEach((specification) => {
-      if (typeof specification.isSatisfiedBy == "function") {
+      if (typeof specification.isSatisfiedBy == 'function') {
         specificationsToSatisfy.push(specification);
         specificationsToSatisfyMethods.push(specification.isSatisfiedBy(target));
       }
     });
 
-    Q.all(specificationsToSatisfyMethods).done((values) => {
+    q.all(specificationsToSatisfyMethods).done((values) => {
       let notSatisfiedSpecifications = [];
       for (let i = 0; i < specificationsToSatisfy.length; i++) {
         if (values[i] !== true) {
@@ -31,8 +31,8 @@ module.exports = {
 
     return deferred.promise;
   },
-  "getErrorFromNotSatisfiedSpecifications": function(specifications, target) {
-    var deferred = Q.defer();
+  'getErrorFromNotSatisfiedSpecifications': function(specifications, target) {
+    var deferred = q.defer();
 
     this.filterByNotSatisfiedSpecifications(specifications, target)
       .then((notSatisfiedSpecs) => {

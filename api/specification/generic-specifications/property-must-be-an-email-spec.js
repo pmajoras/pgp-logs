@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var validator = require('validator');
 var SpecificationBase = require('../specification-base');
 
