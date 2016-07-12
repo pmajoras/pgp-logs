@@ -30,6 +30,7 @@
     "q": "^1.4.1",
     "react": "^0.14.8",
     "react-bootstrap": "^0.28.5",
+    "react-bootstrap-table": "^2.3.7",
     "react-dom": "^0.14.8",
     "react-loader": "^2.4.0",
     "react-mixin": "^3.0.4",

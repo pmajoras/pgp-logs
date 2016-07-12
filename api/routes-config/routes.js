@@ -5,13 +5,13 @@
  */
 function setup(app, controllers) {
 
-  var executeMiddlewares = function (app, route, middlewares) {
+  var executeMiddlewares = function (app, route, middlewares, type) {
 
     if (middlewares && Array.isArray(middlewares)) {
 
       middlewares.forEach(function (middleware) {
         if (typeof (middleware) == 'function') {
-          app.use(route, middleware);
+          app[type](route, middleware);
         }
       });
     }
@@ -28,7 +28,7 @@ function setup(app, controllers) {
     routeFactory.routes.forEach(function (routeObject) {
 
       // Apply the use to the specified middlewares.
-      executeMiddlewares(app, routeObject.route, routeObject.beforeExecutionMiddlewares);
+      executeMiddlewares(app, routeObject.route, routeObject.beforeExecutionMiddlewares, routeObject.type);
       // Apply the route to the specific type using the defined controller and call the functionName
       app[routeObject.type](routeObject.route, function (req, res, next) {
         var controller = null;

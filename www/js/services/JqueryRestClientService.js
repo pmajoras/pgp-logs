@@ -16,9 +16,11 @@ client.add('authentication', { isSingle: true });
 client.authentication.add('authenticate', { isSingle: true });
 client.add('logmessages');
 client.logmessages.add('fields', { isSingle: true });
+client.add('applications');
 
 module.exports = {
   client: client,
   authentication: client.authentication,
+  applications: client.applications,
   logMessages: client.logmessages
 };

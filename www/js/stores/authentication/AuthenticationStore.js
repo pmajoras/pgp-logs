@@ -78,7 +78,7 @@ class AuthenticationStore extends BaseStore {
       default:
         return true;
     }
-    console.log('change', store.getState().toJS());
+
     // If action was responded to, emit change event
     this.emitChange();
     return true;

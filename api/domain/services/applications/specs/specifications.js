@@ -1,4 +1,5 @@
 'use strict';
+var PropertyIsRequiredSpec = require('../../../../specification/generic-specifications/property-is-required-spec');
 var PropertyIsNotEmptyArraySpec = require('../../../../specification/generic-specifications/property-is-not-empty-array-spec');
 var PropertyIsNotEmptyTypeArraySpec = require('../../../../specification/generic-specifications/property-is-not-empty-type-array-spec');
 var PropertyValueMustBeUniqueInMongoQuery = require('../../../../specification/generic-specifications/property-value-must-be-unique-in-mongo-query');
