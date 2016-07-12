@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var Q = require('q');
 var BaseService = require('../BaseService');
 var client = require('../JqueryRestClientService').authentication;
@@ -6,9 +6,9 @@ var appErrors = require('../../errors/app-errors');
 var storageService = require('../storage/StorageService');
 var authenticationMessages = require('../../messages/messages-pt-br').errors.authentication;
 var moment = require('moment');
-const authToken = "AUTH_TOKEN";
-const authExpires = "AUTH_EXPIRES";
-const authUserId = "AUTH_USER_ID";
+const authToken = 'AUTH_TOKEN';
+const authExpires = 'AUTH_EXPIRES';
+const authUserId = 'AUTH_USER_ID';
 
 class AuthenticationService extends BaseService {
   constructor() {

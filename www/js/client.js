@@ -1,13 +1,13 @@
-"use strict";
-import React from "react";
-import ReactDOM from "react-dom";
-import Formsy from "formsy-react";
-import { Router, Route, IndexRoute, browserHistory } from "react-router";
+'use strict';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Formsy from 'formsy-react';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
-import Info from "./pages/Info.jsx";
-import Welcome from "./pages/Welcome.jsx";
-import Layout from "./pages/Layout.jsx";
-import Authentication from "./pages/authentication/Authentication.jsx";
+import Info from './pages/Info.jsx';
+import Welcome from './pages/Welcome.jsx';
+import Layout from './pages/Layout.jsx';
+import Authentication from './pages/authentication/Authentication.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import config from './config/config';
 import requireAuth from './route-handlers/require-auth';
@@ -25,10 +25,10 @@ const app = document.getElementById('app');
 
 ReactDOM.render(
   <Router history={browserHistory}>
-    <Route path="/" component={Layout}>
+    <Route path='/' component={Layout}>
       <IndexRoute component={Info}></IndexRoute>
-      <Route path="welcome" component={Welcome} onEnter={requireAuth}></Route>
-      <Route path="authentication" component={Authentication}></Route>
+      <Route path='welcome' component={Welcome} onEnter={requireAuth}></Route>
+      <Route path='authentication' component={Authentication}></Route>
     </Route>
   </Router>,
   app);

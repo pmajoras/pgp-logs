@@ -1,7 +1,5 @@
-"use strict";
-import React from "react";
-import FMUI from 'formsy-material-ui';
-import AppText from './AppText.jsx';
+'use strict';
+import React from 'react';
 import ServerError from './ServerError.jsx';
 import Messages from '../../messages/messages-pt-br';
 
@@ -44,7 +42,7 @@ export default class AuthenticationForm extends React.Component {
       errors = newServerErrors.map(error => error.message);
     }
     else {
-      errors.push("Ocorreu um erro durante a requisição, favor tentar novamente.");
+      errors.push('Ocorreu um erro durante a requisição, favor tentar novamente.');
     }
 
     this.setState({
@@ -85,7 +83,7 @@ export default class AuthenticationForm extends React.Component {
   }
 
   render() {
-    let {hideServerErrors, submitButtonMessage, isSubmittingMessage} = this.props;
+    let { hideServerErrors, submitButtonMessage, isSubmittingMessage } = this.props;
     let errors = [];
 
     if (!hideServerErrors) {
@@ -95,21 +93,21 @@ export default class AuthenticationForm extends React.Component {
     }
 
     submitButtonMessage = submitButtonMessage || genericMessages.save;
-    isSubmittingMessage = isSubmittingMessage || genericMessages.loading + "...";
+    isSubmittingMessage = isSubmittingMessage || genericMessages.loading + '...';
 
     let submitButtonText = this.state.isSubmitting ? isSubmittingMessage : submitButtonMessage;
 
     return (
       <Formsy.Form
-        ref="form"
+        ref='form'
         onValid={this.handleValid}
         onInvalid={this.handleInvalid}
         onValidSubmit={this.submitForm}>
         {this.props.children}
-        <div class="form-group">
+        <div class='form-group'>
           {errors}
         </div>
-        <button type="submit" disabled={!this.state.canSubmit && !this.state.isSubmitting} class="button button-full button-primary">
+        <button type='submit' disabled={!this.state.canSubmit && !this.state.isSubmitting} class='button button-full button-primary'>
           {submitButtonText}
         </button>
       </Formsy.Form>

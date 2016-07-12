@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 const BaseStore = require('../BaseStore');
-const dispatcher = require("../../dispatcher").default;
-const logMessagesActions = require("../../actions/log-messages/LogMessagesActions");
+const dispatcher = require('../../dispatcher').default;
+const logMessagesActions = require('../../actions/log-messages/LogMessagesActions');
 
 class LogMessagesStore extends BaseStore {
   constructor() {
@@ -32,11 +32,11 @@ class LogMessagesStore extends BaseStore {
   }
 
   getMessages() {
-    return this.getState().get("messages").toJS().map((message) => message._source);
+    return this.getState().get('messages').toJS().map((message) => message._source);
   }
 
   getFields() {
-    return this.getState().get("fields").toArray();
+    return this.getState().get('fields').toArray();
   }
 
   /**
@@ -56,7 +56,7 @@ class LogMessagesStore extends BaseStore {
         return true;
     }
 
-    // If action was responded to, emit change event    
+    // If action was responded to, emit change event
     this.emitChange();
     return true;
   }

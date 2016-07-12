@@ -1,11 +1,11 @@
-"use strict";
-import dispatcher from "../../dispatcher";
-import ActionResponse from "../ActionResponse";
-import AuthenticationService from "../../services/authentication/AuthenticationService";
+'use strict';
+import dispatcher from '../../dispatcher';
+import ActionResponse from '../ActionResponse';
+import AuthenticationService from '../../services/authentication/AuthenticationService';
 
 var actions = {
-  authenticate: "AUTHENTICATE_USER",
-  logoff: "LOGOFF_USER"
+  authenticate: 'AUTHENTICATE_USER',
+  logoff: 'LOGOFF_USER'
 };
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
 
     service.authenticate(authenticateModel)
       .then((data) => {
-        console.log("data", data);
+        console.log('data', data);
         dispatcher.dispatch(new ActionResponse(null, actions.authenticate, data));
       }, (err) => {
         dispatcher.dispatch(new ActionResponse(err, actions.authenticate));

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 const EventEmitter = require('events').EventEmitter;
 const Immutable = require('immutable');
 
@@ -9,7 +9,7 @@ class BaseStore extends EventEmitter {
 
     this.state = Immutable.fromJS(this._defaultState || {});
     this.events = events || {};
-    this.events.change = "STORE_CHANGE";
+    this.events.change = 'STORE_CHANGE';
   }
 
   /**

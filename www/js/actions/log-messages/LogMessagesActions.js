@@ -1,11 +1,11 @@
-"use strict";
-import dispatcher from "../../dispatcher";
-import ActionResponse from "../ActionResponse";
-import LogMessagesService from "../../services/log-messages/LogMessagesService";
+'use strict';
+import dispatcher from '../../dispatcher';
+import ActionResponse from '../ActionResponse';
+import LogMessagesService from '../../services/log-messages/LogMessagesService';
 
 var actions = {
-  getLogMessages: "GET_LOG_MESSAGES",
-  getLogFields: "GET_LOG_FIELDS"
+  getLogMessages: 'GET_LOG_MESSAGES',
+  getLogFields: 'GET_LOG_FIELDS'
 };
 
 module.exports = {

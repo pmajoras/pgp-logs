@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 const BaseStore = require('../BaseStore');
-const dispatcher = require("../../dispatcher").default;
-const authenticationActions = require("../../actions/authentication/AuthenticationActions");
-const AuthenticationService = require("../../services/authentication/AuthenticationService");
+const dispatcher = require('../../dispatcher').default;
+const authenticationActions = require('../../actions/authentication/AuthenticationActions');
+const AuthenticationService = require('../../services/authentication/AuthenticationService');
 const events = {
-  authenticationSubmit: "EV_AUTHENTICATION_SUBMITTED"
+  authenticationSubmit: 'EV_AUTHENTICATION_SUBMITTED'
 };
 
 class AuthenticationStore extends BaseStore {
@@ -20,17 +20,17 @@ class AuthenticationStore extends BaseStore {
   }
 
   /**
-  * Return if the current store state is authenticated. 
+  * Return if the current store state is authenticated.
   */
   isAuthenticated() {
-    return this.getState().get("isAuthenticated");
+    return this.getState().get('isAuthenticated');
   }
 
   /**
    * Handles the authentication action.
    */
   handleAuthenticate(err, payload) {
-    console.log("payload", payload);
+    console.log('payload', payload);
     if (!err) {
       this.mergeState(payload);
     }
@@ -78,8 +78,8 @@ class AuthenticationStore extends BaseStore {
       default:
         return true;
     }
-    console.log("change", store.getState().toJS());
-    // If action was responded to, emit change event    
+    console.log('change', store.getState().toJS());
+    // If action was responded to, emit change event
     this.emitChange();
     return true;
   }

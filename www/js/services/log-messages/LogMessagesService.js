@@ -1,5 +1,5 @@
-"use strict";
-var Q = require('q');
+'use strict';
+var q = require('q');
 var BaseService = require('../BaseService');
 var client = require('../JqueryRestClientService').logMessages;
 
@@ -12,20 +12,20 @@ class LogMessagesService extends BaseService {
 
     return this.handleApiPromise(client.read())
       .then((data) => {
-        return Q(data);
+        return q(data);
       })
       .catch((err) => {
-        return Q.reject(err);
+        return q.reject(err);
       });
   }
 
   getLogFields() {
     return this.handleApiPromise(client.fields.read())
       .then((data) => {
-        return Q(data);
+        return q(data);
       })
       .catch((err) => {
-        return Q.reject(err);
+        return q.reject(err);
       });
   }
 }

@@ -1,6 +1,5 @@
-"use strict";
+'use strict';
 var $ = require('jquery');
-var config = require('../../../config/config');
 
 //https://pgp-todo-app.herokuapp.com/api/
 //http://localhost:8085/api

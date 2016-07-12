@@ -13,10 +13,11 @@ var paths = {
     '!node_modules/**/*.js',
     '!typings/*.ts'
   ],
-  webScripts: ['api/**/*.js',
+  webScripts: ['www/**/*.js',
     '!bower_components/**/*.js',
     '!coverage/**/*.js',
     '!www/client.min.js',
+    '!www/js/jquery-rest.js',
     '!node_modules/**/*.js',
     '!typings/*.ts'
   ]
@@ -24,6 +25,13 @@ var paths = {
 
 gulp.task('eslint:api', function () {
   return gulp.src(paths.apiScripts)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
+gulp.task('eslint:web', function () {
+  return gulp.src(paths.webScripts)
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
@@ -56,6 +64,6 @@ gulp.task('watch:scss', function () {
 });
 
 // Builds the application
-gulp.task('build', ['eslint:api', 'styles']);
+gulp.task('build', ['eslint:api', 'eslint:web', 'styles']);
 
 gulp.task('default', ['build']);

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var localforage = require('localforage');
 
 // Configuração do localForage

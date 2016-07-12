@@ -1,4 +1,4 @@
-import Formsy from "formsy-react";
+import Formsy from 'formsy-react';
 
 module.exports = () => {
 

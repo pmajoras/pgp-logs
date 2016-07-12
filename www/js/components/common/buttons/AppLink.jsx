@@ -1,6 +1,6 @@
-"use strict";
-import React from "react";
-import { Link } from "react-router";
+'use strict';
+import React from 'react';
+import { Link } from 'react-router';
 
 export default class AppLink extends React.Component {
 
@@ -17,7 +17,7 @@ export default class AppLink extends React.Component {
 
   render() {
     return (
-      <Link {...this.props} activeClassName="active" onClick={this.handleClick}>
+      <Link {...this.props} activeClassName='active' onClick={this.handleClick}>
         {this.props.children}
       </Link>
     );

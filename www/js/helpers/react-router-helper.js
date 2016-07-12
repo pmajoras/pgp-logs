@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 const browserHistory = require('react-router').browserHistory;
 
 class ReactRouterHelper {
@@ -6,11 +6,11 @@ class ReactRouterHelper {
   }
 
   redirectToUserHome() {
-    browserHistory.push("/welcome");
+    browserHistory.push('/welcome');
   }
 
   redirectToGuestHome() {
-    browserHistory.push("/");
+    browserHistory.push('/');
   }
 }
 
