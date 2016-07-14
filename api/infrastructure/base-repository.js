@@ -32,7 +32,6 @@ class BaseRepository {
   }
 
   save(entity) {
-
     return Q.nbind(this.Model.create, this.Model)(entity);
   }
 

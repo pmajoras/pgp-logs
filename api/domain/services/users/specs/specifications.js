@@ -1,8 +1,8 @@
 'use strict';
-var PropertyMustBeAnEmailSpec = require('../../../../specification/generic-specifications/property-must-be-an-email-spec');
-var PropertyValueMustBeUniqueInMongoQuery = require('../../../../specification/generic-specifications/property-value-must-be-unique-in-mongo-query');
-var PasswordMustHaveSixOrMoreCharsSpec = require('./password-must-have-six-or-more-chars-spec');
-var messages = require('../../../../errors-messages/messages-domain').users;
+const PropertyMustBeAnEmailSpec = require('../../../../specification/generic-specifications/property-must-be-an-email-spec');
+const PropertyValueMustBeUniqueInMongoQuery = require('../../../../specification/generic-specifications/property-value-must-be-unique-in-mongo-query');
+const PasswordMustHaveSixOrMoreCharsSpec = require('./password-must-have-six-or-more-chars-spec');
+const messages = require('../../../../errors-messages/messages-domain').users;
 
 module.exports = {
   saveSpecs: [

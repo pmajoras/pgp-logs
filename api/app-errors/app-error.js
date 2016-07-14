@@ -2,6 +2,7 @@
 
 class AppError extends Error {
   constructor(settings) {
+    super(settings ? settings.message : 'An error occurred.');
     // Ensure that settings exists to prevent refernce errors.
     settings = (settings || {});
 
@@ -22,7 +23,7 @@ class AppError extends Error {
     // is good because it will reduce the implementation noise in the stack property.
     // --
     // Rad More: https://code.google.com/p/v8-wiki/wiki/JavaScriptStackTraceApi#Stack_trace_collection_for_custom_exceptions
-    Error.captureStackTrace(this, (implementationContext || AppError));
+    Error.captureStackTrace(this, this.constructor);
   }
 }
 

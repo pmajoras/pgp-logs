@@ -1,16 +1,24 @@
 'use strict';
-
-var Q = require('q');
-var specService = require('../specification/spec-service');
+const Q = require('q');
+const specService = require('../specification/spec-service');
 
 class BaseDomainService {
   /**
+  * @param {string} servicePathName - The name of the path that this service will use.
   * @param {string} repositoryName - The name of the repository that this service will use.
   * @param {string} requirePath - The base path to require the repository, not necessary.
   */
-  constructor(repositoryName, requirePath) {
-    var repositoryPath = requirePath || '../infrastructure/repositories/';
+  constructor(servicePathName, repositoryName, requirePath) {
+    let repositoryPath = requirePath || '../infrastructure/repositories/';
     let RepositoryClass = require(repositoryPath + repositoryName + '-repository');
+
+    try {
+      this.specifications = require('./services/' + servicePathName + '/specs/specifications');
+    }
+    catch (err) {
+      this.specifications = { saveSpecs: [], deleteSpecs: [] };
+    }
+
     this.repository = new RepositoryClass();
   }
 
@@ -55,11 +63,15 @@ class BaseDomainService {
       .then((notSatisfiedSpecsErrors) => {
         if (!notSatisfiedSpecsErrors) {
 
+          if (!entity) {
+            deferred.reject('Cannot save a null entity');
+            return;
+          }
+
           if (!entity._id) {
 
             this.repository.save(entity)
               .then((newEntity) => {
-
                 deferred.resolve(newEntity);
               }, (err) => {
                 deferred.reject(err);
@@ -89,6 +101,10 @@ class BaseDomainService {
   * @returns {Promise}
   */
   delete(entity) {
+    if (!entity) {
+      return Q.reject('Cannot delete a null or undefined object');
+    }
+
     return this.repository.delete(entity);
   }
 
@@ -96,7 +112,7 @@ class BaseDomainService {
   * @returns {Array} - An array of the save specifications.
   */
   getSaveSpecifications() {
-    return [];
+    return this.getSpecsFromArrayOfFunctions(this.specifications.saveSpecs);
   }
 
   /**

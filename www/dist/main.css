@@ -39,6 +39,9 @@
 .break-word {
   word-break: break-all; }
 
+.table {
+  margin-bottom: 0; }
+
 .log-message {
   margin-bottom: 5px; }
 

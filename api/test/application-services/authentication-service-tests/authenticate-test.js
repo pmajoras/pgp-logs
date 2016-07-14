@@ -14,6 +14,7 @@ var invalidUser = { username: 'teste@te.com', password: '123456' };
 describe('register-and-authenticate-tests', function () {
 
   before(function (done) {
+
     common.mongoose.connect(config.db.connectionString, function (mongoError) {
       if (!mongoError) {
 
