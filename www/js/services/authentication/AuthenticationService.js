@@ -1,10 +1,8 @@
 'use strict';
-var Q = require('q');
+var q = require('q');
 var BaseService = require('../BaseService');
 var client = require('../JqueryRestClientService').authentication;
-var appErrors = require('../../errors/app-errors');
 var storageService = require('../storage/StorageService');
-var authenticationMessages = require('../../messages/messages-pt-br').errors.authentication;
 var moment = require('moment');
 const authToken = 'AUTH_TOKEN';
 const authExpires = 'AUTH_EXPIRES';
@@ -16,25 +14,19 @@ class AuthenticationService extends BaseService {
   }
 
   authenticate(userViewModel) {
-    if (!userViewModel || !userViewModel.username || !userViewModel.password) {
-      return Q.reject(appErrors(authenticationMessages.usernameAndPasswordRequired));
-    }
 
-    let deferred = Q.defer();
-
-    this.handleApiPromise(client.authenticate.post(userViewModel))
+    return this.handleApiPromise(client.authenticate.post(userViewModel))
       .then((data) => {
 
         storageService.setItem(authToken, data.token);
         storageService.setItem(authExpires, data.expiresAt);
         storageService.setItem(authUserId, data.id);
         data.isAuthenticated = true;
-        deferred.resolve(data);
-      }, (err) => {
-        deferred.reject(err);
+        return q(data);
+      })
+      .catch((err) => {
+        return q.reject(err);
       });
-
-    return deferred.promise;
   }
 
   logoff() {
