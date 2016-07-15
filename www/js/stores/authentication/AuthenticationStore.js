@@ -30,7 +30,7 @@ class AuthenticationStore extends BaseStore {
    * Handles the authentication action.
    */
   handleAuthenticate(err, payload) {
-    console.log('payload', payload);
+
     if (!err) {
       this.mergeState(payload);
     }

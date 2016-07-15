@@ -2,6 +2,7 @@
 import React from 'react';
 import Loader from "react-loader";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import ApplicationsListStore from '../../stores/applications/ApplicationsListStore';
 import ApplicationsActions from '../../actions/applications/ApplicationsActions';
 
@@ -35,9 +36,9 @@ export default class Applications extends React.Component {
   }
 
   render() {
-    var data = this.state.listState.get('data').toJS();
-    var hasError = this.state.listState.get('hasError');
-    var isLoading = this.state.listState.get('isLoading');
+    let data = this.state.listState.get('data').toJS();
+    let hasError = this.state.listState.get('hasError');
+    let isLoading = this.state.listState.get('isLoading');
 
     if (isLoading === true) {
       return (<Loader loaded={!isLoading}></Loader>);
@@ -47,12 +48,28 @@ export default class Applications extends React.Component {
       return (<div>hasError</div>);
     }
 
+    let format = () => {
+      var addToolTip = (<Tooltip>Adicionar registro!</Tooltip>);
+      var editToolTip = (<Tooltip>Edit registro!</Tooltip>);
+
+      return (
+        <div>
+          <OverlayTrigger placement="left" overlay={addToolTip}>
+            <button style={{ 'marginRight': 10 }} class="button button-primary button-square button-small"><i class="fa fa-plus"></i></button>
+          </OverlayTrigger>
+          <OverlayTrigger placement="left" overlay={editToolTip}>
+            <button style={{ 'marginRight': 10 }} class="button button-primary button-square button-small"><i class="fa fa-pencil-square-o"></i></button>
+          </OverlayTrigger>
+        </div>);
+    };
+
     return (
       <BootstrapTable data={data} pagination={true}>
         <TableHeaderColumn dataField="_id" isKey={true}>Id</TableHeaderColumn>
         <TableHeaderColumn dataField="appId">AppId</TableHeaderColumn>
         <TableHeaderColumn dataField="name">Nome</TableHeaderColumn>
         <TableHeaderColumn dataField="description">Descrição</TableHeaderColumn>
+        <TableHeaderColumn dataFormat={format}></TableHeaderColumn>
       </BootstrapTable>
     );
   }

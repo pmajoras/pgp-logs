@@ -37,7 +37,7 @@ class ListStore extends BaseStore {
     else {
       newState.hasError = true;
     }
-
+    console.log("newState", newState);
     this.mergeState(newState);
     this.emitChange();
   }

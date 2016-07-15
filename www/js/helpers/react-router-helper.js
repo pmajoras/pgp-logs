@@ -5,6 +5,10 @@ class ReactRouterHelper {
   constructor() {
   }
 
+  redirectToState(state) {
+    browserHistory.push(state);
+  }
+
   redirectToUserHome() {
     browserHistory.push('/welcome');
   }
