@@ -24,7 +24,7 @@ export default class SearchContainer extends React.Component {
   }
 
   handleKeyDown(event) {
-    if (event.keyCode == 13) {
+    if (event.keyCode === 13) {
       this.search();
     }
   }

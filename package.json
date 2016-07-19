@@ -4,6 +4,7 @@
   "description": "Pgp Todo App",
   "main": "index.js",
   "dependencies": {
+    "autobind-decorator": "^1.3.3",
     "body-parser": "~1.0.1",
     "chai": "^3.5.0",
     "cors": "^2.7.1",

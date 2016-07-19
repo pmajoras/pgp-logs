@@ -12,7 +12,17 @@ class BaseService {
       .done((data) => {
         deferred.resolve(data);
       }).fail((err) => {
-        deferred.reject({ data: err.responseJSON, error: err, status: err.status });
+
+        var errData = [];
+        if (Array.isArray(err.responseJSON)) {
+          errData = err.responseJSON;
+        }
+        else {
+          errData.push({ message: 'Ocorreu um erro durante a requisição, favor tentar novamente.', code: '0' });
+        }
+
+        console.log('err', err);
+        deferred.reject(errData);
       });
 
     return deferred.promise;

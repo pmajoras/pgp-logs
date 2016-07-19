@@ -1,9 +1,9 @@
 'use strict';
-const ListStore = require('../ListStore');
+const EditStore = require('../EditStore');
 const dispatcher = require('../../dispatcher').default;
 const ApplicationsActions = require('../../actions/applications/ApplicationsActions');
 
-class ApplicationsListStore extends ListStore {
+class ApplicationsEditStore extends EditStore {
   constructor() {
     super();
   }
@@ -13,11 +13,11 @@ class ApplicationsListStore extends ListStore {
    */
   handleActions(action) {
     switch (action.type) {
-      case ApplicationsActions.actions.getApplicationsStarted: {
+      case ApplicationsActions.actions.getApplicationByIdStarted: {
         this.handleLoadStarted(action.err, action.payload);
         break;
       }
-      case ApplicationsActions.actions.getApplicationsFinished: {
+      case ApplicationsActions.actions.getApplicationByIdFinished: {
         this.handleLoadFinished(action.err, action.payload);
         break;
       }
@@ -29,7 +29,7 @@ class ApplicationsListStore extends ListStore {
   }
 }
 
-const applicationsListStore = new ApplicationsListStore();
-dispatcher.register(applicationsListStore.handleActions.bind(applicationsListStore));
+const applicationsEditStore = new ApplicationsEditStore();
+dispatcher.register(applicationsEditStore.handleActions.bind(applicationsEditStore));
 
-module.exports = applicationsListStore;
+module.exports = applicationsEditStore;

@@ -12,7 +12,15 @@ class ListStore extends BaseStore {
     defaultState.isLoading = false;
     defaultState.data = [];
     defaultState.hasError = false;
-    super(defaultState, { loadStarted: 'LIST_LOAD_STARTED', loadFinished: 'LIST_LOAD_FINISHED' });
+    super(defaultState);
+  }
+
+  hasError() {
+    return this.getState().get('hasError');
+  }
+
+  isLoading() {
+    return this.getState().get('isLoading');
   }
 
   /**
@@ -37,7 +45,7 @@ class ListStore extends BaseStore {
     else {
       newState.hasError = true;
     }
-    console.log("newState", newState);
+
     this.mergeState(newState);
     this.emitChange();
   }

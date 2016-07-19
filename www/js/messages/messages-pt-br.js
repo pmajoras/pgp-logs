@@ -10,6 +10,11 @@ const messages = {
     loading: 'Carregando',
     showing: 'Exibindo'
   },
+  actionToolbar: {
+    addTooltip: '',
+    editTooltip: 'Editar registro!',
+    deleteTooltip: 'Excluir registro!'
+  },
   navBar: {
     brand: 'TodoApp'
   },

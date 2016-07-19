@@ -1,7 +1,8 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "module": "commonjs",
-        "experimentalDecorators" : true
-    }
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "es6",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
 }

@@ -23,7 +23,6 @@ export default class AuthenticationForm extends React.Component {
   handleFormSubmission(err) {
 
     if (err) {
-      err = err.data || err;
       this.setServerErrors(err);
     }
     else {

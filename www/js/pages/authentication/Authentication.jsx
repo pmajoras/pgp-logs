@@ -2,7 +2,7 @@
 import React from 'react';
 import AppPanel from '../../components/common/AppPanel.jsx';
 import AuthenticationForm from './AuthenticationForm.jsx';
-import ReactRouterHelper from '../../helpers/react-router-helper';
+import reactRouterHelper from '../../helpers/react-router-helper';
 import {authentication} from '../../messages/messages-pt-br';
 
 export default class Authentication extends React.Component {
@@ -11,7 +11,7 @@ export default class Authentication extends React.Component {
   }
 
   handleAuthenticationSuccess() {
-    ReactRouterHelper.redirectToUserHome();
+    reactRouterHelper.redirectToUserHome();
   }
 
   render() {

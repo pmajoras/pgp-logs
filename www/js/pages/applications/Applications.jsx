@@ -1,8 +1,11 @@
 'use strict';
 import React from 'react';
+import autobind from 'autobind-decorator';
+import reactRouterHelper from '../../helpers/react-router-helper';
 import Loader from "react-loader";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import ToolbarColumn from '../../components/custom-table/ToolbarColumn.jsx';
 import ApplicationsListStore from '../../stores/applications/ApplicationsListStore';
 import ApplicationsActions from '../../actions/applications/ApplicationsActions';
 
@@ -11,7 +14,6 @@ const store = ApplicationsListStore;
 export default class Applications extends React.Component {
   constructor(props) {
     super(props);
-    this.handleListChangeState = this.handleListChangeState.bind(this);
     this.state = {
       listState: store.getState()
     };
@@ -29,16 +31,24 @@ export default class Applications extends React.Component {
     ApplicationsActions.getApplications();
   }
 
+  @autobind
+  handleEdit(event, row) {
+    reactRouterHelper.redirectToState('applications', row._id);
+  }
+
+  @autobind
   handleListChangeState() {
     this.setState({
-      listState: store.getState()
+      listState: store.getState(),
+      hasError: store.hasError(),
+      isLoading: store.isLoading()
     });
   }
 
   render() {
     let data = this.state.listState.get('data').toJS();
-    let hasError = this.state.listState.get('hasError');
-    let isLoading = this.state.listState.get('isLoading');
+    let hasError = this.state.hasError;
+    let isLoading = this.state.isLoading;
 
     if (isLoading === true) {
       return (<Loader loaded={!isLoading}></Loader>);
@@ -48,20 +58,7 @@ export default class Applications extends React.Component {
       return (<div>hasError</div>);
     }
 
-    let format = () => {
-      var addToolTip = (<Tooltip>Adicionar registro!</Tooltip>);
-      var editToolTip = (<Tooltip>Edit registro!</Tooltip>);
-
-      return (
-        <div>
-          <OverlayTrigger placement="left" overlay={addToolTip}>
-            <button style={{ 'marginRight': 10 }} class="button button-primary button-square button-small"><i class="fa fa-plus"></i></button>
-          </OverlayTrigger>
-          <OverlayTrigger placement="left" overlay={editToolTip}>
-            <button style={{ 'marginRight': 10 }} class="button button-primary button-square button-small"><i class="fa fa-pencil-square-o"></i></button>
-          </OverlayTrigger>
-        </div>);
-    };
+    const tableToolBar = (cell, row) => <ToolbarColumn row={row} onEditClick={this.handleEdit} isDeleteVisible={false}></ToolbarColumn>;
 
     return (
       <BootstrapTable data={data} pagination={true}>
@@ -69,7 +66,7 @@ export default class Applications extends React.Component {
         <TableHeaderColumn dataField="appId">AppId</TableHeaderColumn>
         <TableHeaderColumn dataField="name">Nome</TableHeaderColumn>
         <TableHeaderColumn dataField="description">Descrição</TableHeaderColumn>
-        <TableHeaderColumn dataFormat={format}></TableHeaderColumn>
+        <TableHeaderColumn dataFormat={tableToolBar} width="100"></TableHeaderColumn>
       </BootstrapTable>
     );
   }

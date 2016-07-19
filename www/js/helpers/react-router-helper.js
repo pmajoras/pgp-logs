@@ -10,11 +10,20 @@ class ReactRouterHelper {
   }
 
   redirectToUserHome() {
-    browserHistory.push('/welcome');
+    reactRouterHelper.redirectToState('welcome');
   }
 
   redirectToGuestHome() {
     browserHistory.push('/');
+  }
+
+  redirectToState(state, id) {
+    var history = '/' + state;
+    if (id) {
+      history += '/' + id;
+    }
+
+    browserHistory.push(history);
   }
 }
 
