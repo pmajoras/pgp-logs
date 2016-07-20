@@ -21,6 +21,14 @@ class ApplicationsEditStore extends EditStore {
         this.handleLoadFinished(action.err, action.payload);
         break;
       }
+      case ApplicationsActions.actions.saveApplicationStarted: {
+        this.handleSaveStarted(action.err, action.payload);
+        break;
+      }
+      case ApplicationsActions.actions.saveApplicationFinished: {
+        this.handleSaveFinished(action.err, action.payload);
+        break;
+      }
       default:
         return true;
     }

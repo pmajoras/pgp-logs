@@ -8,7 +8,8 @@ const messages = {
     welcome: 'Bem Vindo!',
     save: 'Salvar',
     loading: 'Carregando',
-    showing: 'Exibindo'
+    showing: 'Exibindo',
+    error: 'There was an error on performing the action. Please contact administration if it persists.'
   },
   actionToolbar: {
     addTooltip: '',

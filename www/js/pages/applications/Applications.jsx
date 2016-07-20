@@ -5,6 +5,7 @@ import reactRouterHelper from '../../helpers/react-router-helper';
 import Loader from "react-loader";
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import GenericError from '../../components/common/GenericError.jsx';
 import ToolbarColumn from '../../components/custom-table/ToolbarColumn.jsx';
 import ApplicationsListStore from '../../stores/applications/ApplicationsListStore';
 import ApplicationsActions from '../../actions/applications/ApplicationsActions';
@@ -55,7 +56,7 @@ export default class Applications extends React.Component {
     }
 
     if (hasError === true) {
-      return (<div>hasError</div>);
+      return (<GenericError></GenericError>);
     }
 
     const tableToolBar = (cell, row) => <ToolbarColumn row={row} onEditClick={this.handleEdit} isDeleteVisible={false}></ToolbarColumn>;

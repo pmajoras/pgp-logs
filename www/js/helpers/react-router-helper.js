@@ -10,7 +10,7 @@ class ReactRouterHelper {
   }
 
   redirectToUserHome() {
-    reactRouterHelper.redirectToState('welcome');
+    this.redirectToState('welcome');
   }
 
   redirectToGuestHome() {

@@ -29,13 +29,24 @@ class ApplicationsService extends BaseService {
    * @returns return an application.
    */
   getApplicationById(id) {
-    return this.handleApiPromise(client.read({ applicationId: id }))
-      .then((data) => {
-        return q(data);
-      })
-      .catch((err) => {
-        return q.reject(err);
-      });
+    return this.handleApiPromise(client.read(id))
+      .then((data) => q(data))
+      .catch((err) => q.reject(err));
+  }
+
+  saveApplication(application, id) {
+    var promise;
+
+    if (id) {
+      promise = this.handleApiPromise(client.put(id, application));
+    }
+    else {
+      promise = this.handleApiPromise(client.post(application));
+    }
+
+    return promise
+      .then((data) => q(data))
+      .catch((err) => q.reject(err));
   }
 }
 

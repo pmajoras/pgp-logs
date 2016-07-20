@@ -1,9 +1,17 @@
 'use strict';
 const BaseStore = require('./BaseStore');
+const extend = require('util')._extend;
+const editModes = require('../constants/edit-modes');
 
-const editStoreEvents = {
-  saveStarted: 'SAVE_STARTED',
-  saveFinished: 'SAVE_FINISHED'
+const getDefaultState = () => {
+  return {
+    isLoading: false,
+    isSaving: false,
+    mode: editModes.view,
+    hasErrorOnLoad: false,
+    data: null,
+    errors: []
+  };
 };
 
 /**
@@ -14,25 +22,43 @@ const editStoreEvents = {
 class EditStore extends BaseStore {
   constructor(defaultState) {
     defaultState = defaultState || {};
-    defaultState.isLoading = false;
-    defaultState.isEditing = false;
-    defaultState.hasError = false;
+    defaultState = extend(getDefaultState(), defaultState);
 
-    defaultState.data = null;
-    defaultState.errors = [];
-    super(defaultState, editStoreEvents);
+    super(defaultState);
   }
 
   hasSaveErrors() {
     return this.getState().get('errors').size > 0;
   }
 
-  hasError() {
-    return this.getState().get('hasError');
+  hasErrorOnLoad() {
+    return this.getState().get('hasErrorOnLoad');
   }
 
   isLoading() {
     return this.getState().get('isLoading');
+  }
+
+  isSaving() {
+    return this.getState().get('isSaving');
+  }
+
+  getMode() {
+    return this.getState().get('mode');
+  }
+
+  setEditMode(newState, mode) {
+
+    switch (mode) {
+      case editModes.edit:
+        newState.mode = editModes.edit;
+        break;
+      case editModes.view:
+        newState.mode = editModes.view;
+        break;
+      default:
+        throw new Error('Invalid edit mode passed to the setEditMode in the editStore.');
+    }
   }
 
   /**
@@ -49,39 +75,47 @@ class EditStore extends BaseStore {
    * @param {any} payload
    */
   handleLoadFinished(err, payload) {
-    var newState = { isLoading: false, hasError: false, data: null, errors: [] };
+    var newState = getDefaultState();
 
     if (!err) {
-      newState.data = payload;
+      newState.data = payload.data;
+      this.setEditMode(newState, payload.mode);
     }
     else {
-      newState.hasError = true;
+      newState.hasErrorOnLoad = true;
     }
+
+    this.mergeState(newState);
+    this.emitChange();
+  }
+
+  handleChangeMode(err, payload) {
+    var newState = {};
+
+    this.setEditMode(newState, payload);
 
     this.mergeState(newState);
     this.emitChange();
   }
 
   handleSaveStarted() {
-    this.mergeState({ isLoading: true });
+    this.mergeState({ isLoading: true, isSaving: true });
     this.emitChange();
-    this.emit(this.events.saveStarted);
   }
 
   handleSaveFinished(err, payload) {
-    var newState = { isLoading: false, hasError: false, errors: [] };
+    var newState = getDefaultState();
 
     if (!err) {
-      newState.data = payload;
+      newState.data = payload.data;
+      newState.mode = payload.mode;
     }
     else {
       newState.errors = err;
-      newState.hasError = true;
     }
 
     this.mergeState(newState);
     this.emitChange();
-    this.emit(this.events.saveFinished, err, payload);
   }
 }
 
