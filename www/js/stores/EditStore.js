@@ -2,6 +2,10 @@
 const BaseStore = require('./BaseStore');
 const extend = require('util')._extend;
 const editModes = require('../constants/edit-modes');
+const events = {
+  saveFinished: 'EV_SAVE_FINISHED',
+  saveStarted: 'EV_SAVE_STARTED'
+};
 
 const getDefaultState = () => {
   return {
@@ -24,7 +28,7 @@ class EditStore extends BaseStore {
     defaultState = defaultState || {};
     defaultState = extend(getDefaultState(), defaultState);
 
-    super(defaultState);
+    super(defaultState, events);
   }
 
   hasSaveErrors() {
@@ -101,6 +105,7 @@ class EditStore extends BaseStore {
   handleSaveStarted() {
     this.mergeState({ isLoading: true, isSaving: true });
     this.emitChange();
+    this.emit(events.saveStarted);
   }
 
   handleSaveFinished(err, payload) {
@@ -116,6 +121,7 @@ class EditStore extends BaseStore {
 
     this.mergeState(newState);
     this.emitChange();
+    this.emit(events.saveFinished, err, payload);
   }
 }
 

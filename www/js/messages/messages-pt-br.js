@@ -33,6 +33,12 @@ const messages = {
     usernameLabel: 'Email',
     passwordLabel: 'Senha'
   },
+  applicationsEdit: {
+    nameLabel: 'Aplicação',
+    appIdLabel: 'ID',
+    logPatternLabel: 'Expressão',
+    descriptionLabel: 'Descrição'
+  },
   errors: {
     authentication: {
       usernameAndPasswordRequired: 'O nome de usuário e a senha são obrigatórios.',
@@ -43,7 +49,7 @@ const messages = {
       _isRequired: 'O {0} é obrigatório.',
       _minLength: 'O {0} deve ter no mínimo {1} caractér(es).',
       _maxLength: 'O {0} deve ter no máximo {1} caractér(es).',
-      IsRequiredError: function (field) {
+      isRequiredError: function (field) {
         return this._isRequired.format(field || this._field);
       },
       MinLengthError: function (minLength, field) {
