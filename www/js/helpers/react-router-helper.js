@@ -23,7 +23,9 @@ class ReactRouterHelper {
       history += '/' + id;
     }
 
-    browserHistory.push(history);
+    setTimeout(() => {
+      browserHistory.push(history);
+    });
   }
 }
 

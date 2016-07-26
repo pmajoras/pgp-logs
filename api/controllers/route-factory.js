@@ -20,8 +20,8 @@ class RouteFactory {
   /**
   * Creates an route object for a DELETE verb
   */
-  delete(path, functionName, beforeExecutionMiddlewares, afterExecutionMiddlewares) {
-    this.routes.push(this._createRoute(appConstants.delete, path, functionName, beforeExecutionMiddlewares, afterExecutionMiddlewares));
+  del(path, functionName, beforeExecutionMiddlewares, afterExecutionMiddlewares) {
+    this.routes.push(this._createRoute(appConstants.del, path, functionName, beforeExecutionMiddlewares, afterExecutionMiddlewares));
     return this;
   }
 

@@ -5,7 +5,7 @@ module.exports = function () {
     'post': 'post',
     'get': 'get',
     'put': 'put',
-    'delete': 'delete',
+    'del': 'delete',
     'mustBeAuthenticatedPermission': 1
   };
 } ();

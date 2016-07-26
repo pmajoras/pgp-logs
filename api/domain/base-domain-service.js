@@ -100,12 +100,12 @@ class BaseDomainService {
   * @param {Object} entity - The entity to be deleted.
   * @returns {Promise}
   */
-  delete(entity) {
+  del(entity) {
     if (!entity) {
       return Q.reject('Cannot delete a null or undefined object');
     }
 
-    return this.repository.delete(entity);
+    return this.repository.del(entity);
   }
 
   /**

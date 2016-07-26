@@ -21,6 +21,14 @@ class ApplicationsListStore extends ListStore {
         this.handleLoadFinished(action.err, action.payload);
         break;
       }
+      case ApplicationsActions.actions.deleteApplicationByIdStarted: {
+        this.handleLoadStarted(action.err, action.payload);
+        break;
+      }
+      case ApplicationsActions.actions.deleteApplicationByIdFinished: {
+        this.handleDeleteFinished(action.err, action.payload);
+        break;
+      }
       default:
         return true;
     }

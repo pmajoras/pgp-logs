@@ -49,6 +49,18 @@ class ListStore extends BaseStore {
     this.mergeState(newState);
     this.emitChange();
   }
+
+  handleDeleteFinished(err, payload) {
+    var newState = { isLoading: false, hasError: false };
+    newState.data = this.getState().get('data').toJS();
+
+    if (!err) {
+      newState.data = newState.data.filter((value) => value._id !== payload);
+    }
+
+    this.setState(newState);
+    this.emitChange();
+  }
 }
 
 module.exports = ListStore;

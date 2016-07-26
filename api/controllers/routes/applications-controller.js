@@ -79,8 +79,7 @@ class ApplicationsController extends BaseController {
   */
   deleteApplication(req, res, next) {
     let applicationService = new ApplicationService();
-
-    applicationService.delete({ _id: req.params.applicationId })
+    applicationService.del({ _id: req.params.applicationId })
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -96,6 +95,6 @@ var routeFactory = new RouteFactory('/applications')
   .get('/:applicationId', 'getApplicationById', mustAuthorize)
   .post('/', 'createApplication', mustAuthorize)
   .put('/:applicationId', 'updateApplication', mustAuthorize)
-  .delete('/:applicationId', 'deleteApplication', mustAuthorize);
+  .del('/:applicationId', 'deleteApplication', mustAuthorize);
 
 module.exports = { 'Controller': ApplicationsController, 'routeFactory': routeFactory };

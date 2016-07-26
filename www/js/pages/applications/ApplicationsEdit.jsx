@@ -8,6 +8,8 @@ import ApplicationsActions from '../../actions/applications/ApplicationsActions'
 import editModes from '../../constants/edit-modes';
 import AppText from '../../components/common/AppText.jsx';
 import AppForm from '../../components/common/AppForm.jsx';
+import AppPanel from '../../components/common/AppPanel.jsx';
+import reactRouterHelper from '../../helpers/react-router-helper';
 import {applicationsEdit, errors} from '../../messages/messages-pt-br';
 
 const store = ApplicationsEditStore;
@@ -16,7 +18,7 @@ class ApplicationsEdit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      applicationId: this.props.params.applicationId,
+      applicationId: this.props.params.applicationId && this.props.params.applicationId !== 'new' ? this.props.params.applicationId : null,
       storeState: store.getState(),
       hasError: store.hasErrorOnLoad(),
       isLoading: store.isLoading(),
@@ -54,14 +56,22 @@ class ApplicationsEdit extends React.Component {
 
   componentWillMount() {
     store.addChangeListener(this.handleEditChangeState);
+    store.addSaveFinishedListener(this.handleSaveFinished);
   }
 
   componentWillUnmount() {
     store.removeChangeListener(this.handleEditChangeState);
+    store.removeSaveFinishedListener(this.handleSaveFinished);
   }
 
   componentDidMount() {
-    ApplicationsActions.getApplicationById(this.state.applicationId, editModes.edit);
+
+    if (this.state.applicationId) {
+      ApplicationsActions.getApplicationById(this.state.applicationId, editModes.edit);
+    }
+    else {
+      ApplicationsActions.resetEditApplication();
+    }
   }
 
   @autobind
@@ -77,8 +87,19 @@ class ApplicationsEdit extends React.Component {
   }
 
   @autobind
+  handleSaveFinished(err, payload) {
+    this.refs.applicationEditForm.handleFormSubmission(err);
+
+    if (!err) {
+      reactRouterHelper.redirectToState('applications');
+    }
+  }
+
+  @autobind
   handleFormSubmit(data) {
-    console.log("data", data);
+
+    data.logPattern = [data.logPattern];
+    ApplicationsActions.saveApplication(data, this.state.applicationId);
   }
 
   getData() {
@@ -89,7 +110,12 @@ class ApplicationsEdit extends React.Component {
       data.logPattern = data.logPattern[0];
     }
     else {
-      data = {};
+      data = {
+        name: '',
+        appId: '',
+        logPattern: '',
+        description: ''
+      };
     }
 
     return data;
@@ -110,54 +136,58 @@ class ApplicationsEdit extends React.Component {
     }
 
     return (
-      <AppForm ref="applicationEditForm" onFormSubmit={this.handleFormSubmit}>
-        <div class="form-group">
-          <AppText
-            required
-            mustFocus
-            hintText={applicationsEdit.nameLabel}
-            id="applicationName"
-            type="text"
-            name="name"
-            value={data.name}
-            floatingLabelText={applicationsEdit.nameLabel}
-            validationErrors={name.errors}
-            validations={name.rules}/>
-        </div>
-        <div class="form-group">
-          <AppText
-            required
-            hintText={applicationsEdit.appIdLabel}
-            id="applicationAppId"
-            type="text"
-            name="appId"
-            value={data.appId}
-            floatingLabelText={applicationsEdit.appIdLabel}
-            validationErrors={appId.errors}
-            validations={appId.rules}/>
-        </div>
-        <div class="form-group">
-          <AppText
-            required
-            hintText={applicationsEdit.logPatternLabel}
-            id="applicationLogPattern"
-            type="text"
-            name="logPattern"
-            value={data.logPattern}
-            floatingLabelText={applicationsEdit.logPatternLabel}
-            validationErrors={logPattern.errors}
-            validations={logPattern.rules}/>
-        </div>
-        <div class="form-group">
-          <AppText
-            hintText={applicationsEdit.descriptionLabel}
-            id="description"
-            type="text"
-            value={data.description}
-            name="description"
-            floatingLabelText={applicationsEdit.descriptionLabel}/>
-        </div>
-      </AppForm>
+      <div class="container">
+        <AppPanel headerMessage={data.name || 'Novo Registro'}>
+          <AppForm ref="applicationEditForm" onFormSubmit={this.handleFormSubmit}>
+            <div class="form-group">
+              <AppText
+                required
+                mustFocus
+                hintText={applicationsEdit.nameLabel}
+                id="applicationName"
+                type="text"
+                name="name"
+                value={data.name}
+                floatingLabelText={applicationsEdit.nameLabel}
+                validationErrors={name.errors}
+                validations={name.rules}/>
+            </div>
+            <div class="form-group">
+              <AppText
+                required
+                hintText={applicationsEdit.appIdLabel}
+                id="applicationAppId"
+                type="text"
+                name="appId"
+                value={data.appId}
+                floatingLabelText={applicationsEdit.appIdLabel}
+                validationErrors={appId.errors}
+                validations={appId.rules}/>
+            </div>
+            <div class="form-group">
+              <AppText
+                required
+                hintText={applicationsEdit.logPatternLabel}
+                id="applicationLogPattern"
+                type="text"
+                name="logPattern"
+                value={data.logPattern}
+                floatingLabelText={applicationsEdit.logPatternLabel}
+                validationErrors={logPattern.errors}
+                validations={logPattern.rules}/>
+            </div>
+            <div class="form-group">
+              <AppText
+                hintText={applicationsEdit.descriptionLabel}
+                id="description"
+                type="text"
+                value={data.description}
+                name="description"
+                floatingLabelText={applicationsEdit.descriptionLabel}/>
+            </div>
+          </AppForm>
+        </AppPanel>
+      </div>
     );
   }
 }

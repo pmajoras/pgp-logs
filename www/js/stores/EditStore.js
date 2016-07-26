@@ -102,14 +102,15 @@ class EditStore extends BaseStore {
     this.emitChange();
   }
 
-  handleSaveStarted() {
-    this.mergeState({ isLoading: true, isSaving: true });
+  handleSaveStarted(err, payload) {
+    this.mergeState({ isLoading: true, isSaving: true, data: payload });
     this.emitChange();
     this.emit(events.saveStarted);
   }
 
   handleSaveFinished(err, payload) {
     var newState = getDefaultState();
+    delete newState.data;
 
     if (!err) {
       newState.data = payload.data;
@@ -122,6 +123,33 @@ class EditStore extends BaseStore {
     this.mergeState(newState);
     this.emitChange();
     this.emit(events.saveFinished, err, payload);
+  }
+
+  handleResetEditStore() {
+    this.resetState();
+    this.emitChange();
+  }
+
+  /**
+  * Add a listener to the save started event.
+  */
+  addSaveStartedListener(callback) {
+    this.on(this.events.saveStarted, callback);
+  }
+
+  removeSaveStartedListener(callback) {
+    this.removeListener(this.events.saveStarted, callback);
+  }
+
+  /**
+  * Add a listener to the save finished event.
+  */
+  addSaveFinishedListener(callback) {
+    this.on(this.events.saveFinished, callback);
+  }
+
+  removeSaveFinishedListener(callback) {
+    this.removeListener(this.events.saveFinished, callback);
   }
 }
 

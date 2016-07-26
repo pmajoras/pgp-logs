@@ -5,10 +5,13 @@ import ApplicationsService from '../../services/applications/ApplicationsService
 import editModes from '../../constants/edit-modes';
 
 var actions = {
+  deleteApplicationByIdStarted: 'DELETE_APPLICATION_STARTED',
+  deleteApplicationByIdFinished: 'DELETE_APPLICATION_FINISHED',
   getApplicationsStarted: 'APPLICATIONS_FETCH_STARTED',
   getApplicationsFinished: 'APPLICATIONS_FETCH_FINISHED',
   getApplicationByIdStarted: 'APPLICATION_BY_ID_FETCH_STARTED',
   getApplicationByIdFinished: 'APPLICATION_BY_ID_FETCH_FINISHED',
+  resetEditApplication: 'RESET_EDIT_APPLICATION',
   saveApplicationStarted: 'SAVE_APPLICATION_STARTED',
   saveApplicationFinished: 'SAVE_APPLICATION_FINISHED'
 };
@@ -38,13 +41,27 @@ module.exports = {
         dispatcher.dispatch(new ActionResponse(err, actions.getApplicationByIdFinished));
       });
   },
+  resetEditApplication: function () {
+    dispatcher.dispatch(new ActionResponse(null, actions.resetEditApplication));
+  },
+  deleteApplication: function (id) {
+    let service = new ApplicationsService();
+    dispatcher.dispatch(new ActionResponse(null, actions.deleteApplicationByIdStarted));
+
+    service.deleteApplication(id)
+      .then(() => {
+        dispatcher.dispatch(new ActionResponse(null, actions.deleteApplicationByIdFinished, id));
+      }, (err) => {
+        dispatcher.dispatch(new ActionResponse(err, actions.deleteApplicationByIdFinished));
+      });
+  },
   saveApplication: function (application, id) {
     let service = new ApplicationsService();
-    dispatcher.dispatch(new ActionResponse(null, actions.saveApplicationStarted));
+    dispatcher.dispatch(new ActionResponse(null, actions.saveApplicationStarted, application));
 
     service.saveApplication(application, id)
       .then((data) => {
-        dispatcher.dispatch(new ActionResponse(null, actions.saveApplicationFinished, { data: data, mode: mode }));
+        dispatcher.dispatch(new ActionResponse(null, actions.saveApplicationFinished, { data: data, mode: editModes.edit }));
       }, (err) => {
         dispatcher.dispatch(new ActionResponse(err, actions.saveApplicationFinished));
       });

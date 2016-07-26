@@ -39,8 +39,8 @@ class BaseRepository {
     return Q.nbind(this.Model.findOneAndUpdate, this.Model)({ _id: entity._id }, entity);
   }
 
-  delete(entity) {
-    return Q.nbind(this.Model.remove, this.Model)({ _id: entity._id }, entity);
+  del(entity) {
+    return Q.nbind(this.Model.findOneAndRemove, this.Model)({ _id: entity._id });
   }
 
   _populate(query, populate) {

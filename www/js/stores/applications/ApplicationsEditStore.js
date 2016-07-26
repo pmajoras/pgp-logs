@@ -29,6 +29,10 @@ class ApplicationsEditStore extends EditStore {
         this.handleSaveFinished(action.err, action.payload);
         break;
       }
+      case ApplicationsActions.actions.resetEditApplication: {
+        this.handleResetEditStore(action.err, action.payload);
+        break;
+      }
       default:
         return true;
     }
@@ -38,6 +42,6 @@ class ApplicationsEditStore extends EditStore {
 }
 
 const applicationsEditStore = new ApplicationsEditStore();
-dispatcher.register(applicationsEditStore.handleActions.bind(applicationsEditStore));
+applicationsEditStore.dispatcherIndex = dispatcher.register(applicationsEditStore.handleActions.bind(applicationsEditStore));
 
 module.exports = applicationsEditStore;

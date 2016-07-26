@@ -34,6 +34,12 @@ class ApplicationsService extends BaseService {
       .catch((err) => q.reject(err));
   }
 
+  deleteApplication(id) {
+    return this.handleApiPromise(client.del(id))
+      .then((data) => q(data))
+      .catch((err) => q.reject(err));
+  }
+
   saveApplication(application, id) {
     var promise;
 

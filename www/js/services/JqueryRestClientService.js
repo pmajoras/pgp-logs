@@ -8,7 +8,7 @@ var client = new $.RestClient('http://localhost:8085/api/', {
     'post': 'POST',
     'read': 'GET',
     'put': 'PUT',
-    'delete': 'DELETE'
+    'del': 'DELETE'
   }
 });
 
