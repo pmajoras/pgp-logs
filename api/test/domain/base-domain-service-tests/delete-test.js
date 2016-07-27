@@ -12,25 +12,25 @@ describe('BaseDomainService-delete-test', function () {
   });
 
   it('should not call delete from repository when undefined parameter', function () {
-    spy.on(target.repository, 'delete');
+    spy.on(target.repository, 'del');
 
-    target.delete();
-    expect(target.repository.delete).to.not.have.been.called();
+    target.del();
+    expect(target.repository.del).to.not.have.been.called();
   });
 
   it('should not call delete from repository when null parameter', function () {
-    spy.on(target.repository, 'delete');
+    spy.on(target.repository, 'del');
 
-    target.delete(null);
-    expect(target.repository.delete).to.not.have.been.called();
+    target.del(null);
+    expect(target.repository.del).to.not.have.been.called();
   });
 
   it('should call delete from repository with entity', function () {
-    spy.on(target.repository, 'delete');
+    spy.on(target.repository, 'del');
     let entity = { id: '123' };
 
-    target.delete(entity);
-    expect(target.repository.delete).to.have.been.called.with.exactly(entity);
+    target.del(entity);
+    expect(target.repository.del).to.have.been.called.with.exactly(entity);
   });
 
   after(function () {

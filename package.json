@@ -43,7 +43,9 @@
   "scripts": {
     "dev-web": "webpack-dev-server --content-base www --inline --hot",
     "start": "node index.js",
-    "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive api/test",
+    "test": "mocha api/test --recursive",
+    "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive api/test",
+    "build": "gulp build",
     "postinstall": "bower install && gulp build && webpack"
   },
   "repository": {
