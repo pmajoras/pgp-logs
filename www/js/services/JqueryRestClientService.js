@@ -1,9 +1,9 @@
 'use strict';
 var $ = require('jquery');
 
-//https://pgp-todo-app.herokuapp.com/api/
+//https://pgp-logs-app.herokuapp.com/api
 //http://localhost:8085/api
-var client = new $.RestClient('http://localhost:8085/api/', {
+var client = new $.RestClient('https://pgp-logs-app.herokuapp.com/api', {
   verbs: {
     'post': 'POST',
     'read': 'GET',
