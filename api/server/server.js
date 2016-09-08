@@ -11,6 +11,7 @@ var controllers = require('../controllers/controllers-config');
 var routes = require('../routes-config/routes');
 var config = require('../config/config');
 var moongoseConnector = require('../infrastructure/moongose-connect');
+var elasticConnector = require('../infrastructure/elastic-connect');
 var middlewares = require('../middlewares/middlewares-config');
 
 var applyDefaultMiddlewares = (app) => {
@@ -26,6 +27,7 @@ var app = express();
 exports.start = () => {
   console.log('Start function');
   moongoseConnector.startDb();
+  elasticConnector.startDb();
   applyDefaultMiddlewares(app);
 
   // middlewares setup

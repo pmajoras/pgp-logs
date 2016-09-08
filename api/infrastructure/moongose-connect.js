@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 
 module.exports = {
   'startDb': function (opts) {
-    console.log('config', config);
     var options = opts || {};
     mongoose.connect(options.connectionString || config.db.connectionString);
 

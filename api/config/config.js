@@ -13,6 +13,9 @@ if (process.env.PGPENV === 'PROD') {
     },
     db: {
       connectionString: process.env.PGPDB || 'mongodb://pgp-heroku:heroku@ds015730.mlab.com:15730/heroku_2xlkxmc0'
+    },
+    elasticDb: {
+      connectionString: process.env.PGPELDB || 'mongodb://pgp-heroku:heroku@ds015730.mlab.com:15730/heroku_2xlkxmc0'
     }
   };
 }
@@ -27,6 +30,9 @@ else if (process.env.PGPENV === 'PRE-TEST') {
     },
     db: {
       connectionString: process.env.PGPDB || 'mongodb://pgp-heroku:heroku@ds015730.mlab.com:15730/heroku_2xlkxmc0'
+    },
+    elasticDb: {
+      connectionString: process.env.PGPELDB || 'mongodb://pgp-heroku:heroku@ds015730.mlab.com:15730/heroku_2xlkxmc0'
     }
   };
 }
@@ -41,6 +47,9 @@ else {
     },
     db: {
       connectionString: process.env.PGPDB || 'mongodb://localhost:27017/ManagementSystem'
+    },
+    elasticDb: {
+      connectionString: process.env.PGPELDB || 'localhost:9200'
     }
   };
 }

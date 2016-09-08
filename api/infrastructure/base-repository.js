@@ -1,5 +1,6 @@
 'use strict';
 var Q = require('q');
+const validators = require('../helpers/validators');
 
 class BaseRepository {
   constructor(modelName, requirePath) {
@@ -8,6 +9,10 @@ class BaseRepository {
   }
 
   findById(id, populate, lean) {
+    if (!validators.isMongoId(id)) {
+      return Q.resolve(null);
+    }
+
     return this.findOne({ _id: id }, populate, lean);
   }
 
