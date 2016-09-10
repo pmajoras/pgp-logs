@@ -17,4 +17,5 @@ module.exports = {
       throw err;
     });
   },
+  elasticsearch: elasticsearch
 };
