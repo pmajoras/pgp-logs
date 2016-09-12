@@ -81,7 +81,7 @@ class ApplicationsController extends BaseController {
     let applicationService = new ApplicationService();
     applicationService.del({ _id: req.params.applicationId })
       .then((data) => {
-        res.setJsonResponse(data);
+        res.setJsonResponse({ success: true });
         next();
       })
       .catch((err) => {

@@ -36,7 +36,6 @@ export default class AppNav extends React.Component {
   handleAuthenticationChange() {
     let oldIsAuthenticated = this.state.isAuthenticated;
     let newIsAuthenticated = store.isAuthenticated();
-    console.log("new", newIsAuthenticated);
     this.setState({ isAuthenticated: newIsAuthenticated });
 
     if (oldIsAuthenticated === true &&
@@ -49,15 +48,7 @@ export default class AppNav extends React.Component {
     AuthenticationActions.logoff();
   }
 
-  toggleCollapse() {
-    const collapsed = !this.state.collapsed;
-    this.setState({ collapsed });
-  }
-
   render() {
-    const { location } = this.props;
-    const { collapsed } = this.state;
-    const navClass = collapsed ? "collapse" : "";
     const isAuthenticated = this.state.isAuthenticated;
 
     let mustBeAuthenticatedLinks = [
@@ -66,6 +57,9 @@ export default class AppNav extends React.Component {
       </li>,
       <li key={2}>
         <AppLink to="/applications">Aplicações</AppLink>
+      </li>,
+      <li key={3}>
+        <AppLink to="/log-alerts">Alertas</AppLink>
       </li>
     ];
 
