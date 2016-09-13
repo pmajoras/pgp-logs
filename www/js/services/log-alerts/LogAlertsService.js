@@ -1,7 +1,8 @@
 'use strict';
 var q = require('q');
 var BaseService = require('../BaseService');
-//var client = require('../JqueryRestClientService').logMessages;
+var client = require('../JqueryRestClientService').logAlerts;
+var applicationsClient = require('../JqueryRestClientService').applications;
 
 class LogAlertsService extends BaseService {
   constructor() {
@@ -9,37 +10,48 @@ class LogAlertsService extends BaseService {
   }
 
   getApplicationLogAlerts() {
+    let deferred = q.defer();
+    let loadedApplications = [];
 
-    return q(
-    [
-      {
-        id: '1',
-        appId: 'appTest',
-        alerts: [{
-          name: 'alertType1',
-          description: 'this alert occurs when there is error in the message.',
-          quantity: 10
-        },{
-          name: 'alertType2',
-          description: 'this alert occurs when there is warning in the message.',
-          quantity: 5
-        }]
-      },
-      {
-        id: '2',
-        appId: 'secondAppTest',
-        alerts: [{
-          name: 'alertType3',
-          description: 'this alert occurs when there is error in the message2.',
-          quantity: 10
-        },
-        {
-          name: 'alertType4',
-          description: 'this alert occurs when there is warning in the message2.',
-          quantity: 0
-        }]
-      }
-    ]);
+    this.handleApiPromise(applicationsClient.read())
+      .then((applications) => {
+        loadedApplications = applications;
+        return client.read();
+      })
+      .then((logAlerts) => {
+        let data = [];
+        loadedApplications.forEach((application) => {
+          let appData = {
+            id: application._id,
+            appId: application.appId,
+            alerts: []
+          };
+
+          application.alerts.forEach((alert) => {
+            let alertData = {
+              name: alert.name,
+              quantity: 0
+            };
+
+            logAlerts.forEach((logAlert) => {
+              if (logAlert.appId === application.appId && logAlert.name === alert.name) {
+                alertData.quantity++;
+              }
+            });
+
+            appData.alerts.push(alertData);
+          });
+
+          data.push(appData);
+        });
+
+        deferred.resolve(data);
+      })
+      .catch((err) => {
+        return deferred.reject(err);
+      });
+
+    return deferred.promise;
   }
 }
 

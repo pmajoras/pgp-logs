@@ -1,5 +1,5 @@
-"use strict";
-import React from "react";
+'use strict';
+import React from 'react';
 
 class AppPanel extends React.Component {
   constructor(props) {
@@ -7,10 +7,10 @@ class AppPanel extends React.Component {
   }
 
   render() {
-    const message = this.props.headerMessage || "";
-    let containerClasses = "panel panel-primary";
+    const message = this.props.headerMessage || '';
+    let containerClasses = 'panel panel-primary';
     if (this.props.classes) {
-      containerClasses = containerClasses + " " + this.props.classes;
+      containerClasses = containerClasses + ' ' + this.props.classes;
     }
 
     return (
