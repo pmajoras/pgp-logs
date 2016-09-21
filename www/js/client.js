@@ -8,6 +8,7 @@ import Info from './pages/Info.jsx';
 import Welcome from './pages/Welcome.jsx';
 import Layout from './pages/Layout.jsx';
 import LogALerts from './pages/logAlerts/LogALerts.jsx';
+import Alerts from './pages/logAlerts/Alerts.jsx';
 import Authentication from './pages/authentication/Authentication.jsx';
 import Applications from './pages/applications/Applications.jsx';
 import ApplicationsEdit from './pages/applications/ApplicationsEdit.jsx';
@@ -33,6 +34,8 @@ ReactDOM.render(
       <Route path='welcome' component={Welcome} onEnter={requireAuth}></Route>
       <Route path='applications' component={Applications} onEnter={requireAuth}></Route>
       <Route path='applications/:applicationId' component={ApplicationsEdit} onEnter={requireAuth}></Route>
+      <Route path='alerts' component={Alerts} onEnter={requireAuth}></Route>
+      <Route path='alerts/:applicationId' component={Alerts} onEnter={requireAuth}></Route>
       <Route path='log-alerts' component={LogALerts} onEnter={requireAuth}></Route>
       <Route path='authentication' component={Authentication}></Route>
     </Route>

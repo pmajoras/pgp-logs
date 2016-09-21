@@ -9,7 +9,8 @@ var client = new $.RestClient('http://localhost:8085/api/', {
     'read': 'GET',
     'put': 'PUT',
     'del': 'DELETE'
-  }
+  },
+  stringifyData: true
 });
 
 client.add('authentication', { isSingle: true });

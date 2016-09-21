@@ -44,17 +44,10 @@ class ApplicationsService extends BaseService {
     var promise;
 
     if (id) {
+      console.log('appp', application);
       promise = this.handleApiPromise(client.put(id, application));
     }
     else {
-      // This is being done only for test purpose.
-      application.alerts = [
-        {
-          name: 'Error Rule',
-          description: 'Generic error rule',
-          rules: [{ operator: 'contains', logicalOperator: 'or', expectedValue: 'TRUE' }]
-        }
-      ];
       promise = this.handleApiPromise(client.post(application));
     }
 

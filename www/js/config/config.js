@@ -21,6 +21,7 @@ module.exports.start = () => {
 
   configFormsy();
   $.ajaxSetup({
+    contentType: 'application/json; charset=utf-8',
     beforeSend: function (xhr) {
       let token = authenticationService.getCredentials().token;
       if (token) {

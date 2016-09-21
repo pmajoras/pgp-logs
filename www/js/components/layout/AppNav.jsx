@@ -58,9 +58,14 @@ export default class AppNav extends React.Component {
       <li key={2}>
         <AppLink to="/applications">Aplicações</AppLink>
       </li>,
-      <li key={3}>
-        <AppLink to="/log-alerts">Alertas</AppLink>
-      </li>
+      <NavDropdown key={3} title="Alertas">
+        <li key={1}>
+          <AppLink to="/log-alerts">Alertas</AppLink>
+        </li>,
+        <li key={2}>
+          <AppLink to="/alerts">Cadastro de alertas</AppLink>
+        </li>
+      </NavDropdown>
     ];
 
     let mustNotBeAuthenticatedLinks = [

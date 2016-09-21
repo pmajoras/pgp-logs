@@ -64,6 +64,7 @@ class ApplicationsController extends BaseController {
     let applicationService = new ApplicationService();
 
     req.body._id = req.params.applicationId;
+    console.log('upAPp', req.body);
     applicationService.save(req.body)
       .then((data) => {
         res.setJsonResponse(data);

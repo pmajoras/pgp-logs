@@ -5,6 +5,7 @@ import LogAlertsActions from '../../actions/log-alerts/LogAlertsActions';
 import reactIdGenerator from '../../helpers/react-id-generator';
 import reactColorGenerator from '../../helpers/react-color-generator';
 import {HorizontalBar} from 'react-chartjs-2';
+import Loader from "react-loader";
 import AppPanel from '../../components/common/AppPanel.jsx';
 import autobind from 'autobind-decorator';
 const store = LogAlertsStore;
@@ -12,6 +13,7 @@ const store = LogAlertsStore;
 export default class LogAlerts extends React.Component {
   constructor(props) {
     super(props);
+    this.interval = null;
     this.state = {
       listState: store.getState()
     };
@@ -23,10 +25,16 @@ export default class LogAlerts extends React.Component {
 
   componentWillUnmount() {
     store.removeChangeListener(this.handleListChangeState);
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 
   componentDidMount() {
     LogAlertsActions.getLogAlerts();
+    this.interval = setInterval(() => {
+      LogAlertsActions.getLogAlerts();
+    }, 60000);
   }
 
   @autobind
