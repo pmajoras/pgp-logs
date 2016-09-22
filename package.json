@@ -50,7 +50,7 @@
     "test": "mocha api/test --recursive",
     "test-coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --recursive api/test",
     "build": "gulp build",
-    "postinstall": "bower install && gulp build && webpack"
+    "postinstall": "bower install && gulp build"
   },
   "repository": {
     "type": "git",
