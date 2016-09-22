@@ -5,6 +5,7 @@ import LogAlertsActions from '../../actions/log-alerts/LogAlertsActions';
 import reactIdGenerator from '../../helpers/react-id-generator';
 import reactColorGenerator from '../../helpers/react-color-generator';
 import {HorizontalBar} from 'react-chartjs-2';
+
 import Loader from "react-loader";
 import AppPanel from '../../components/common/AppPanel.jsx';
 import autobind from 'autobind-decorator';
