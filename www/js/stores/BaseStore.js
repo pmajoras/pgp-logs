@@ -1,6 +1,7 @@
 'use strict';
 const EventEmitter = require('events').EventEmitter;
 const Immutable = require('immutable');
+const merger = require('../helpers/merger');
 
 class BaseStore extends EventEmitter {
   constructor(defaultState, events) {
@@ -31,7 +32,7 @@ class BaseStore extends EventEmitter {
    */
   mergeState(newState) {
     var immutableNewState = Immutable.fromJS(newState || {});
-    this.state = this.getState().mergeDeep(immutableNewState);
+    this.state = merger(this.getState(), immutableNewState);
   }
 
   /**
