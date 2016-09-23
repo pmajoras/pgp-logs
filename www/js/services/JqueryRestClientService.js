@@ -1,9 +1,9 @@
 'use strict';
 var $ = require('jquery');
 
-//https://pgp-logs-app.herokuapp.com/api
-//http://localhost:8085/api
-var client = new $.RestClient('https://pgp-logs-app.herokuapp.com/api/', {
+//https://pgp-logs-app.herokuapp.com/api/
+//http://localhost:8085/api/
+var client = new $.RestClient('http://localhost:8085/api/', {
   verbs: {
     'post': 'POST',
     'read': 'GET',
@@ -15,7 +15,7 @@ var client = new $.RestClient('https://pgp-logs-app.herokuapp.com/api/', {
 
 client.add('authentication', { isSingle: true });
 client.authentication.add('authenticate', { isSingle: true });
-client.add('logmessages');
+client.add('logmessages', { isSingle: true });
 client.logmessages.add('fields', { isSingle: true });
 client.add('applications');
 client.add('logAlerts');

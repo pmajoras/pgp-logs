@@ -43,16 +43,12 @@ export default class LogPage extends React.Component {
 
   render() {
     const messages = this.state.messages;
-    const fields = this.state.fields;
 
     return (
       <div>
         <SearchContainer onSearch={this.handleSearch}/>
         <div class="row">
-          <div class="col-md-3 col-sm-12">
-            <LogFields fields={fields}/>
-          </div>
-          <div class="col-md-9 col-sm-12">
+          <div class="col-md-12 col-sm-12">
             <LogMessagesContainer messages={messages} />
           </div>
         </div>

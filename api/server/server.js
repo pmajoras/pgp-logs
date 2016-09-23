@@ -59,7 +59,7 @@ exports.start = () => {
           }
           else {
             var logId = uuid.v1();
-            var logMessage = { message: req.body.message, compiledMessage: {}, applicationId: appId, logId: logId };
+            var logMessage = { message: req.body.message, compiledMessage: {}, applicationId: appId, logId: logId, processedDate: new Date() };
 
             var elasticClient = elasticConnector.elasticsearch.client;
             elasticClient.create({

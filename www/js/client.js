@@ -7,6 +7,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import Info from './pages/Info.jsx';
 import Welcome from './pages/Welcome.jsx';
 import Layout from './pages/Layout.jsx';
+import LogPage from './pages/LogPage.jsx';
 import LogALerts from './pages/logAlerts/LogALerts.jsx';
 import Alerts from './pages/logAlerts/Alerts.jsx';
 import Authentication from './pages/authentication/Authentication.jsx';
@@ -37,6 +38,7 @@ ReactDOM.render(
       <Route path='alerts' component={Alerts} onEnter={requireAuth}></Route>
       <Route path='alerts/:applicationId' component={Alerts} onEnter={requireAuth}></Route>
       <Route path='log-alerts' component={LogALerts} onEnter={requireAuth}></Route>
+      <Route path='log-messages' component={LogPage} onEnter={requireAuth}></Route>
       <Route path='authentication' component={Authentication}></Route>
     </Route>
   </Router>,

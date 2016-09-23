@@ -19,6 +19,8 @@ class LogMessagesStore extends BaseStore {
     else {
       this.mergeState({ messages: [] });
     }
+
+    this.emitChange();
   }
 
   handleLoadedFields(err, payload) {
@@ -32,6 +34,7 @@ class LogMessagesStore extends BaseStore {
   }
 
   getMessages() {
+    let test = this.getState().get('messages').toJS();
     return this.getState().get('messages').toJS().map((message) => message._source);
   }
 
@@ -56,8 +59,6 @@ class LogMessagesStore extends BaseStore {
         return true;
     }
 
-    // If action was responded to, emit change event
-    this.emitChange();
     return true;
   }
 }

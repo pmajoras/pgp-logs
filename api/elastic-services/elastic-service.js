@@ -1,17 +1,11 @@
 'use strict';
-
-const elasticsearch = require('elasticsearch');
 const q = require('q');
 
 class ElasticService {
-  constructor(type, index) {
-
-    this.client = new elasticsearch.Client({
-      host: 'http://192.168.0.25:9200/',
-      log: 'debug'
-    });
-    this.type = type || null;
-    this.index = index || '_all';
+  constructor(client, index, type) {
+    this.client = client;
+    this.type = type || 'LogMessage';
+    this.index = index || 'pgp-logs-index';
   }
 
   /**
@@ -27,8 +21,7 @@ class ElasticService {
     queryParams.body = {
       query: {
         match_all: {}
-      },
-      sort: { timestamp: { 'order': 'desc' } }
+      }
     };
 
     return this.fullSearch(queryParams);

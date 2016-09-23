@@ -39,13 +39,13 @@ module.exports = {
       .then((messagesData) => {
         dispatcher.dispatch(new ActionResponse(null, actions.getLogMessages, messagesData));
 
-        service.getLogFields()
+        /*service.getLogFields()
           .then((fieldsData) => {
             dispatcher.dispatch(new ActionResponse(null, actions.getLogFields, fieldsData));
           })
           .catch((err) => {
             dispatcher.dispatch(new ActionResponse(err, actions.getLogFields));
-          });
+          });*/
       })
       .catch((err) => {
         dispatcher.dispatch(new ActionResponse(err, actions.getLogMessages));

@@ -1,12 +1,13 @@
 'use strict';
 const RouteFactory = require('../route-factory');
 const BaseController = require('../base-controller');
-const ElasticMessageService = require('../../elastic-services/elastic-message-service');
+const elasticConnector = require('../../infrastructure/elastic-connect');
+const ElasticMessageService = require('../../elastic-services/elastic-service');
 
 class LogMessagesController extends BaseController {
   constructor() {
     super();
-    this.elasticMessageService = new ElasticMessageService();
+    this.elasticMessageService = new ElasticMessageService(elasticConnector.elasticsearch.client);
   }
 
   /**
