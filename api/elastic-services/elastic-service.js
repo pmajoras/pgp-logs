@@ -19,6 +19,8 @@ class ElasticService {
       queryParams.type = this.type;
     }
     queryParams.body = {
+      from: 0,
+      size: 1000,
       query: {
         match_all: {}
       }
