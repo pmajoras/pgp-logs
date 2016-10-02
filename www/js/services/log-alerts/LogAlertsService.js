@@ -2,7 +2,10 @@
 var q = require('q');
 var BaseService = require('../BaseService');
 var client = require('../JqueryRestClientService').logAlerts;
-var applicationsClient = require('../JqueryRestClientService').applications;
+const ApplicationsService = require('../applications/ApplicationsService');
+const applicationService = new ApplicationsService();
+const AuthenticationService = require('../authentication/AuthenticationService');
+const authenticationService = new AuthenticationService();
 
 class LogAlertsService extends BaseService {
   constructor() {
@@ -13,10 +16,10 @@ class LogAlertsService extends BaseService {
     let deferred = q.defer();
     let loadedApplications = [];
 
-    this.handleApiPromise(applicationsClient.read())
+    applicationService.getApplications()
       .then((applications) => {
         loadedApplications = applications;
-        return client.read();
+        return client.read(authenticationService.getUserId());
       })
       .then((logAlerts) => {
         let data = [];

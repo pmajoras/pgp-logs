@@ -9,7 +9,7 @@ function setup(req, res, next) {
   if (!req.currentUser) {
     next(appErrorsFactory.createAppError({ statusCode: 401 }));
   }
-  else if (req.currentUser._id !== req.params.id) {
+  else if (req.currentUser._id !== req.params.userId) {
     next(appErrorsFactory.createAppError({ statusCode: 403 }));
   }
   else {

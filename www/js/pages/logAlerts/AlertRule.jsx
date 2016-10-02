@@ -10,13 +10,17 @@ class AlertRule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rule: this.props.rule
+      rule: this.props.rule,
+      fields: this.props.fields || []
     };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.rule !== this.state.rule) {
       this.setState({ rule: nextProps.rule });
+    }
+    if (nextProps.fields !== this.state.fields) {
+      this.setState({ fields: nextProps.fields });
     }
   }
 
@@ -35,10 +39,17 @@ class AlertRule extends React.Component {
 
   render() {
     let rule = this.state.rule;
+    let fieldsOptions = this.state.fields.map((fieldValue, index) => <option key={index} value={fieldValue}>{fieldValue}</option>);
 
     return (
       <div>
         <div class="row">
+          <div class="col-xs-4 form-group">
+            <label class="control-label">Campo</label>
+            <select class="form-control" onChange={this.handleInputChange} data-prop-name="field" value={rule.field || ''}>
+              {fieldsOptions}
+            </select>
+          </div>
           <div class={`col-xs-4 form-group ${rule.expectedValue ? '' : 'has-error'}`}>
             <label class="control-label">Valor Esperado</label>
             <input ref="expectedValueInput" type="text" value={rule.expectedValue} onChange={this.handleInputChange} data-prop-name="expectedValue" class="form-control" placeholder="Valor Esperado"></input>
@@ -54,8 +65,6 @@ class AlertRule extends React.Component {
               </option>
             </select>
           </div>
-          <div class="col-xs-4">
-          </div>
         </div>
       </div>
     );
@@ -64,7 +73,8 @@ class AlertRule extends React.Component {
 
 AlertRule.propTypes = {
   rule: React.PropTypes.object.isRequired,
-  autoFocus: React.PropTypes.bool
+  autoFocus: React.PropTypes.bool,
+  fields: React.PropTypes.array
 };
 
 export default AlertRule;

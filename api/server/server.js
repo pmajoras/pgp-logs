@@ -83,7 +83,7 @@ exports.start = () => {
                     for (var i = 0; i < alert.rules.length; i++) {
                       rule = alert.rules[i];
                       if (upperLogMessage.indexOf(rule.expectedValue.toUpperCase()) > -1) {
-                        alertsToInsert.push({ name: alert.name, appId: appId, message: logMessage.message, logId: logId, alertDate: new Date() });
+                        alertsToInsert.push({ alertId: alert._id, appId: appId, message: logMessage.message, logId: logId, alertDate: new Date() });
                       }
                     }
                   });

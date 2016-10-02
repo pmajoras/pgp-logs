@@ -2,7 +2,7 @@
 var RouteFactory = require('../route-factory');
 var BaseController = require('../base-controller');
 var ApplicationService = require('../../domain/services/applications/application-service');
-var mustAuthorize = require('../../middlewares/general-middlewares/must-authorize');
+var mustAuthorizeWithId = require('../../middlewares/general-middlewares/must-authorize-with-id');
 
 class ApplicationsController extends BaseController {
   constructor() {
@@ -15,7 +15,7 @@ class ApplicationsController extends BaseController {
   getApplications(req, res, next) {
     let applicationService = new ApplicationService();
 
-    applicationService.findAll()
+    applicationService.findAll({ userId: req.currentUser._id })
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -31,7 +31,7 @@ class ApplicationsController extends BaseController {
   getApplicationById(req, res, next) {
     let applicationService = new ApplicationService();
 
-    applicationService.findById(req.params.applicationId)
+    applicationService.findOne({ _id: req.params.applicationId, userId: req.currentUser._id })
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -46,6 +46,7 @@ class ApplicationsController extends BaseController {
   */
   createApplication(req, res, next) {
     let applicationService = new ApplicationService();
+    req.body.userId = req.currentUser._id;
 
     applicationService.save(req.body)
       .then((data) => {
@@ -64,7 +65,7 @@ class ApplicationsController extends BaseController {
     let applicationService = new ApplicationService();
 
     req.body._id = req.params.applicationId;
-    console.log('upAPp', req.body);
+    req.body.userId = req.currentUser._id;
     applicationService.save(req.body)
       .then((data) => {
         res.setJsonResponse(data);
@@ -80,8 +81,9 @@ class ApplicationsController extends BaseController {
   */
   deleteApplication(req, res, next) {
     let applicationService = new ApplicationService();
+    // Todo Add userId Validation.
     applicationService.del({ _id: req.params.applicationId })
-      .then((data) => {
+      .then(() => {
         res.setJsonResponse({ success: true });
         next();
       })
@@ -91,11 +93,11 @@ class ApplicationsController extends BaseController {
   }
 }
 
-var routeFactory = new RouteFactory('/applications')
-  .get('/', 'getApplications', mustAuthorize)
-  .get('/:applicationId', 'getApplicationById', mustAuthorize)
-  .post('/', 'createApplication', mustAuthorize)
-  .put('/:applicationId', 'updateApplication', mustAuthorize)
-  .del('/:applicationId', 'deleteApplication', mustAuthorize);
+var routeFactory = new RouteFactory('/user/:userId/applications')
+  .get('/', 'getApplications', mustAuthorizeWithId)
+  .get('/:applicationId', 'getApplicationById', mustAuthorizeWithId)
+  .post('/', 'createApplication', mustAuthorizeWithId)
+  .put('/:applicationId', 'updateApplication', mustAuthorizeWithId)
+  .del('/:applicationId', 'deleteApplication', mustAuthorizeWithId);
 
 module.exports = { 'Controller': ApplicationsController, 'routeFactory': routeFactory };

@@ -67,9 +67,15 @@ class AlertsTable extends React.Component {
   render() {
     let application = this.props.application;
     let alerts = [];
-    if (application && application.alerts && application.alerts.length > 0) {
-      alerts = application.alerts;
+    let fields = [];
+
+    if (application) {
+      fields = application.fields || [];
+      if (application.alerts && application.alerts.length > 0) {
+        alerts = application.alerts;
+      }
     }
+
     let showModal = this.state.showEditModal;
 
     const tableToolBar = (cell, row) => <ToolbarColumn row={row} onEditClick={this.handleEdit} onDeleteClick={this.handleDelete}></ToolbarColumn>;
@@ -89,7 +95,7 @@ class AlertsTable extends React.Component {
           <TableHeaderColumn dataField="description">Descrição</TableHeaderColumn>
           <TableHeaderColumn dataFormat={tableToolBar} width="100"></TableHeaderColumn>
         </BootstrapTable>
-        <AlertsEditModal alert={this.state.editingRow} onSave={this.handleSave} onEditEnded={this.handleEditEnded} showModal={showModal}>
+        <AlertsEditModal alert={this.state.editingRow} fields={fields} onSave={this.handleSave} onEditEnded={this.handleEditEnded} showModal={showModal}>
         </AlertsEditModal>
       </div>
     );

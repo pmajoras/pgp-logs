@@ -12,6 +12,7 @@ import LogALerts from './pages/logAlerts/LogALerts.jsx';
 import Alerts from './pages/logAlerts/Alerts.jsx';
 import Authentication from './pages/authentication/Authentication.jsx';
 import Applications from './pages/applications/Applications.jsx';
+import ApplicationsIndex from './pages/applications-v2/Index.jsx';
 import ApplicationsEdit from './pages/applications/ApplicationsEdit.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import config from './config/config';
@@ -33,8 +34,8 @@ ReactDOM.render(
     <Route path='/' component={Layout}>
       <IndexRoute component={Info}></IndexRoute>
       <Route path='welcome' component={Welcome} onEnter={requireAuth}></Route>
-      <Route path='applications' component={Applications} onEnter={requireAuth}></Route>
-      <Route path='applications/:applicationId' component={ApplicationsEdit} onEnter={requireAuth}></Route>
+      <Route path='applications' component={ApplicationsIndex} onEnter={requireAuth}></Route>
+      //<Route path='applications/:applicationId' component={ApplicationsEdit} onEnter={requireAuth}></Route>
       <Route path='alerts' component={Alerts} onEnter={requireAuth}></Route>
       <Route path='alerts/:applicationId' component={Alerts} onEnter={requireAuth}></Route>
       <Route path='log-alerts' component={LogALerts} onEnter={requireAuth}></Route>

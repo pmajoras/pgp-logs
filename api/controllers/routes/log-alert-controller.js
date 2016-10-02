@@ -2,6 +2,7 @@
 const RouteFactory = require('../route-factory');
 const BaseController = require('../base-controller');
 const LogAlertService = require('../../domain/services/logAlerts/log-alert-service');
+const mustAuthorizeWithId = require('../../middlewares/general-middlewares/must-authorize-with-id');
 const logAlertService = new LogAlertService();
 
 class LogAlertsController extends BaseController {
@@ -14,7 +15,7 @@ class LogAlertsController extends BaseController {
   */
   getLogAlerts(req, res, next) {
 
-    logAlertService.findAll()
+    logAlertService.findAll({ userId: req.currentUser._id })
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -29,7 +30,7 @@ class LogAlertsController extends BaseController {
   */
   getLogAlertById(req, res, next) {
 
-    logAlertService.findById(req.params.logAlertId)
+    logAlertService.findOne({ userId: req.currentUser._id, _id: req.params.logAlertId })
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -86,11 +87,11 @@ class LogAlertsController extends BaseController {
   }
 }
 
-var routeFactory = new RouteFactory('/logAlerts')
-  .get('/', 'getLogAlerts')
-  .get('/:logAlertId', 'getLogAlertById')
+var routeFactory = new RouteFactory('/user/:userId/logAlerts')
+  .get('/', 'getLogAlerts', mustAuthorizeWithId)
+  .get('/:logAlertId', 'getLogAlertById', mustAuthorizeWithId)
   .post('/', 'createLogAlert')
-  .put('/:logAlertId', 'updateLogAlert')
-  .del('/:logAlertId', 'deleteLogAlert');
+  .put('/:logAlertId', 'updateLogAlert', mustAuthorizeWithId)
+  .del('/:logAlertId', 'deleteLogAlert', mustAuthorizeWithId);
 
 module.exports = { 'Controller': LogAlertsController, 'routeFactory': routeFactory };

@@ -97,7 +97,7 @@ class AlertsEditModal extends React.Component {
     let titleMessage = isNewAlert ? 'Adicionando Alerta' : 'Editando Alerta';
 
     let rules = alert.rules.map((rule, index) => {
-      return <AlertRule key={index} rule={rule}></AlertRule>;
+      return <AlertRule key={index} rule={rule} fields={this.props.fields}></AlertRule>;
     });
 
     let rulesContainer = (
@@ -152,7 +152,8 @@ AlertsEditModal.propTypes = {
   onClose: React.PropTypes.func,
   onEditEnded: React.PropTypes.func,
   onSave: React.PropTypes.func,
-  alert: React.PropTypes.object
+  alert: React.PropTypes.object,
+  fields: React.PropTypes.array
 };
 
 export default AlertsEditModal;

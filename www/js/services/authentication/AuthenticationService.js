@@ -46,6 +46,12 @@ class AuthenticationService extends BaseService {
     };
   }
 
+  getUserId() {
+    let isAuthenticated = this.isAuthenticated();
+
+    return isAuthenticated ? storageService.getItem(authUserId) : null;
+  }
+
   isAuthenticated() {
     let expiresAtString = storageService.getItem(authExpires);
     if (expiresAtString) {
