@@ -22,7 +22,7 @@ class AppPanel extends React.Component {
        headerContainer = (<div class="panel-heading"><h2>{message}</h2></div>);
     }
     else if (headerSize === 'sm') {
-       headerContainer = (<div class="panel-heading"><h3>{message}</h3></div>);
+       headerContainer = (<div class="panel-heading"><h4>{message}</h4></div>);
     }
     else {
       headerContainer = (<div class="panel-heading">{message}</div>);

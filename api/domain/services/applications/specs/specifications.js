@@ -13,7 +13,8 @@ module.exports = {
         messages.applicationNameIsRequired.code);
     },
     function (service) {
-      let mongoPromise = (filter) => {
+      let mongoPromise = (filter, target) => {
+        filter.userId = target.userId;
         return service.findAll(filter);
       };
 
@@ -27,7 +28,8 @@ module.exports = {
         messages.applicationAppIdIsRequired.code);
     },
     function (service) {
-      let mongoPromise = (filter) => {
+      let mongoPromise = (filter, target) => {
+        filter.userId = target.userId;
         return service.findAll(filter);
       };
 
@@ -36,16 +38,10 @@ module.exports = {
         messages.applicationWithAppIdAlreadyExists.code);
     },
     function () {
-      return new PropertyIsNotEmptyArraySpec('logPattern',
+      return new PropertyIsRequiredSpec('logPattern',
         messages.applicationLogPatternsAreRequired.message,
         messages.applicationLogPatternsAreRequired.code);
-    },
-    function () {
-      return new PropertyIsNotEmptyTypeArraySpec('logPattern',
-        'string',
-        messages.applicationLogPatternsAreInvalid.message,
-        messages.applicationLogPatternsAreInvalid.code);
-    },
+    }
   ],
   deleteSpecs: []
 };

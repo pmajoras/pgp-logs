@@ -29,9 +29,9 @@ const ApplicationAlertSchema = new Schema({
 
 // set up a mongoose model
 module.exports = mongoose.model('Application', new Schema({
-  name: { type: String, unique: true, required: true, dropDups: true },
-  appId: { type: String, unique: true, required: true, dropDups: true },
-  logPattern: [{ type: String, required: true }],
+  name: { type: String, unique: true, required: true },
+  appId: { type: String, unique: true, required: true },
+  logPattern: { type: String, required: true },
   fields: [{ type: String, required: false }],
   isActive: { type: Boolean, required: true, default: true },
   isAvailable: { type: Boolean, required: true, default: true },

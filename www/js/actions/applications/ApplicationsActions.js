@@ -3,8 +3,11 @@ import dispatcher from '../../dispatcher';
 import ActionResponse from '../ActionResponse';
 import ApplicationsService from '../../services/applications/ApplicationsService';
 import editModes from '../../constants/edit-modes';
+import reactIdGenerator from '../../helpers/react-id-generator';
 
 var actions = {
+  addEmptyApplication: 'ADD_EMPTY_APPLICATION',
+  cancelEmptyApplication: 'CANCEL_EMPTY_APPLICATION',
   deleteApplicationByIdStarted: 'DELETE_APPLICATION_STARTED',
   deleteApplicationByIdFinished: 'DELETE_APPLICATION_FINISHED',
   getApplicationsStarted: 'APPLICATIONS_FETCH_STARTED',
@@ -61,9 +64,23 @@ module.exports = {
 
     service.saveApplication(application, id)
       .then((data) => {
-        dispatcher.dispatch(new ActionResponse(null, actions.saveApplicationFinished, { data: data, mode: editModes.edit }));
+        dispatcher.dispatch(new ActionResponse(null, actions.saveApplicationFinished, { data: data, mode: editModes.edit, tempId: application.tempId }));
       }, (err) => {
         dispatcher.dispatch(new ActionResponse(err, actions.saveApplicationFinished));
       });
+  },
+  cancelEmptyApplication: function (application) {
+    dispatcher.dispatch(new ActionResponse(null, actions.cancelEmptyApplication, application.tempId));
+  },
+  addEmptyApplication: function () {
+    let emptyApplicationData = {
+      appId: '',
+      name: '',
+      description: '',
+      logPattern: '',
+      tempId: reactIdGenerator.getId()
+    };
+
+    dispatcher.dispatch(new ActionResponse(null, actions.addEmptyApplication, emptyApplicationData));
   }
 };

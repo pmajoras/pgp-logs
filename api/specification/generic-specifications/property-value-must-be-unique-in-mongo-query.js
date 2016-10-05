@@ -16,7 +16,7 @@ class PropertyValueMustBeUniqueInMongoQuery extends SpecificationBase {
       let filter = {};
       filter[propertyName] = target[propertyName];
 
-      q(mongoPromise(filter)).then((entities) => {
+      q(mongoPromise(filter, target)).then((entities) => {
         let isSatisfied = !entities || entities.length === 0 || entities.every(entity => entity._id.equals(target._id));
         if (!isSatisfied) {
           this.notSatisfiedReason = notSatisfiedReason;
