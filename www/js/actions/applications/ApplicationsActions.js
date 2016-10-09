@@ -78,6 +78,7 @@ module.exports = {
       name: '',
       description: '',
       logPattern: '',
+      alerts: [],
       tempId: reactIdGenerator.getId()
     };
 

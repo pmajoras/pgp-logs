@@ -17,8 +17,8 @@ class AlertsEditModal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.alert && nextProps.alert !== this.state.alert) {
-      this.setState({ alert: nextProps.alert });
+    if (nextProps.alert !== this.state.alert) {
+      this.setState({ alert: nextProps.alert || this.getNewAlert() });
     }
   }
 

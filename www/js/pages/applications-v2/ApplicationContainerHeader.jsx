@@ -13,6 +13,7 @@ const descriptionMessage = messageHelper.get('DESCRIPTION');
 const logPatternMessage = messageHelper.get('LOGPATTERN');
 const saveMessage = messageHelper.get('SAVE');
 const editMessage = messageHelper.get('EDIT');
+const deleteMessage = messageHelper.get('DELETE');
 const cancelMessage = messageHelper.get('CANCEL');
 
 class ApplicationContainerHeader extends React.Component {
@@ -92,6 +93,16 @@ class ApplicationContainerHeader extends React.Component {
   }
 
   @autobind
+  handleDeleteClick(e) {
+    console.log('ApplicationContainerHeader >> handleDeleteClick >> Start');
+    e.stopPropagation();
+    if (typeof this.props.onDelete === 'function') {
+      this.props.onDelete(this.props.application.get('_id'));
+    }
+    console.log('ApplicationContainerHeader >> handleDeleteClick >> Start');
+  }
+
+  @autobind
   handleSaveClick() {
     console.log('ApplicationContainerHeader >> handleSaveClick >> Start');
     if (typeof this.props.onSave === 'function') {
@@ -140,10 +151,16 @@ class ApplicationContainerHeader extends React.Component {
       opts['readOnly'] = 'readOnly';
       saveButton = null;
       toolbarButtons = (
-        <button type="button" class="button button-primary button-small" onClick={this.handleEditClick}>
-          {editMessage}
-          <i class="fa fa-pencil margin-left" aria-hidden="true"></i>
-        </button>);
+        <div>
+          <button type="button" class="button button-primary button-small" onClick={this.handleEditClick}>
+            {editMessage}
+            <i class="fa fa-pencil margin-left" aria-hidden="true"></i>
+          </button>
+          <button type="button" class="button button-caution button-small margin-left" onClick={this.handleDeleteClick}>
+            {deleteMessage}
+            <i class="fa fa-trash margin-left" aria-hidden="true"></i>
+          </button>
+        </div>);
     }
 
     console.log('ApplicationContainerHeader >> render >> Finish');
@@ -175,7 +192,14 @@ class ApplicationContainerHeader extends React.Component {
               </div>
               <div class="form-group margin-right">
                 <label>{descriptionMessage}: </label>
-                <input type="text" value={application.description} onChange={this.handleInputChange} data-prop-name="description" class="form-control" placeholder={descriptionMessage}  {...opts}></input>
+                <textarea
+                  style={{ height: '100px' }}
+                  type="text"
+                  value={application.description}
+                  onChange={this.handleInputChange}
+                  data-prop-name="description"
+                  class="form-control" placeholder={descriptionMessage}  {...opts}>
+                </textarea>
               </div>
               <div class="form-group margin-right">
                 {saveButton}

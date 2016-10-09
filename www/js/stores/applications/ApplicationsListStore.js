@@ -15,6 +15,16 @@ class ApplicationsListStore extends ListStore {
     this.emitChange();
   }
 
+  handleDelete(err, id) {
+    let deletedApplicationIndex = this.getState().get('data').findIndex((obj) => obj.get('_id') === id);
+
+    if (deletedApplicationIndex > -1) {
+      this.state = this.getState().updateIn(['data'], (dataArray) => dataArray.delete(deletedApplicationIndex));
+    }
+
+    this.emitChange();
+  }
+
   handleCancelEmptyApplication(err, payload) {
     let emptyApplicationIndex = this.getState().get('data').findIndex((obj) => obj.get('tempId') === payload);
 
@@ -35,7 +45,7 @@ class ApplicationsListStore extends ListStore {
     this.mergeState(mergeObject);
 
     if (!err) {
-      let tempId = !payload.tempId;
+      let tempId = payload.tempId;
       let savedObject = payload.data;
       let immutableSavedObject = Immutable.fromJS(savedObject);
       let savedElementIndex = -1;
@@ -44,7 +54,7 @@ class ApplicationsListStore extends ListStore {
         savedElementIndex = this.getState().get('data').findIndex((obj) => obj.get('tempId') === tempId);
       }
       else {
-        savedElementIndex = this.getState().get('data').findIndex((obj) => obj.get('_id') === payload.id);
+        savedElementIndex = this.getState().get('data').findIndex((obj) => obj.get('_id') === payload.data._id);
       }
 
       if (savedElementIndex > -1) {
@@ -59,41 +69,47 @@ class ApplicationsListStore extends ListStore {
    * Handles the store actions.
    */
   handleActions(action) {
-    switch (action.type) {
-      case ApplicationsActions.actions.getApplicationsStarted: {
-        this.handleLoadStarted(action.err, action.payload);
-        break;
+
+    try {
+      switch (action.type) {
+        case ApplicationsActions.actions.getApplicationsStarted: {
+          this.handleLoadStarted(action.err, action.payload);
+          break;
+        }
+        case ApplicationsActions.actions.getApplicationsFinished: {
+          this.handleLoadFinished(action.err, action.payload);
+          break;
+        }
+        case ApplicationsActions.actions.deleteApplicationByIdStarted: {
+          this.handleLoadStarted(action.err, action.payload);
+          break;
+        }
+        case ApplicationsActions.actions.deleteApplicationByIdFinished: {
+          this.handleDelete(action.err, action.payload);
+          break;
+        }
+        case ApplicationsActions.actions.addEmptyApplication: {
+          this.handleAddEmptyApplication(action.err, action.payload);
+          break;
+        }
+        case ApplicationsActions.actions.cancelEmptyApplication: {
+          this.handleCancelEmptyApplication(action.err, action.payload);
+          break;
+        }
+        case ApplicationsActions.actions.saveApplicationStarted: {
+          this.handleSaveStarted(action.err, action.payload);
+          break;
+        }
+        case ApplicationsActions.actions.saveApplicationFinished: {
+          this.handleSaveFinished(action.err, action.payload);
+          break;
+        }
+        default:
+          return true;
       }
-      case ApplicationsActions.actions.getApplicationsFinished: {
-        this.handleLoadFinished(action.err, action.payload);
-        break;
-      }
-      case ApplicationsActions.actions.deleteApplicationByIdStarted: {
-        this.handleLoadStarted(action.err, action.payload);
-        break;
-      }
-      case ApplicationsActions.actions.deleteApplicationByIdFinished: {
-        this.handleDeleteFinished(action.err, action.payload);
-        break;
-      }
-      case ApplicationsActions.actions.addEmptyApplication: {
-        this.handleAddEmptyApplication(action.err, action.payload);
-        break;
-      }
-      case ApplicationsActions.actions.cancelEmptyApplication: {
-        this.handleCancelEmptyApplication(action.err, action.payload);
-        break;
-      }
-      case ApplicationsActions.actions.saveApplicationStarted: {
-        this.handleSaveStarted(action.err, action.payload);
-        break;
-      }
-      case ApplicationsActions.actions.saveApplicationFinished: {
-        this.handleSaveFinished(action.err, action.payload);
-        break;
-      }
-      default:
-        return true;
+    }
+    catch (error) {
+      console.log('applicationsListStore >> handleActions >> error', error);
     }
 
     return true;

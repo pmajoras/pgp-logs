@@ -13,8 +13,8 @@ const NoApplicationsFound = () => {
 };
 
 const ApplicationsList = ({applications}) => {
-  let applicationsList = applications.map((application) => <ApplicationContainer application={application}></ApplicationContainer>);
-  return (<div>{applicationsList}</div>);
+  let applicationsList = applications.map((application) => <div class="col-sm-6"><ApplicationContainer application={application}></ApplicationContainer></div>);
+  return (<div class="row">{applicationsList}</div>);
 };
 
 class ApplicationsListContainer extends React.Component {
