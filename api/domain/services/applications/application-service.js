@@ -8,7 +8,7 @@ class ApplicationService extends BaseDomainService {
   }
 
   save(entity) {
-    entity.fields = grokHelper.getFields(entity.logPattern[0]);
+    entity.fields = grokHelper.getFields(entity.logPattern);
     console.log('savedApplication fields', entity.fields);
     return super.save(entity);
   }

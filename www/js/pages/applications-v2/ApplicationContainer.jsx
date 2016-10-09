@@ -72,7 +72,7 @@ class ApplicationContainer extends React.Component {
     let alertsContent = null;
     if (!application.get('tempId')) {
       alertsContent = (
-        <ApplicationAlerts alerts={application.get('alerts') } applicationName={application.get('name') } onSaveAlert={this.handleSaveAlert}>
+        <ApplicationAlerts alerts={application.get('alerts') } fields={application.get('fields') } applicationName={application.get('name') } onSaveAlert={this.handleSaveAlert}>
         </ApplicationAlerts>);
     }
 
