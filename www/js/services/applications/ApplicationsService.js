@@ -2,6 +2,7 @@
 const q = require('q');
 const BaseService = require('../BaseService');
 const client = require('../JqueryRestClientService').applications;
+const grokClient = require('../JqueryRestClientService').processGrok;
 const AuthenticationService = require('../authentication/AuthenticationService');
 const authenticationService = new AuthenticationService();
 
@@ -42,6 +43,12 @@ class ApplicationsService extends BaseService {
   deleteApplication(id) {
     let userId = authenticationService.getUserId();
     return this.handleApiPromise(client.del(userId, id))
+      .then((data) => q(data))
+      .catch((err) => q.reject(err));
+  }
+
+  getGrokFields(grokPattern) {
+    return this.handleApiPromise(grokClient.post({ grokPattern: grokPattern }))
       .then((data) => q(data))
       .catch((err) => q.reject(err));
   }

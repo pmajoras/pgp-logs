@@ -23,10 +23,13 @@ client.user.add('logAlerts');
 client.add('logmessages', { isSingle: true });
 client.logmessages.add('fields', { isSingle: true });
 
+client.add('processGrok');
+
 module.exports = {
   client: client,
   authentication: client.authentication,
   logMessages: client.logmessages,
   applications: client.user.applications,
-  logAlerts: client.user.logAlerts
+  logAlerts: client.user.logAlerts,
+  processGrok: client.processGrok
 };

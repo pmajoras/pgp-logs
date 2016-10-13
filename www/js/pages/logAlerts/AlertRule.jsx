@@ -2,6 +2,7 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Modal } from 'react-bootstrap';
+import * as messageHelper from '../../helpers/message-helper';
 import ToolbarColumn from '../../components/custom-table/ToolbarColumn.jsx';
 import autobind from 'autobind-decorator';
 import reactIdGenerator from '../../helpers/react-id-generator';
@@ -39,29 +40,41 @@ class AlertRule extends React.Component {
 
   render() {
     let rule = this.state.rule;
+    let fields = this.state.fields;
+    let fieldsContent = null;
+
+    if (fields.length > 0) {
+      fieldsContent = (
+        <div class="col-xs-4 form-group">
+          <label class="control-label">{messageHelper.get('FIELD')}</label>
+          <select class="form-control" onChange={this.handleInputChange} data-prop-name="field" value={rule.field || ''}>
+            <option value="">{messageHelper.get('WHOLE_DATA')}</option>
+            {fields.map((fieldValue, index) => <option key={index} value={fieldValue}>{messageHelper.get('FIELD') + ' - ' + fieldValue}</option>)}
+          </select>
+        </div>);
+    }
+
     let fieldsOptions = this.state.fields.map((fieldValue, index) => <option key={index} value={fieldValue}>{fieldValue}</option>);
 
     return (
       <div>
         <div class="row">
-          <div class="col-xs-4 form-group">
-            <label class="control-label">Campo</label>
-            <select class="form-control" onChange={this.handleInputChange} data-prop-name="field" value={rule.field || ''}>
-              {fieldsOptions}
-            </select>
-          </div>
+          {fieldsContent}
           <div class={`col-xs-4 form-group ${rule.expectedValue ? '' : 'has-error'}`}>
-            <label class="control-label">Valor Esperado</label>
-            <input ref="expectedValueInput" type="text" value={rule.expectedValue} onChange={this.handleInputChange} data-prop-name="expectedValue" class="form-control" placeholder="Valor Esperado"></input>
+            <label class="control-label">{messageHelper.get('EXPECTED_VALUE')}</label>
+            <input ref="expectedValueInput" type="text" value={rule.expectedValue} onChange={this.handleInputChange}
+              data-prop-name="expectedValue"
+              class="form-control"
+              placeholder={messageHelper.get('EXPECTED_VALUE')}></input>
           </div>
           <div class={`col-xs-4 form-group ${rule.operator ? '' : 'has-error'}`}>
-            <label class="control-label">Operador</label>
+            <label class="control-label">{messageHelper.get('OPERATOR')}</label>
             <select class="form-control" onChange={this.handleInputChange} data-prop-name="operator" value={rule.operator}>
-              <option value="contains">
-                Contains
-              </option>
               <option value="equals">
                 Equals
+              </option>
+              <option value="contains">
+                Contains
               </option>
             </select>
           </div>

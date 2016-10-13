@@ -23,6 +23,7 @@ const LogRule = new Schema({
 const ApplicationAlertSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: false },
+  emailList: { type: String, required: false, default: '' },
   rules: [LogRule],
   count: { type: Number, required: true, default: 0 }
 });

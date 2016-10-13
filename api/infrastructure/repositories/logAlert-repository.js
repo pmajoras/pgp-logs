@@ -13,7 +13,7 @@ class LogAlertRepository extends BaseRepository {
 
       logAlerts.forEach((logAlert)=>{
         let updateQuery = {
-          appId: logAlert.appId,
+          _id: logAlert.appId,
           'alerts._id': logAlert.alertId
         };
         let updateAction = {

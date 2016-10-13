@@ -31,3 +31,7 @@ $default-margin: 10px;
 .pointer::hover{
   cursor: pointer;
 }
+
+.popover {
+  max-width: 600px !important;
+}

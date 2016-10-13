@@ -1,8 +1,9 @@
 'use strict';
-const authenticationStore = require('../stores/authentication/AuthenticationStore');
+const AuthenticationService = require('../services/authentication/AuthenticationService');
+const authenticationService = new AuthenticationService();
 
 module.exports = function (nextState, replace) {
-  if (!authenticationStore.isAuthenticated()) {
+  if (!authenticationService.isAuthenticated()) {
 
     replace({
       pathname: '/authentication',

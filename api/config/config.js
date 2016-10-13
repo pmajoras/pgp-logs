@@ -16,7 +16,8 @@ if (process.env.PGPENV === 'PROD') {
     },
     elasticDb: {
       connectionString: process.env.PGPELDB || 'https://mcp1eg04:wsdselp4ox4w09a@privet-3279442.us-east-1.bonsai.io'
-    }
+    },
+    emailConnection: 'smtps://poffaltest%40gmail.com:pgp261293@smtp.gmail.com'
   };
 }
 else if (process.env.PGPENV === 'PRE-TEST') {
@@ -33,7 +34,8 @@ else if (process.env.PGPENV === 'PRE-TEST') {
     },
     elasticDb: {
       connectionString: process.env.PGPELDB || 'https://mcp1eg04:wsdselp4ox4w09a@privet-3279442.us-east-1.bonsai.io'
-    }
+    },
+    emailConnection: 'smtps://poffaltest%40gmail.com:pgp261293@smtp.gmail.com'
   };
 }
 else {
@@ -49,8 +51,9 @@ else {
       connectionString: process.env.PGPDB || 'mongodb://localhost:27017/ManagementSystem'
     },
     elasticDb: {
-      connectionString: process.env.PGPELDB || 'https://mcp1eg04:wsdselp4ox4w09a@privet-3279442.us-east-1.bonsai.io'
-    }
+      connectionString: process.env.PGPELDB || 'http://127.0.0.1:9200/'
+    },
+    emailConnection: 'smtps://poffaltest%40gmail.com:pgp261293@smtp.gmail.com'
   };
 }
 

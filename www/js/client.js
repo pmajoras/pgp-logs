@@ -35,7 +35,6 @@ ReactDOM.render(
       <IndexRoute component={Info}></IndexRoute>
       <Route path='welcome' component={Welcome} onEnter={requireAuth}></Route>
       <Route path='applications' component={ApplicationsIndex} onEnter={requireAuth}></Route>
-      //<Route path='applications/:applicationId' component={ApplicationsEdit} onEnter={requireAuth}></Route>
       <Route path='alerts' component={Alerts} onEnter={requireAuth}></Route>
       <Route path='alerts/:applicationId' component={Alerts} onEnter={requireAuth}></Route>
       <Route path='log-alerts' component={LogALerts} onEnter={requireAuth}></Route>

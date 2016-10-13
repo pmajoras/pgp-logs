@@ -4,8 +4,10 @@ import * as ReactDOM from 'react-dom';
 import { Panel } from 'react-bootstrap';
 import autobind from 'autobind-decorator';
 import * as messageHelper from '../../helpers/message-helper';
-import {deepCopy, scrollTo} from '../../helpers/generic-helper';
+import { deepCopy, scrollTo } from '../../helpers/generic-helper';
 import AppPanel from '../../components/common/AppPanel.jsx';
+import ApplicationGrokFields from './ApplicationGrokFields.jsx';
+import ApplicationsService from '../../services/applications/ApplicationsService';
 const applicationMessage = messageHelper.get('APPLICATION');
 const nameMessage = messageHelper.get('NAME');
 const appIdMessage = messageHelper.get('APPID');
@@ -15,6 +17,7 @@ const saveMessage = messageHelper.get('SAVE');
 const editMessage = messageHelper.get('EDIT');
 const deleteMessage = messageHelper.get('DELETE');
 const cancelMessage = messageHelper.get('CANCEL');
+const grokService = new ApplicationsService();
 
 class ApplicationContainerHeader extends React.Component {
   constructor(props) {
@@ -34,7 +37,7 @@ class ApplicationContainerHeader extends React.Component {
     this.checkFocus();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps, nextState) {
     console.log('ApplicationContainerHeader >> componentWillReceiveProps >> Start');
     console.log('ApplicationContainerHeader >> componentWillReceiveProps >>', nextProps.application && nextProps.application !== this.props.application);
     if (nextProps.application && nextProps.application !== this.props.application) {
@@ -122,6 +125,18 @@ class ApplicationContainerHeader extends React.Component {
   }
 
   @autobind
+  handleLogPatternBlur() {
+    console.log('ApplicationContainerHeader >> handleLogPatternBlur >> Start');
+    grokService.getGrokFields(this.state._application.logPattern)
+      .then((data) => {
+        console.log('ApplicationContainerHeader >> handleLogPatternBlur >> getGrokFields', data);
+        this.state._application.fields = data;
+        this.setState({ _application: this.state._application });
+      });
+    console.log('ApplicationContainerHeader >> handleLogPatternBlur >> Finish');
+  }
+
+  @autobind
   isSaveEnabled() {
     return this.state._application.appId && this.state._application.name && this.state._application.logPattern;
   }
@@ -137,7 +152,7 @@ class ApplicationContainerHeader extends React.Component {
 
     if (isEditing) {
       saveButton = (
-        <button type="button" class="button button-primary button-small" disabled={!this.isSaveEnabled() } onClick={this.handleSaveClick}>
+        <button type="button" class="button button-primary button-small" disabled={!this.isSaveEnabled()} onClick={this.handleSaveClick}>
           {saveMessage}
           <i class="fa fa-floppy-o margin-left" aria-hidden="true"></i>
         </button>);
@@ -156,7 +171,8 @@ class ApplicationContainerHeader extends React.Component {
             {editMessage}
             <i class="fa fa-pencil margin-left" aria-hidden="true"></i>
           </button>
-          <button type="button" class="button button-caution button-small margin-left" onClick={this.handleDeleteClick}>
+          <span class="margin-left"></span>
+          <button type="button" class="button button-caution button-small" onClick={this.handleDeleteClick}>
             {deleteMessage}
             <i class="fa fa-trash margin-left" aria-hidden="true"></i>
           </button>
@@ -166,16 +182,14 @@ class ApplicationContainerHeader extends React.Component {
     console.log('ApplicationContainerHeader >> render >> Finish');
     return (
       <div class="row">
-        <div class="col-sm-12 margin-bottom">
-          <div class="text-center pointer" onClick={this.handleToggleClick}>
-            <span class="pull-left">
-              {toolbarButtons}
-            </span>
-            <a class="text-uppercase" href="javascript:;">{application.appId} - {application.name}</a>
-            <i class={`fa fa-2x ${collapseAccordionClass} pull-right`} aria-hidden="true"></i>
-          </div>
+        <div class="col-sm-4">
+          {toolbarButtons}
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-8" onClick={this.handleToggleClick}>
+          <a class="text-uppercase" href="javascript:;">{application.appId}- {application.name}</a>
+          <i class={`fa fa-2x ${collapseAccordionClass} pull-right`} aria-hidden="true"></i>
+        </div>
+        <div class="col-sm-12 margin-top">
           <Panel collapsible expanded={isOpen}>
             <form class="form">
               <div class="form-group margin-right">
@@ -188,7 +202,10 @@ class ApplicationContainerHeader extends React.Component {
               </div>
               <div class="form-group margin-right">
                 <label>{logPatternMessage}: </label>
-                <input type="text" value={application.logPattern} onChange={this.handleInputChange} data-prop-name="logPattern" class="form-control" placeholder={logPatternMessage}  {...opts}></input>
+                <input type="text" value={application.logPattern} onBlur={this.handleLogPatternBlur} onChange={this.handleInputChange} data-prop-name="logPattern" class="form-control" placeholder={logPatternMessage}  {...opts}></input>
+              </div>
+              <div class="form-group margin-right">
+                <ApplicationGrokFields fields={application.fields} logPattern={application.logPattern}></ApplicationGrokFields>
               </div>
               <div class="form-group margin-right">
                 <label>{descriptionMessage}: </label>

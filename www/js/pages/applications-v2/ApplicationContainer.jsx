@@ -42,6 +42,22 @@ class ApplicationContainer extends React.Component {
   }
 
   @autobind
+  handleDeleteAlert(alert) {
+    console.log('ApplicationContainer >> handleDeleteAlert >> Start', alert);
+    let application = this.props.application.toJS();
+    let alerts = application.alerts || [];
+
+    let deleteAlertIndex = alerts.findIndex((appAlert) => appAlert._id === alert._id);
+    if (deleteAlertIndex > -1) {
+      alerts.splice(deleteAlertIndex, 1);
+    }
+
+    application.alerts = alerts;
+    this.handleSave(application._id, application);
+    console.log('ApplicationContainer >> handleDeleteAlert >> Finish');
+  }
+
+  @autobind
   handleSave(applicationId, application) {
     console.log('ApplicationContainer >> handleSave >> Start');
     ApplicationsActions.saveApplication(application, applicationId);
@@ -72,7 +88,11 @@ class ApplicationContainer extends React.Component {
     let alertsContent = null;
     if (!application.get('tempId')) {
       alertsContent = (
-        <ApplicationAlerts alerts={application.get('alerts') } fields={application.get('fields') } applicationName={application.get('name') } onSaveAlert={this.handleSaveAlert}>
+        <ApplicationAlerts alerts={application.get('alerts') }
+          fields={application.get('fields') }
+          applicationName={application.get('name') }
+          onSaveAlert={this.handleSaveAlert}
+          onDeleteAlert={this.handleDeleteAlert}>
         </ApplicationAlerts>);
     }
 
