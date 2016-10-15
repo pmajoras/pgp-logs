@@ -202,7 +202,12 @@ class ApplicationContainerHeader extends React.Component {
               </div>
               <div class="form-group margin-right">
                 <label>{logPatternMessage}: </label>
-                <input type="text" value={application.logPattern} onBlur={this.handleLogPatternBlur} onChange={this.handleInputChange} data-prop-name="logPattern" class="form-control" placeholder={logPatternMessage}  {...opts}></input>
+                <textarea value={application.logPattern}
+                  onBlur={this.handleLogPatternBlur}
+                  onChange={this.handleInputChange}
+                  data-prop-name="logPattern"
+                  class="form-control" placeholder={logPatternMessage}  {...opts}>
+                </textarea>
               </div>
               <div class="form-group margin-right">
                 <ApplicationGrokFields fields={application.fields} logPattern={application.logPattern}></ApplicationGrokFields>

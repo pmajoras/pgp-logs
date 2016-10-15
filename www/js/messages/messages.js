@@ -16,6 +16,7 @@ module.exports = {
   'ALERTS_CREATE': 'Create Alert',
   'ALERTS_MANAGE': 'Manage Alerts',
   'ALERTS_EMAIL_LIST': 'Alert receiver\'s emails',
+  'LOG_ALERTS_MODAL_TITLE_TEMPLATE': 'Registered Logs for - [ALERT]',
   'RULES': 'Rules',
   'NAME': 'Name',
   'APPID': 'AppId',

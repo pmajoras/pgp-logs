@@ -8,11 +8,11 @@ import reactColorGenerator from '../../helpers/react-color-generator';
 import AppPanel from '../../components/common/AppPanel.jsx';
 import autobind from 'autobind-decorator';
 import AlertsEditModal from '../logAlerts/AlertsEditModal.jsx';
+import LogAlertsModal from '../logAlerts/LogAlertsModal.jsx';
 import AlertToolBar from './AlertToolBar.jsx';
-import { Pie } from 'react-chartjs-2';
+import ApplicationAlertsChart from './ApplicationAlertsChart.jsx';
 import ApplicationsActions from '../../actions/applications/ApplicationsActions';
 const emptyMessage = messageHelper.get('ALERTS_EMPTY');
-const noDataMessage = messageHelper.get('ALERTS_NO_DATA');
 const registerRequestMessage = messageHelper.get('ALERTS_REGISTER_REQUEST');
 const alertsCreateMessage = messageHelper.get('ALERTS_CREATE');
 const alertsManageMessage = messageHelper.get('ALERTS_MANAGE');
@@ -36,44 +36,6 @@ const AlertsToolBarPopover = ({ alerts, onEdit, onDelete }) => {
   return (content);
 };
 
-const ApplicationAlertsChart = ({ alerts, applicationName, onElementsClick, onHover }) => {
-  let content;
-  let alertData = alerts.toJS();
-  let applicationTitle = `Application - ${applicationName}`;
-  let higherValue = Math.max.apply(Math, alertData.map((alert) => alert.count));
-
-  if (higherValue > 0) {
-    let colors = alertData.map(() => reactColorGenerator.getRandomColor());
-    let hoverColors = colors.map((color) => color + '99');
-    let pieData = {
-      labels: alertData.map((alert) => alert.name),
-      datasets: [
-        {
-          label: applicationTitle,
-          backgroundColor: colors,
-          borderColor: colors,
-          hoverBackgroundColor: hoverColors,
-          hoverBorderColor: hoverColors,
-          borderWidth: 1,
-          data: alertData.map((alert) => alert.count)
-        }]
-    };
-    let options = {};
-
-    if (typeof onHover === 'function') {
-      options.hover = {
-        onHover: onHover
-      };
-    }
-    content = (<Pie data={pieData} onElementsClick={onElementsClick} options={options} />);
-  }
-  else {
-    content = (<h2>{noDataMessage}</h2>);
-  }
-
-  return (content);
-};
-
 const NoAlertsFound = () => {
   return (<div><h2>{emptyMessage}</h2> <h3>{registerRequestMessage}</h3></div>);
 };
@@ -90,6 +52,8 @@ class ApplicationAlerts extends React.Component {
     this.state = {
       showEditModal: false,
       editingRow: null,
+      showLogAlertsModal: false,
+      logAlertRow: null,
       isPopoverOpen: false
     };
   }
@@ -101,7 +65,9 @@ class ApplicationAlerts extends React.Component {
       this.props.fields !== nextProps.fields ||
       this.state.showEditModal !== nextState.showEditModal ||
       this.state.editingRow !== nextState.editingRow ||
-      this.state.isPopoverOpen !== nextState.isPopoverOpen;
+      this.state.isPopoverOpen !== nextState.isPopoverOpen ||
+      this.state.showLogAlertsModal !== nextState.showLogAlertsModal ||
+      this.state.logAlertRow !== nextState.logAlertRow;
 
     console.log('ApplicationAlerts >> shouldComponentUpdate >>', componentShouldUpdate);
     console.log('ApplicationAlerts >> shouldComponentUpdate >> Finish');
@@ -157,23 +123,13 @@ class ApplicationAlerts extends React.Component {
   }
 
   @autobind
-  handleChartClick(elements) {
-    console.log('ApplicationAlerts >> handleChartClick >> Start', elements);
-
-    console.log('ApplicationAlerts >> handleChartClick >> Finish');
+  handleAlertChartClick(alertElement) {
+    this.setState({ showLogAlertsModal: true, logAlertRow: alertElement });
   }
 
   @autobind
-  handleChartHover(elements) {
-    if (this.refs.chartContainer) {
-      let domElement = ReactDOM.findDOMNode(this.refs.chartContainer);
-      if (Array.isArray(elements) && elements.length > 0) {
-        domElement.style.cursor = 'pointer';
-      }
-      else {
-        domElement.style.cursor = '';
-      }
-    }
+  handleLogAlertModalClose() {
+    this.setState({ showLogAlertsModal: false });
   }
 
   render() {
@@ -187,13 +143,9 @@ class ApplicationAlerts extends React.Component {
       content = <NoAlertsFound></NoAlertsFound>;
     }
     else {
-      content = (
-        <div ref="chartContainer">
-          <ApplicationAlertsChart alerts={alerts} applicationName={this.props.applicationName}
-            onElementsClick={this.handleChartClick}
-            onHover={this.handleChartHover}>
-          </ApplicationAlertsChart>
-        </div>);
+      content =
+        <ApplicationAlertsChart alerts={alerts} onChartClick={this.handleAlertChartClick}>
+        </ApplicationAlertsChart>;
     }
 
     console.log('ApplicationAlerts >> render >> Finish');
@@ -221,6 +173,8 @@ class ApplicationAlerts extends React.Component {
         {content}
         <AlertsEditModal alert={this.state.editingRow} fields={fields} onSave={this.handleSave} onEditEnded={this.handleEditEnded} showModal={showEditModal}>
         </AlertsEditModal>
+        <LogAlertsModal alert={this.state.logAlertRow} showModal={this.state.showLogAlertsModal} onClose={this.handleLogAlertModalClose}>
+        </LogAlertsModal>
       </div>
     );
   }

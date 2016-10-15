@@ -1,4 +1,6 @@
 'use strict';
+var mongoose = require('mongoose');
+mongoose.set('debug', true);
 
 // Package modules
 var express = require('express');
@@ -95,7 +97,19 @@ exports.start = () => {
 
                         for (var i = 0; i < alert.rules.length; i++) {
                           if (ruleHelper.isRuleAppliedToMessage(alert.rules[i], logMessage.message, logMessage.compiledMessage)) {
-                            alertsToInsert.push({ alert: alert, logAlert: { alertId: alert._id, appId: appId, message: logMessage.message, logId: logId, alertDate: new Date() } });
+                            alertsToInsert.push(
+                              {
+                                alert: alert,
+                                logAlert: {
+                                  userId: mongoose.Types.ObjectId(userId),
+                                  alertId: alert._id,
+                                  appId: appId,
+                                  message: logMessage.message,
+                                  compiledMessage: logMessage.compiledMessage,
+                                  logId: logId,
+                                  alertDate: new Date()
+                                }
+                              });
                             break;
                           }
                         }
