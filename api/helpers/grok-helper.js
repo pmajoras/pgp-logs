@@ -1,3 +1,4 @@
+'use strict';
 const patterns = require('node-grok').loadDefaultSync();
 const Q = require('q');
 const uuid = require('node-uuid');
