@@ -53,21 +53,10 @@ export default class AppNav extends React.Component {
 
     let mustBeAuthenticatedLinks = [
       <li key={1}>
-        <AppLink to="/welcome">Início</AppLink>
+        <AppLink to="/applications">Dashboard</AppLink>
       </li>,
       <li key={2}>
-        <AppLink to="/applications">Aplicações</AppLink>
-      </li>,
-      <NavDropdown key={3} title="Alertas">
-        <li key={1}>
-          <AppLink to="/log-alerts">Alertas</AppLink>
-        </li>,
-        <li key={2}>
-          <AppLink to="/alerts">Cadastro de alertas</AppLink>
-        </li>
-      </NavDropdown>,
-      <li key={4}>
-        <AppLink to="/log-messages">Logs</AppLink>
+        <AppLink to="/log-messages">Log Events</AppLink>
       </li>
     ];
 
@@ -89,7 +78,7 @@ export default class AppNav extends React.Component {
       <Navbar inverse>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="javascript:;">TodoApp</a>
+            <a href="javascript:;">PGP-LOGS-APP</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -98,7 +87,7 @@ export default class AppNav extends React.Component {
             {linksThatAllCanUse}
           </Nav>
           <Nav pullRight>
-            <LoginNavButton onLogoff={this.handleLogoff} isAuthenticated={isAuthenticated}/>
+            <LoginNavButton onLogoff={this.handleLogoff} isAuthenticated={isAuthenticated} />
           </Nav>
         </Navbar.Collapse>
       </Navbar>

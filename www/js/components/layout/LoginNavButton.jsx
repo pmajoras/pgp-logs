@@ -30,11 +30,11 @@ export default class LoginNavButton extends React.Component {
         </li>);
     }
     else {
-      menuItems.push(<MenuItem onClick={this.handleLogoff } key={1}>Logoff</MenuItem>);
+      menuItems.push(<MenuItem onClick={this.handleLogoff} key={1}>Logoff</MenuItem>);
     }
 
     return (
-      <NavDropdown id="login-nav-button" title={!this.props.isAuthenticated ? 'Visitante' : 'Autenticado'}>
+      <NavDropdown id="login-nav-button" title={!this.props.isAuthenticated ? 'Guest' : 'Authenticated'}>
         {menuItems}
       </NavDropdown>
     );

@@ -40,9 +40,6 @@ ReactDOM.render(
         <Route path=':alertId/logAlerts' component={LogAlertsIndex}>
         </Route>
       </Route>
-      <Route path='alerts' component={Alerts} onEnter={requireAuth}></Route>
-      <Route path='alerts/:applicationId' component={Alerts} onEnter={requireAuth}></Route>
-      <Route path='log-alerts' component={LogALerts} onEnter={requireAuth}></Route>
       <Route path='log-messages' component={LogPage} onEnter={requireAuth}></Route>
       <Route path='authentication' component={Authentication}></Route>
     </Route>
