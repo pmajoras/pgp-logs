@@ -1,5 +1,6 @@
 const patterns = require('node-grok').loadDefaultSync();
 const Q = require('q');
+const uuid = require('node-uuid');
 
 class GrokUtil {
   constructor() {
@@ -44,6 +45,31 @@ class GrokUtil {
     }
 
     return deferred.promise;
+  }
+
+  compileLogMessages(grokPatternStr, logMessages) {
+    if (!grokPatternStr || !Array.isArray(logMessages) || logMessages.length === 0) {
+      return Q.resolve({});
+    }
+    let timer = uuid.v1();
+    console.time(timer);
+    console.log('compileLogMessages >> Start >>', logMessages.length);
+
+    let compilePromises = [];
+    logMessages.forEach((logMessage) => {
+      compilePromises.push(this.compileMessage(grokPatternStr, logMessage.message));
+    });
+
+    return Q.all(compilePromises)
+      .then((compiledMessages) => {
+        let i = 0;
+        for (i = 0; i < compiledMessages.length; i++) {
+          logMessages[i].compiledMessage = compiledMessages[i];
+        }
+
+        console.timeEnd(timer);
+        return logMessages;
+      });
   }
 }
 

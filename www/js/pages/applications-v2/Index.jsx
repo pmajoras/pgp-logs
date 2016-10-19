@@ -63,6 +63,7 @@ export default class ApplicationsIndex extends React.Component {
       <AppPanel headerMessage={headerMessage} headerSize="lg">
         <ApplicationsListContainer applications={data}>
         </ApplicationsListContainer>
+        {this.props.children}
       </AppPanel>
     );
   }

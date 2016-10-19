@@ -31,17 +31,26 @@ module.exports = {
   sendMail: sendMail,
   sendAlertsEmail: function (aplicationName, alertsToSendEmail) {
 
-    if (Array.isArray(alertsToSendEmail) && alertsToSendEmail.length > 0) {
-      alertsToSendEmail.forEach((alertToSendEmail) => {
-        let alert = alertToSendEmail.alert;
-        let logAlert = alertToSendEmail.logAlert;
-
+    if (Array.isArray(alertsToSendEmail)) {
+      if (alertsToSendEmail.length > 10) {
         sendMail({
-          to: alert.emailList,
-          subject: 'PGP-LOGS GENERATED ALERT - ' + alert.name,
-          html: templateMessage.replace('[ALERT]', alert.name).replace('[APPLICATION]', aplicationName).replace('[MESSAGE]', logAlert.message)
+          to: alertsToSendEmail[0].emailList,
+          subject: 'PGP-LOGS GENERATED ALERT - ' + aplicationName,
+          html: `There was generated ${alertsToSendEmail.length}!!<br/><br/>Please go to the application site to check what is the problem.`
         });
-      });
+      }
+      else {
+        alertsToSendEmail.forEach((alertToSendEmail) => {
+          let alert = alertToSendEmail.alert;
+          let logAlert = alertToSendEmail.logAlert;
+
+          sendMail({
+            to: alert.emailList,
+            subject: 'PGP-LOGS GENERATED ALERT - ' + alert.name,
+            html: templateMessage.replace('[ALERT]', alert.name).replace('[APPLICATION]', aplicationName).replace('[MESSAGE]', logAlert.message)
+          });
+        });
+      }
     }
   }
 };

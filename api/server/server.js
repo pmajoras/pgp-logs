@@ -25,7 +25,7 @@ var uuid = require('node-uuid');
 
 var applyDefaultMiddlewares = (app) => {
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ limit: '50mb' }));
   // use morgan to log requests to the console
   app.use(morgan('dev'));
   app.use(cors());
@@ -52,8 +52,8 @@ exports.start = () => {
   // Needs to be improved, It is just for testing.
   apiApp.post('/user/:userId/processMessage', function (req, res, next) {
 
-    console.log('req.body', req.body);
-    if (req.body.appId && req.body.message && req.params.userId) {
+    //console.log('req.body', req.body);
+    if (req.body.appId && req.body.messages && req.params.userId) {
       let appId = req.body.appId;
       let userId = req.params.userId;
       console.log('user/:userId/processMessage >> appId', appId);
@@ -61,74 +61,56 @@ exports.start = () => {
 
       applicationService.findOne({ appId: appId, userId: userId })
         .then((application) => {
-          console.log('user/:userId/processMessage >> applicationService.findOne', application);
           if (!application) {
             next();
           }
           else {
+            let bodyMessages = req.body.messages;
+            let logMessages = [];
             appId = application._id;
-            var logId = uuid.v1();
-            var logMessage = { message: req.body.message, compiledMessage: {}, applicationId: appId, logId: logId, processedDate: new Date() };
+            bodyMessages.forEach((message) => {
+              logMessages.push({ message: message, compiledMessage: {}, applicationId: appId, logId: uuid.v1(), processedDate: new Date() });
+            });
 
-            console.log('user/:userId/processMessage >> logMessage', logMessage);
-
-            grokHelper.compileMessage(application.logPattern, logMessage.message)
-              .then((compiledObject) => {
-                console.log('user/:userId/processMessage >> compiledObject', compiledObject);
-                logMessage.compiledMessage = compiledObject;
+            grokHelper.compileLogMessages(application.logPattern, logMessages)
+              .then((logMessages) => {
+                let elasticBulkOperation = [];
+                logMessages.forEach((logMessage) => {
+                  elasticBulkOperation.push({ index: { _index: 'pgp-logs-index', _type: 'LogMessage', _id: logMessage.logId } });
+                  elasticBulkOperation.push(logMessage);
+                });
 
                 var elasticClient = elasticConnector.elasticsearch.client;
-                elasticClient.create({
-                  index: 'pgp-logs-index',
-                  type: 'LogMessage',
-                  id: logId,
-                  body: logMessage
-                }, function (err, resp) {
+                elasticClient.bulk({ body: elasticBulkOperation }, function (err) {
                   console.log('elasticClient err', err);
-                  console.log('elasticClient resp', resp);
 
                   if (err) {
                     next(err);
                   }
-                  else {
-                    if (Array.isArray(application.alerts) && application.alerts.length > 0) {
-                      let alertsToInsert = [];
-                      application.alerts.forEach((alert) => {
+                  else if (Array.isArray(application.alerts) && application.alerts.length > 0) {
 
-                        for (var i = 0; i < alert.rules.length; i++) {
-                          if (ruleHelper.isRuleAppliedToMessage(alert.rules[i], logMessage.message, logMessage.compiledMessage)) {
-                            alertsToInsert.push(
-                              {
-                                alert: alert,
-                                logAlert: {
-                                  userId: mongoose.Types.ObjectId(userId),
-                                  alertId: alert._id,
-                                  appId: appId,
-                                  message: logMessage.message,
-                                  compiledMessage: logMessage.compiledMessage,
-                                  logId: logId,
-                                  alertDate: new Date()
-                                }
-                              });
-                            break;
-                          }
+                    ruleHelper.getLogAlertsToSave(userId, appId, application.alerts, logMessages)
+                      .then((alertsToInsert) => {
+                        if (alertsToInsert.length > 0) {
+                          logAlertService.bulkInsert(appId, alertsToInsert.map((alertToInsert) => alertToInsert.logAlert))
+                            .then(() => {
+                              console.log(`There was generated ${alertsToInsert.length} alerts.`);
+                              emailHelper.sendAlertsEmail(application.name, alertsToInsert);
+                              console.log('bulkInsert Success');
+                            })
+                            .catch((err) => {
+                              console.log('bulkInsert err', err);
+                            })
+                            .finally(() => {
+                              console.log(`There was ${logMessages.length} messages processed.`);
+                              res.setJsonResponse({ success: true });
+                              next();
+                            });
                         }
                       });
-
-                      console.log('alertsToInsert', alertsToInsert.length);
-                      if (alertsToInsert.length > 0) {
-                        console.log('alertsToInsert', alertsToInsert);
-                        logAlertService.bulkInsert(alertsToInsert.map((alertToInsert) => alertToInsert.logAlert))
-                          .then(() => {
-                            emailHelper.sendAlertsEmail(application.name, alertsToInsert);
-                            console.log('bulkInsert Success');
-                          })
-                          .catch((err) => {
-                            console.log('bulkInsert err', err);
-                          });
-                      }
-                    }
-
+                  }
+                  else {
+                    console.log(`There was ${logMessages.length} messages processed.`);
                     res.setJsonResponse({ success: true });
                     next();
                   }

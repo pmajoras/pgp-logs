@@ -5,6 +5,7 @@ import reactIdGenerator from '../../helpers/react-id-generator';
 import { Popover, Overlay } from 'react-bootstrap';
 import * as messageHelper from '../../helpers/message-helper';
 import reactColorGenerator from '../../helpers/react-color-generator';
+import reactRouterHelper from '../../helpers/react-router-helper';
 import AppPanel from '../../components/common/AppPanel.jsx';
 import autobind from 'autobind-decorator';
 import AlertsEditModal from '../logAlerts/AlertsEditModal.jsx';
@@ -43,6 +44,7 @@ const NoAlertsFound = () => {
 const propTypes = {
   alerts: React.PropTypes.object.isRequired,
   fields: React.PropTypes.object,
+  applicationName: React.PropTypes.string,
   onDeleteAlert: React.PropTypes.func
 };
 
@@ -52,8 +54,6 @@ class ApplicationAlerts extends React.Component {
     this.state = {
       showEditModal: false,
       editingRow: null,
-      showLogAlertsModal: false,
-      logAlertRow: null,
       isPopoverOpen: false
     };
   }
@@ -65,9 +65,7 @@ class ApplicationAlerts extends React.Component {
       this.props.fields !== nextProps.fields ||
       this.state.showEditModal !== nextState.showEditModal ||
       this.state.editingRow !== nextState.editingRow ||
-      this.state.isPopoverOpen !== nextState.isPopoverOpen ||
-      this.state.showLogAlertsModal !== nextState.showLogAlertsModal ||
-      this.state.logAlertRow !== nextState.logAlertRow;
+      this.state.isPopoverOpen !== nextState.isPopoverOpen;
 
     console.log('ApplicationAlerts >> shouldComponentUpdate >>', componentShouldUpdate);
     console.log('ApplicationAlerts >> shouldComponentUpdate >> Finish');
@@ -124,12 +122,7 @@ class ApplicationAlerts extends React.Component {
 
   @autobind
   handleAlertChartClick(alertElement) {
-    this.setState({ showLogAlertsModal: true, logAlertRow: alertElement });
-  }
-
-  @autobind
-  handleLogAlertModalClose() {
-    this.setState({ showLogAlertsModal: false });
+    reactRouterHelper.redirectToState(`applications/${alertElement._id}/logAlerts`);
   }
 
   render() {
@@ -173,8 +166,6 @@ class ApplicationAlerts extends React.Component {
         {content}
         <AlertsEditModal alert={this.state.editingRow} fields={fields} onSave={this.handleSave} onEditEnded={this.handleEditEnded} showModal={showEditModal}>
         </AlertsEditModal>
-        <LogAlertsModal alert={this.state.logAlertRow} showModal={this.state.showLogAlertsModal} onClose={this.handleLogAlertModalClose}>
-        </LogAlertsModal>
       </div>
     );
   }

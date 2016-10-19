@@ -1,12 +1,12 @@
 'use strict';
-const browserHistory = require('react-router').browserHistory;
+const hashHistory = require('react-router').hashHistory;
 
 class ReactRouterHelper {
   constructor() {
   }
 
   redirectToState(state) {
-    browserHistory.push(state);
+    hashHistory.push(state);
   }
 
   redirectToUserHome() {
@@ -14,18 +14,7 @@ class ReactRouterHelper {
   }
 
   redirectToGuestHome() {
-    browserHistory.push('/');
-  }
-
-  redirectToState(state, id) {
-    var history = '/' + state;
-    if (id) {
-      history += '/' + id;
-    }
-
-    setTimeout(() => {
-      browserHistory.push(history);
-    });
+    hashHistory.push('/');
   }
 }
 

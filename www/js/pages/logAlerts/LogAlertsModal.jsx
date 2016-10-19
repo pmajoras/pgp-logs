@@ -3,85 +3,74 @@ import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import reactIdGenerator from '../../helpers/react-id-generator';
 import * as messageHelper from '../../helpers/message-helper';
+import reactRouterHelper from '../../helpers/react-router-helper';
 import { Modal } from 'react-bootstrap';
 import Loader from 'react-loader';
 import LogAlert from './LogAlert.jsx';
 import autobind from 'autobind-decorator';
 import LogAlertsService from '../../services/log-alerts/LogAlertsService';
 const titleTemplate = messageHelper.get('LOG_ALERTS_MODAL_TITLE_TEMPLATE');
+const logCountTemplate = messageHelper.get('SHOW_LOGS_COUNT');
+const noDataMesssage = messageHelper.get('NO_DATA');
 const logAlertsService = new LogAlertsService();
+
+const LogAlerts = ({logAlerts}) => {
+  let content = null;
+
+  if (logAlerts && logAlerts.size > 0) {
+    logAlerts = logAlerts.map((logAlert, index) => {
+      return <LogAlert key={index} logAlert={logAlert}></LogAlert>;
+    });
+    content = (<ul class="list-group">{logAlerts}</ul>);
+  }
+  else {
+    content = (<h2>{noDataMesssage}</h2>);
+  }
+
+  return content;
+};
 
 class LogAlertsModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoading: false,
-      logAlerts: [],
-      lastLoadedId: ''
-    };
   }
 
-  componentDidMount() {
-    console.log('LogAlertsModal >> componentDidMount >> Start');
-    this.updateLogAlertsData();
-    console.log('LogAlertsModal >> componentDidMount >> Finish');
-  }
-
-  componentDidUpdate() {
-    console.log('LogAlertsModal >> componentDidUpdate >> Start');
-    this.updateLogAlertsData();
-    console.log('LogAlertsModal >> componentDidUpdate >> Finish');
-  }
-
-  updateLogAlertsData() {
-    let alert = this.props.alert;
-    if (alert && alert._id !== this.state.lastLoadedId) {
-      this.setState({ isLoading: true, lastLoadedId: alert._id, logAlerts: [] });
-
-      logAlertsService.getLogAlertsByAlertId(alert._id)
-        .then(this.handleLoadedLogAlerts)
-        .catch(this.handleErrorLogAlerts)
-        .finally(() => { this.setState({ isLoading: false }); });
-    }
-  }
-
-  @autobind
-  handleLoadedLogAlerts(alerts) {
-    console.log('LogAlertsModal >> handleLoadedLogAlerts >> Start');
-    console.log('alerts', alerts);
-
-    console.log('LogAlertsModal >> handleLoadedLogAlerts >> Finish');
-  }
-
-  @autobind
-  handleErrorLogAlerts(err) {
-    console.log('LogAlertsModal >> handleErrorLogAlerts >> Err', err);
+  shouldComponentUpdate(nextProps) {
+    console.log('LogAlertsModal >> shouldComponentUpdate >> Start');
+    console.log('LogAlertsModal >> shouldComponentUpdate >>', this.props.logAlerts !== nextProps.logAlerts || this.props.isLoading !== nextProps.isLoading);
+    console.log('LogAlertsModal >> shouldComponentUpdate >> Finish');
+    return this.props.logAlerts !== nextProps.logAlerts || this.props.isLoading !== nextProps.isLoading;
   }
 
   @autobind
   handleClose() {
     console.log('LogAlertsModal >> handleClose >> Start');
-    if (typeof this.props.onClose === 'function') {
-      this.props.onClose();
-    }
+    reactRouterHelper.redirectToState('applications');
     console.log('LogAlertsModal >> handleClose >> Finish');
   }
 
   render() {
-    let showModal = this.props.showModal === true;
-    let titleMessage = this.props.alert ? titleTemplate.replace('[ALERT]', this.props.alert.name) : '';
-    let logAlerts = this.state.logAlerts.map((logAlert, index) => {
-      return <LogAlert key={index} logAlert={logAlert}></LogAlert>;
-    });
+    let titleMessage = titleTemplate;
+    let isLoading = this.props.isLoading || false;
+    let logAlertsCount = this.props.logAlerts ? this.props.logAlerts.size : 0;
+    let logAlertsCountMessage = logAlertsCount > 0 ? logCountTemplate.replace('[COUNT]', logAlertsCount) : '';
 
     return (
-      <Modal bsSize="large" show={showModal} onHide={this.handleClose}>
+      <Modal bsSize="large" show={true} onHide={this.handleClose} backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>{titleMessage}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Loader loaded={!this.state.isLoading}>
-            {logAlerts}
+          <Loader loaded={!isLoading}>
+            <div>
+              <h3>
+                {logAlertsCountMessage}
+              </h3>
+            </div>
+            <div style={{ height: '500px', overflow: 'auto' }}>
+              <LogAlerts logAlerts={this.props.logAlerts || []}>
+              </LogAlerts>
+            </div>
           </Loader>
         </Modal.Body>
         <Modal.Footer>
@@ -92,9 +81,8 @@ class LogAlertsModal extends React.Component {
 }
 
 LogAlertsModal.propTypes = {
-  showModal: React.PropTypes.bool,
-  onClose: React.PropTypes.func,
-  alert: React.PropTypes.object
+  logAlerts: React.PropTypes.object,
+  isLoading: React.PropTypes.bool
 };
 
 export default LogAlertsModal;

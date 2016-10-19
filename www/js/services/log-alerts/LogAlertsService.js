@@ -16,6 +16,10 @@ class LogAlertsService extends BaseService {
     return this.handleApiPromise(client.read(authenticationService.getUserId(), alertId));
   }
 
+  resolveLogAlerts(alertId, logAlertsIds) {
+    return this.handleApiPromise(client.resolve.post(authenticationService.getUserId(), alertId, { logAlertsIds: logAlertsIds }));
+  }
+
   getApplicationLogAlerts() {
     let deferred = q.defer();
     let loadedApplications = [];

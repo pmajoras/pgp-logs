@@ -6,8 +6,12 @@ class LogAlertService extends BaseDomainService {
     super('logAlerts', 'logAlert');
   }
 
-  bulkInsert(logAlerts) {
-    return this.repository.bulkInsert(logAlerts);
+  bulkInsert(appId, logAlerts) {
+    return this.repository.bulkInsert(appId, logAlerts);
+  }
+
+  resolveLogAlerts(alertId, logAlertsIds) {
+    return this.repository.resolveLogAlerts(alertId, logAlertsIds);
   }
 }
 

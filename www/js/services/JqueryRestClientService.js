@@ -19,10 +19,10 @@ client.authentication.add('authenticate', { isSingle: true });
 client.add('user');
 client.user.add('applications');
 client.user.add('logAlerts');
+client.user.logAlerts.add('resolve', { isSingle: true });
 
 client.add('logmessages', { isSingle: true });
 client.logmessages.add('fields', { isSingle: true });
-
 client.add('processGrok');
 
 module.exports = {

@@ -1,33 +1,65 @@
 'use strict';
+const Q = require('q');
+const mongoose = require('mongoose');
+const uuid = require('node-uuid');
 
+function isRuleAppliedToMessage(rule, message, compiledObject) {
+  let isRuleApplied = false;
 
+  if (rule && message) {
+    message = message.toUpperCase();
+    let valueToCompare = message;
 
-module.exports = {
-  isRuleAppliedToMessage: function (rule, message, compiledObject) {
-    let isRuleApplied = false;
-
-    if (rule && message) {
-      message = message.toUpperCase();
-      let valueToCompare = message;
-
-      if (rule.field && compiledObject) {
-        let compiledObjectFieldValue = compiledObject[rule.field];
-        valueToCompare = (compiledObjectFieldValue || valueToCompare).toUpperCase();
-      }
-
-      console.log('isRuleAppliedToMessage >> operator', rule.operator);
-      console.log('isRuleAppliedToMessage >> valueToCompare', valueToCompare);
-      console.log('isRuleAppliedToMessage >> expectedValue', rule.expectedValue);
-
-      if (rule.operator === 'contains') {
-        isRuleApplied = valueToCompare.indexOf(rule.expectedValue.toUpperCase()) > -1;
-      }
-      else {
-        isRuleApplied = valueToCompare === rule.expectedValue.toUpperCase();
-      }
+    if (rule.field && compiledObject) {
+      let compiledObjectFieldValue = compiledObject[rule.field];
+      valueToCompare = (compiledObjectFieldValue || valueToCompare).toUpperCase();
     }
 
-    console.log('isRuleAppliedToMessage >> isRuleApplied', isRuleApplied);
-    return isRuleApplied;
+    if (rule.operator === 'contains') {
+      isRuleApplied = valueToCompare.indexOf(rule.expectedValue.toUpperCase()) > -1;
+    }
+    else {
+      isRuleApplied = valueToCompare === rule.expectedValue.toUpperCase();
+    }
+  }
+
+  return isRuleApplied;
+}
+
+module.exports = {
+  isRuleAppliedToMessage: isRuleAppliedToMessage,
+  getLogAlertsToSave: function (userId, appId, alerts, logMessages) {
+    let alertsToInsert = [];
+    let timer = uuid.v1();
+
+    console.time(timer);
+    console.log('getLogAlertsToSave >> Start >>', logMessages.length);
+
+    logMessages.forEach((logMessage) => {
+
+      alerts.forEach((alert) => {
+
+        for (var i = 0; i < alert.rules.length; i++) {
+          if (isRuleAppliedToMessage(alert.rules[i], logMessage.message, logMessage.compiledMessage)) {
+            alertsToInsert.push({
+              alert: alert,
+              logAlert: {
+                userId: mongoose.Types.ObjectId(userId),
+                alertId: alert._id,
+                appId: appId,
+                message: logMessage.message,
+                compiledMessage: logMessage.compiledMessage,
+                logId: logMessage.logId,
+                alertDate: new Date()
+              }
+            });
+            break;
+          }
+        }
+      });
+    });
+
+    console.timeEnd(timer);
+    return Q.resolve(alertsToInsert);
   }
 };

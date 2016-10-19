@@ -4,7 +4,6 @@ const BaseController = require('../base-controller');
 const LogAlertService = require('../../domain/services/logAlerts/log-alert-service');
 const mustAuthorizeWithId = require('../../middlewares/general-middlewares/must-authorize-with-id');
 const logAlertService = new LogAlertService();
-const mongoose = require('mongoose');
 
 class LogAlertsController extends BaseController {
   constructor() {
@@ -12,7 +11,7 @@ class LogAlertsController extends BaseController {
   }
 
   /**
-  * GET - /api/logalert/
+  * GET - /api/user/:userId/logAlerts/
   */
   getLogAlerts(req, res, next) {
 
@@ -31,7 +30,7 @@ class LogAlertsController extends BaseController {
   */
   getLogAlertsByAlertId(req, res, next) {
 
-    logAlertService.findAll({ userId: req.params.userId, alertId: req.params.alertId })
+    logAlertService.findAll({ userId: req.params.userId, alertId: req.params.alertId, isResolved: { $ne: true } })
       .then((data) => {
         res.setJsonResponse(data);
         next();
@@ -42,7 +41,23 @@ class LogAlertsController extends BaseController {
   }
 
   /**
-  * POST - /api/logalert/
+  * POST - /api/user/:userId/logAlerts/:alertId/resolve
+  */
+  resolveLogAlerts(req, res, next) {
+
+    logAlertService.resolveLogAlerts(req.params.alertId, req.body.logAlertsIds)
+      .then((data) => {
+        console.log('resolve >> ', data);
+        res.setJsonResponse(data);
+        next();
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+
+  /**
+  * POST - /api/user/:userId/logAlerts
   */
   createLogAlert(req, res, next) {
 
@@ -57,7 +72,7 @@ class LogAlertsController extends BaseController {
   }
 
   /**
-  * PUT - /api/logalert/:logAlertId
+  * PUT - /api/user/:userId/logAlerts/:logAlertId
   */
   updateLogAlert(req, res, next) {
 
@@ -73,7 +88,7 @@ class LogAlertsController extends BaseController {
   }
 
   /**
-  * DELETE - /api/logalert/:logAlertId
+  * DELETE - /api/user/:userId/logAlerts/:logAlertId
   */
   deleteLogAlert(req, res, next) {
 
@@ -91,6 +106,7 @@ class LogAlertsController extends BaseController {
 var routeFactory = new RouteFactory('/user/:userId/logAlerts')
   .get('/', 'getLogAlerts', mustAuthorizeWithId)
   .get('/:alertId', 'getLogAlertsByAlertId', mustAuthorizeWithId)
+  .post('/:alertId/resolve', 'resolveLogAlerts', mustAuthorizeWithId)
   .post('/', 'createLogAlert')
   .put('/:logAlertId', 'updateLogAlert', mustAuthorizeWithId)
   .del('/:logAlertId', 'deleteLogAlert', mustAuthorizeWithId);

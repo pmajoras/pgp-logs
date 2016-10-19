@@ -44,6 +44,11 @@ class BaseRepository {
     return Q.nbind(this.Model.findOneAndUpdate, this.Model)({ _id: entity._id }, entity, { new: true });
   }
 
+  updateWhere(field, operator, value, updatedProperties) {
+    let query = this.Model.find({}).where(field)[operator](value);
+    return Q.nbind(query.update, query)({ $set: updatedProperties });
+  }
+
   del(entity) {
     return Q.nbind(this.Model.findOneAndRemove, this.Model)({ _id: entity._id });
   }
