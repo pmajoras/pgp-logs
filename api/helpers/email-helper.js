@@ -35,7 +35,7 @@ module.exports = {
     if (Array.isArray(alertsToSendEmail)) {
       if (alertsToSendEmail.length > 10) {
         sendMail({
-          to: alertsToSendEmail[0].emailList,
+          to: alertsToSendEmail[0].alert.emailList,
           subject: 'PGP-LOGS GENERATED ALERT - ' + aplicationName,
           html: `There was generated ${alertsToSendEmail.length}!!<br/><br/>Please go to the application site to check what is the problem.`
         });
