@@ -128,7 +128,7 @@ class LogAlert extends React.Component {
               <a href="javascript:;">{compiledMessageTitle}</a>
             </div>
             <Panel collapsible expanded={isCompiledPanelOpen}>
-              <LogAlertCompiled compiledMessage={logAlert.get('compiledMessage')}>
+              <LogAlertCompiled compiledMessage={logAlert.get('compiledMessage').toJS()}>
               </LogAlertCompiled>
             </Panel>
           </div>
