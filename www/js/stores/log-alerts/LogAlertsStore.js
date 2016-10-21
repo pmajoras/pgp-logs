@@ -17,32 +17,27 @@ class LogAlertsStore extends ListStore {
     if (!err) {
       // TODO Remove this.
       let resolvedLogAlertsCount = payload.data.nModified;
-      let foundApp = null;
+      let foundAlertIndex = null;
       let foundIndex = ApplicationsListStore.getState().get('data').forEach((app) => {
-        let foundAlert = app.get('alerts').find(alert => alert.get('_id') === payload.alertId);
-        if (foundAlert) {
-          foundApp = app.toJS();
+        foundAlertIndex = app.get('alerts').findIndex(alert => alert.get('_id') === payload.alertId);
+        if (foundAlertIndex > -1) {
           return false;
         }
       }) - 1;
 
-      if (foundApp) {
-        foundApp.alerts.forEach((alert) => {
-          if (alert._id === payload.alertId) {
-            alert.count = alert.count - resolvedLogAlertsCount;
-            alert.count = alert.count >= 0 ? alert.count : 0;
-          }
-        });
-        ApplicationsListStore.state = ApplicationsListStore.getState().updateIn(['data', foundIndex], () => Immutable.fromJS(foundApp));
+      if (foundAlertIndex > -1) {
+        ApplicationsListStore.state = ApplicationsListStore.getState().updateIn(['data', foundIndex, 'alerts', foundAlertIndex, 'count'],
+          count => {
+            let newCount = count - resolvedLogAlertsCount;
+            newCount = newCount >= 0 ? newCount : 0;
+            return newCount;
+          });
         ApplicationsListStore.emitChange();
       }
 
       // TODO Review this.
       payload.logAlertsIds.forEach((logAlertId) => {
-        let deleteIndex = this.getState().get('data').findIndex((obj) => obj.get('_id') === logAlertId);
-        if (deleteIndex > -1) {
-          this.state = this.getState().updateIn(['data'], (dataArray) => dataArray.delete(deleteIndex));
-        }
+        this.state = this.getState().updateIn(['data'], (dataArray) => dataArray.filter((data) => data.get('_id') !== logAlertId));
       });
     }
 

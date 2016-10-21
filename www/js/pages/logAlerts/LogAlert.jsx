@@ -79,11 +79,11 @@ class LogAlert extends React.Component {
   }
 
   render() {
-    let logAlert = this.props.logAlert.toJS();
+    let logAlert = this.props.logAlert;
     let isSelected = this.state.isSelected;
     let isCompiledPanelOpen = this.state.isCompiledMessageOpen;
     let collapseAccordionClass = isCompiledPanelOpen ? 'fa-chevron-up' : 'fa-chevron-down';
-    let logAlertTextId = 'log-alert-message-' + logAlert._id;
+    let logAlertTextId = 'log-alert-message-' + logAlert.get('_id');
     let listCss = isSelected ? 'list-group-item-info' : '';
 
     return (
@@ -99,12 +99,12 @@ class LogAlert extends React.Component {
           </div>
           <div class="col-sm-5 col-xs-12 margin-top">
             <h4 class="list-group-item-heading">
-              {idMessage}: <span class="label label-info">{logAlert._id}</span>
+              {idMessage}: <span class="label label-info">{logAlert.get('_id')}</span>
             </h4>
           </div>
           <div class="col-sm-5 col-xs-12 margin-top">
             <h4 class="list-group-item-heading">
-              {dateMessage}: <span class="label label-info">{moment(logAlert.alertDate).format(dateFormat)}</span>
+              {dateMessage}: <span class="label label-info">{moment(logAlert.get('alertDate')).format(dateFormat)}</span>
             </h4>
           </div>
         </div>
@@ -118,7 +118,7 @@ class LogAlert extends React.Component {
             </OverlayTrigger>
           </div>
           <div class="col-sm-12">
-            <textarea id={logAlertTextId} type="text" readOnly class="form-control" value={logAlert.message}></textarea>
+            <textarea id={logAlertTextId} type="text" readOnly class="form-control" value={logAlert.get('message')}></textarea>
           </div>
         </div>
         <div class="row margin-top">
@@ -128,7 +128,7 @@ class LogAlert extends React.Component {
               <a href="javascript:;">{compiledMessageTitle}</a>
             </div>
             <Panel collapsible expanded={isCompiledPanelOpen}>
-              <LogAlertCompiled compiledMessage={logAlert.compiledMessage}>
+              <LogAlertCompiled compiledMessage={logAlert.get('compiledMessage')}>
               </LogAlertCompiled>
             </Panel>
           </div>
