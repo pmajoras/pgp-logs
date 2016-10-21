@@ -35,6 +35,9 @@ export default class ApplicationsIndex extends React.Component {
   componentDidMount() {
     console.log('ApplicationsIndex >> componentDidMount >> Start');
     ApplicationsActions.getApplications();
+    setTimeout(function () {
+      ApplicationsActions.getApplications();
+    }, 1000 * 90);
     console.log('ApplicationsIndex >> componentDidMount >> Finish');
   }
 
