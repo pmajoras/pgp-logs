@@ -19,7 +19,7 @@ class AuthenticationService {
 
   _createToken(username, id) {
     return jwt.sign({ username: username, _id: id, permissions: [appConstants.mustBeAuthenticatedPermission] }, config.secret, {
-      expiresIn: '1h' // expires in 1 hour
+      expiresIn: '72h' // expires in 1 hour
     });
   }
 
