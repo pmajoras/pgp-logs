@@ -5,6 +5,9 @@ const uuid = require('node-uuid');
 
 function isRuleAppliedToMessage(rule, message, compiledObject) {
   let isRuleApplied = false;
+  console.log('rule', rule);
+  console.log('message', message);
+  console.log('compiledObject', compiledObject);
 
   if (rule && message) {
     message = message.toUpperCase();
