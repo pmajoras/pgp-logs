@@ -15,27 +15,32 @@ class LogAlertRepository extends BaseRepository {
       return Q.nbind(this.Model.collection.insert, this.Model.collection)(logAlerts)
         .then((result) => {
           let alerts = [];
-          logAlerts.forEach((logAlert) => {
+          try {
+            logAlerts.forEach((logAlert) => {
 
-            let alertIndex = alerts.findIndex((alert) => alert.alertId === logAlert.alertId);
-            if (alertIndex > -1) {
-              alerts[alertIndex].count++;
-            }
-            else {
-              alerts.push({ alertId: logAlert.alertId, count: 1 });
-            }
-          });
+              let alertIndex = alerts.findIndex((alert) => alert.alertId === logAlert.alertId);
+              if (alertIndex > -1) {
+                alerts[alertIndex].count++;
+              }
+              else {
+                alerts.push({ alertId: logAlert.alertId, count: 1 });
+              }
+            });
 
-          alerts.forEach((alert) => {
-            let updateQuery = {
-              _id: appId,
-              'alerts._id': alert.alertId
-            };
-            let updateAction = {
-              $inc: { 'alerts.$.count': alert.count }
-            };
-            applicationModel.collection.update(updateQuery, updateAction);
-          });
+            alerts.forEach((alert) => {
+              let updateQuery = {
+                _id: appId,
+                'alerts._id': alert.alertId
+              };
+              let updateAction = {
+                $inc: { 'alerts.$.count': alert.count }
+              };
+              applicationModel.collection.update(updateQuery, updateAction);
+            });
+          }
+          catch (error) {
+            console.log('afterBulk >> error', error);
+          }
 
           return result;
         })
