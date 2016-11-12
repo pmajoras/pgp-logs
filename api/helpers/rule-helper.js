@@ -18,6 +18,18 @@ function isRuleAppliedToMessage(rule, message, compiledObject) {
     if (rule.operator === 'contains') {
       isRuleApplied = valueToCompare.indexOf(rule.expectedValue.toUpperCase()) > -1;
     }
+    else if (rule.operator === 'higher') {
+
+      try {
+        let intValueToCompare = parseInt(valueToCompare);
+        let intExpectedValue = parseInt(rule.expectedValue);
+        isRuleApplied = intValueToCompare > intExpectedValue;
+      }
+      catch (error) {
+        console.log('errHigher', error);
+        isRuleApplied = false;
+      }
+    }
     else {
       isRuleApplied = valueToCompare === rule.expectedValue.toUpperCase();
     }

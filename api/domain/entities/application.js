@@ -4,7 +4,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 const operatorsEnum = {
   CONTAINS: 'contains',
-  EQUALS: 'equals'
+  EQUALS: 'equals',
+  HIGHER: 'higher'
 };
 const logicalOperator = {
   AND: 'and',
@@ -12,7 +13,7 @@ const logicalOperator = {
 };
 
 const LogRule = new Schema({
-  operator: { type: String, required: true, enum: [operatorsEnum.CONTAINS, operatorsEnum.EQUALS] },
+  operator: { type: String, required: true, enum: [operatorsEnum.CONTAINS, operatorsEnum.EQUALS, operatorsEnum.HIGHER] },
   logicalOperator: { type: String, required: true, enum: [logicalOperator.AND, logicalOperator.OR] },
   ignoreCase: { type: Boolean, required: true, default: false },
   expectedValue: { type: String, required: true },

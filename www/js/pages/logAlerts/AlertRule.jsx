@@ -60,13 +60,6 @@ class AlertRule extends React.Component {
       <div>
         <div class="row">
           {fieldsContent}
-          <div class={`col-xs-4 form-group ${rule.expectedValue ? '' : 'has-error'}`}>
-            <label class="control-label">{messageHelper.get('EXPECTED_VALUE')}</label>
-            <input ref="expectedValueInput" type="text" value={rule.expectedValue} onChange={this.handleInputChange}
-              data-prop-name="expectedValue"
-              class="form-control"
-              placeholder={messageHelper.get('EXPECTED_VALUE')}></input>
-          </div>
           <div class={`col-xs-4 form-group ${rule.operator ? '' : 'has-error'}`}>
             <label class="control-label">{messageHelper.get('OPERATOR')}</label>
             <select class="form-control" onChange={this.handleInputChange} data-prop-name="operator" value={rule.operator}>
@@ -76,7 +69,17 @@ class AlertRule extends React.Component {
               <option value="contains">
                 Contains
               </option>
+              <option value="higher">
+                Higher
+              </option>
             </select>
+          </div>
+          <div class={`col-xs-4 form-group ${rule.expectedValue ? '' : 'has-error'}`}>
+            <label class="control-label">{messageHelper.get('EXPECTED_VALUE')}</label>
+            <input ref="expectedValueInput" type="text" value={rule.expectedValue} onChange={this.handleInputChange}
+              data-prop-name="expectedValue"
+              class="form-control"
+              placeholder={messageHelper.get('EXPECTED_VALUE')}></input>
           </div>
         </div>
       </div>
