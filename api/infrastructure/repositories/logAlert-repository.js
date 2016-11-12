@@ -38,6 +38,10 @@ class LogAlertRepository extends BaseRepository {
           });
 
           return result;
+        })
+        .catch((err) => {
+          console.log('logALert >> bulkInsert', err);
+          return Q.reject(err);
         });
     }
 
