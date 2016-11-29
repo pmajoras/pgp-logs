@@ -107,6 +107,10 @@ exports.start = () => {
                               next();
                             });
                         }
+                        else {
+                          res.setJsonResponse({ success: true });
+                          next();
+                        }
                       });
                   }
                   else {
