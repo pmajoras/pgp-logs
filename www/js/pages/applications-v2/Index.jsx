@@ -62,7 +62,7 @@ export default class ApplicationsIndex extends React.Component {
     let data = this.state.listState.get('data');
     let isLoading = this.state.isLoading;
     if (isLoading === true) {
-      return (<Loader loaded={!isLoading}></Loader>);
+      //return (<Loader loaded={!isLoading}></Loader>);
     }
 
     return (
