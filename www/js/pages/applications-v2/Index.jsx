@@ -29,6 +29,9 @@ export default class ApplicationsIndex extends React.Component {
   componentWillUnmount() {
     console.log('ApplicationsIndex >> componentWillUnmount >> Start');
     store.removeChangeListener(this.handleListChangeState);
+    if (this.interval !== null) {
+      clearInterval(this.interval);
+    }
     console.log('ApplicationsIndex >> componentWillUnmount >> Finish');
   }
 
