@@ -14,7 +14,7 @@ const store = ApplicationsListStore;
 export default class ApplicationsIndex extends React.Component {
   constructor(props) {
     super(props);
-
+    this.interval = null;
     this.state = {
       listState: store.getState()
     };
@@ -35,9 +35,9 @@ export default class ApplicationsIndex extends React.Component {
   componentDidMount() {
     console.log('ApplicationsIndex >> componentDidMount >> Start');
     ApplicationsActions.getApplications();
-    setTimeout(function () {
+    this.interval = setInterval(function () {
       ApplicationsActions.getApplications();
-    }, 1000 * 90);
+    }, 1000 * 30);
     console.log('ApplicationsIndex >> componentDidMount >> Finish');
   }
 
@@ -59,7 +59,7 @@ export default class ApplicationsIndex extends React.Component {
     let data = this.state.listState.get('data');
     let isLoading = this.state.isLoading;
     if (isLoading === true) {
-      //return (<Loader loaded={!isLoading}></Loader>);
+      return (<Loader loaded={!isLoading}></Loader>);
     }
 
     return (
