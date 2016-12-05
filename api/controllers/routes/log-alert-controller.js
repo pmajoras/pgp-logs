@@ -15,7 +15,7 @@ class LogAlertsController extends BaseController {
   */
   getLogAlerts(req, res, next) {
 
-    logAlertService.findAll({ userId: req.currentUser._id })
+    logAlertService.findAll({ userId: req.currentUser._id, isResolved: { $ne: true } })
       .then((data) => {
         res.setJsonResponse(data);
         next();
